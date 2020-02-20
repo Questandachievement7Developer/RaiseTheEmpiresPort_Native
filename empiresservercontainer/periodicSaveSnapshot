@@ -1,0 +1,15 @@
+#!/bin/sh
+echo ${origindir}
+export infoSnapshot=[EALSNAPSHOT]
+cd ${origindir}
+mkdir ${origindir}/saveSnapshot
+export snapshotdir=${origindir}/saveSnapshot
+export defaultfilesave=${origindir}/RaiseTheEmpires/fileSave
+echo "${infoSnapshot} periodicSaveSnapshot have been launched"
+while true ;do
+snapshotTime=$(date +%Y%m%d_%H%M%S)
+echo "${infoSnapshot} Creating save file Snapshot ${snapshotTime}"
+cp -r "${defaultfilesave}" "${snapshotdir}/${snapshotTime}"
+echo "${infoSnapshot} Finished backup"
+sleep 600
+done

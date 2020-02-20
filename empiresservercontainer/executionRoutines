@@ -1,0 +1,101 @@
+#!/bin/bash
+
+
+
+function serverRun(){
+cd ${origindir} ; sh periodicSaveSnapshot & export periodicSavePID=$!
+mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSave RaiseTheEmpires
+cd ${RUNTIMEDIR} ; python3 empires-server.py --host 0.0.0.0 --port 5005 --no-popup >> ${origindir}/SERVERTHREAD.log 2>&1 & export EALSERVERTHREAD=$! ; tail -f ${origindir}/SERVERTHREAD.log | grep traceback &
+clear ;echo Server is running!;echo Please Connect to To play empires-server;ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -R 80:localhost:5005 ssh.localhost.run
+dialog --msgbox "Server is Terminated" 40 40
+kill -9 ${periodicSavePID} ; kill -9 ${EALSERVERTHREAD} ; echo killsig > ${origindir}/killsigforwardHost ; echo Server Terminated
+}
+
+function MigratetoPC(){
+rm -rf ~/storage/shared/RaiseTheEmpires
+cp -r ${origindir}/RaiseTheEmpires/fileSave ~/storage/shared/RaiseTheEmpires
+echo done
+
+}
+
+function changelogsee(){
+cat ${origindir}/changelog.txt
+echo This changelog window will automatically closed within 60 seconds
+sleep 60
+}
+
+function MigratetoTermux(){
+cp -r ~/storage/shared/RaiseTheEmpires/* ${origindir}/RaiseTheEmpires/fileSave
+echo done
+
+}
+
+function trimSTG(){
+cp -r ~/storage/shared/RaiseTheEmpires/* ${origindir}/RaiseTheEmpires/fileSave
+echo done
+
+}
+
+function UpdateSERVER(){
+#searches for Specific Strings and Pull archives from that
+echo Finding empires-server package
+updatepackage=$(grep -ril / -e '#https://github.com/Neo-Oli/termux-ubuntu References # EMPIRESSERVERHEADER')
+echo "${updatepackage}"
+export rootdir=${origindir}/..
+for a in ${updatepackage}; do
+if [ -f "${a}" ]; then
+  echo Update file detected
+  previousBuild=$(cat ${origindir}/buildnumber)
+  sleep 1
+  echo Comparing Version
+  if [[ ${a} -nt ${rootdir}/empires-server ]]; then
+  echo Update Package is Newer
+  tail -n +89 "${a}" > ${rootdir}/empires-RNT
+  cd ${rootdir}
+  echo "Patching game on the fly..."
+  proot --link2symlink -0 tar -xf empires-RNT
+  echo "Welp my work is done here"
+  echo "Build Merged ${previousBuild} $(cat ${origindir}/buildnumber)"
+  cd ${origindir}
+else
+  echo Update package is older so we wont do anything
+fi
+fi
+done
+sleep 9
+}
+
+
+
+
+
+
+function snapshotMenu(){
+export snapshotdir=${origindir}/saveSnapshot
+export defaultfilesave=${origindir}/RaiseTheEmpires/fileSave
+#https://stackoverflow.com/questions/3200252/prompt-user-to-select-a-directory-with-a-bash-script-and-read-result
+clear
+ls ${origindir}/saveSnapshot/
+echo '==================================='
+echo 'Please Type the number of the snapshot date below'
+read FolderSelection
+if [ -z ${FolderSelection} ]; then
+clear
+echo Please enter the Date
+snapshotMenu
+fi
+
+if [ ! -d ${origindir}/saveSnapshot/${FolderSelection} ];then
+clear
+echo uh oh Folder does not exist please enter correctly
+snapshotMenu
+fi
+
+if [ -d ${origindir}/saveSnapshot/${FolderSelection} ]; then
+clear
+echo Snapshot Found
+echo Restoring Snapshot
+cp -rv ${snapshotdir}/${FolderSelection}/* ${defaultfilesave}
+fi
+
+}

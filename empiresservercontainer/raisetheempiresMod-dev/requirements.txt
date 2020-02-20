@@ -1,0 +1,10 @@
+tendo
+py3amf
+flask
+flask_session
+flask_sqlalchemy
+flask_compress
+flask_socketio
+daiquiri
+git+git://github.com/christhechris/libscrc
+python-editor

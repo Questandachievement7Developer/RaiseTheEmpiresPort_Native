@@ -1,0 +1,10 @@
+#untrack Folders
+rootfs
+**/*rootfs*
+**/*cache*
+**/*Cache*
+**/*proot*
+**/*experiment*
+**/*raisetheempires-dev*
+**/*lastCompileArch*
+empires-server

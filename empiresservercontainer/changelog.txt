@@ -1,0 +1,31 @@
+Announcement
+
+
+
+
+The nightly version of termux Build 120>
++ will have some slight improvement and better UI menu selection
++ Merge with 0.05a update Incl.
+```alpha v0.05a
+multiplayer: tending recipient accept/decline, new session & change ore menu, neighbor ore quests Nat 02/02/2020 23:58
+multiplayer: tending rewards Nat 02/02/2020 18:57
+    multiplayer: tending neighbors Nat 01/02/2020 23:26
+    multiplayer: visiting server friends, unlocked tending Nat 01/02/2020 01:21
+    Added zBar. Style logbox. AcidCaos 22/01/2020 18:58
+    multiplayer: access to other player sessions, session switcher to switch to other player profiles Nat 22/01/2020 00:31
+    battle rewards completing coin quests fixc Nat 27/12/2019 15:08
+    Initial map almost done AcidCaos 19/12/2019 18:07
+```
++ added snapshot Restore menu from the empires-server menu
++ Install Upgrade Migration features
++ Added SaveFile Migration Official Windows Releases Version <--> Nightly Termux Version
++ Better information if the server fails to load
++ Added selection to trim down storage usage
++ Tweaked network bridge where previous version caused a broken pipe
+- Build 120> does not need deleting old empriresservercontainer folder instead it's automatically patches the newer version if you had downloaded the file somewhere in the device
+- Fixed where previous installation caused exec format error
+
+The nightly version of termux build 119
++ First time support flash gameplay through android puffin browser
++ Enabling to connect friend's server through connection link
++ Merge with build 02_02_2020 Update empires-server
