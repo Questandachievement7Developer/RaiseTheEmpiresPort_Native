@@ -57,12 +57,11 @@ echo "================================================"
 echo Saving Savepoint
 git stash
 echo Retrieving new changes from remote
-git pull https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native
+git fetch
 echo Restoring savepoint
 git stash pop
 echo Pushing local changes to the remote
-git push --set-upstream origin master
-git push https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native
+git push --set-upstream origin master --force
 cd ${origindir}
 echo Repo Sync Done
 read -n 1 -s -r -p "Press any key to continue"
