@@ -21,6 +21,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 | 99  | Initial Host forwarding         | January, 2020    | [Release Cancelled] |
 | 20   | Released noArch version     | January, 2020  | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires29TNoArch) |
 | 1  | First initial Release on android x86 and GNU systems natively | January, 2020       | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires2020_01_24) |
+> Single Script Archive is a single installation file that automates the installation of the server ( Same as a setup wizard in windows but custom built )
 ## Feels confused about the installation setup or anything wanted to implemented in this version?
 Feel free to contact to these: <br>
 :email: questandachievement@gmail.com  <br>
