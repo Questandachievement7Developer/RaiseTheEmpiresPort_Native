@@ -30,10 +30,6 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 
 ## Tools
 
-:world_map: [Main Repo](https://github.com/AcidCaos/raisetheempires)
-
-:iphone: [Empires & Allies Mobile version](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native)
-
 :world_map: [Empires & Allies Empire Map Editor](https://github.com/AcidCaos/ea-empire-editor)
 
 
