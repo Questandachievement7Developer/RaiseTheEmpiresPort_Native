@@ -186,6 +186,9 @@ export PROOT_NO_SECCOMP=1
 #Copying raisetheempires to prepare compilation on that platform
 echo "${compileprefix} Preparing empires-server Master sourcefile"
 sudo cp -r ${origindir}/raisetheempires-dev ${rootfs}
+echo "${compileprefix} Installing Language Files"
+sudo cp -r ${origindir}/language/* ${rootfs}/raisetheempires-dev/assets/32995
+sudo cp -r ${origindir}/language/* ${rootfs}/raisetheempires-dev/assets/29oct2012
 echo "${compileprefix} Injecting Custom Mods source"
 sudo cp -r ${origindir}/raisetheempiresMod-dev/* ${rootfs}/raisetheempires-dev
 echo "${compileprefix} Installing Dependencies"
