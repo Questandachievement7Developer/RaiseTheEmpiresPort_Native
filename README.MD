@@ -22,9 +22,9 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 | 20   | Released noArch version     | January, 2020  | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires29TNoArch) |
 | 1  | First initial Release on android x86 and GNU systems natively | January, 2020       | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires2020_01_24) |
 ## Feels confused about the installation setup or anything wanted to implemented in this version?
-Feel free to contact to these:
-:email: questandachievement@gmail.com  <\br>
-or through my Personal Discord Yuuta kun#5097
+Feel free to contact to these: <br>
+:email: questandachievement@gmail.com  <br>
+or through my Personal Discord Yuuta kun#5097 <br>
 or through Our community discord [Discord group](https://discord.gg/xrNE6Hg)
 
 
