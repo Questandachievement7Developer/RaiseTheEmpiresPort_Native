@@ -21,6 +21,12 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 | 99  | Initial Host forwarding         | January, 2020    | [Release Cancelled] |
 | 20   | Released noArch version     | January, 2020  | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires29TNoArch) |
 | 1  | First initial Release on android x86 and GNU systems natively | January, 2020       | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires2020_01_24) |
+## Feels confused about the installation setup or anything wanted to implemented in this version?
+Feel free to contact to these:
+:email: questandachievement@gmail.com  <\br>
+or through my Personal Discord Yuuta kun#5097
+or through Our community discord [Discord group](https://discord.gg/xrNE6Hg)
+
 
 ## Reporting Bugs and Contacting
 :speech_balloon: Check our Community [Discord group](https://discord.gg/xrNE6Hg)  [![Discord Channel](https://img.shields.io/discord/536575691563466772?label=)](https://discord.gg/xrNE6Hg)
