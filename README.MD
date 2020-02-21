@@ -1,6 +1,6 @@
 ![Empires & Allies](empiresservercontainer/raisetheempiresMod-dev/templates/layouts/logo.png "Empires & Allies logo")
 
-> Empires and Allies(Facebook) officially closed June 17th, 2013
+> Empires and Allies(Original) officially closed June 17th, 2013
 
 
 :world_map: [Main Repo](https://github.com/AcidCaos/raisetheempires)
