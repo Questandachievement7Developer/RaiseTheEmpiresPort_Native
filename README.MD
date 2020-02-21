@@ -24,8 +24,9 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 ## Feels confused about the installation setup or anything wanted to implemented in this version?
 Feel free to contact to these: <br>
 :email: questandachievement@gmail.com  <br>
-or through my Personal Discord Yuuta kun#5097 <br>
-or through Our community discord [Discord group](https://discord.gg/xrNE6Hg)
+Personal Discord Yuuta kun#5097 <br>
+Our community discord [Discord group](https://discord.gg/xrNE6Hg)
+> Don't hestitate to ask we will help you and we won't kill you if you ask so many questions xd
 
 
 ## Reporting Bugs and Contacting
