@@ -8,7 +8,7 @@
 The Old Empires & Allies preservation project by the Raise the Empires team.
 This project is dedicated to preserving and renewing this Flash game so that it's not lost to time.
 
-![version](https://img.shields.io/badge/build-130-blue)
+![version](https://img.shields.io/badge/build-142-blue)
 [![size](https://img.shields.io/badge/size-298%20MB-brightgreen)](#)
 
 ## Releases
