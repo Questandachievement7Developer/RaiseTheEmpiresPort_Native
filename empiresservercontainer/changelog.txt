@@ -1,6 +1,12 @@
 Announcement
-
-
+The nightly version of universal build 150
++++ Massive UI Overhaul
+  + Welcome screen
+  + Play screen
++++ Massive Launcher Overhaul and rewrite into portable python which is much more reliable
++ Kivy porting to ( android apk to Windows exe )
++++ FlashJS implementation
++ empires and allies Player resource balancing
 
 
 The nightly version of termux Build 120>

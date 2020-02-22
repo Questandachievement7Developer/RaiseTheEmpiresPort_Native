@@ -8,8 +8,14 @@
 The Old Empires & Allies preservation project by the Raise the Empires team.
 This project is dedicated to preserving and renewing this Flash game so that it's not lost to time.
 
-![version](https://img.shields.io/badge/build-142-blue)
-[![size](https://img.shields.io/badge/size-298%20MB-brightgreen)](#)
+## Current Status
+| Things | Parameter |
+| ------- | ------ |
+| Current Developed Build | ![version](https://img.shields.io/badge/build-146-blue) |
+| Features that currently working on | UI Overhaul, FlashJS emulation, Kivy Porting                                   |
+| Current Built Server Size | [![size](https://img.shields.io/badge/size-298%20MB-brightgreen)](#) |
+| Current Source Size | [![size](https://img.shields.io/badge/size-1015%20MB-brightgreen)](#) |
+
 
 ## Releases
 
@@ -34,8 +40,8 @@ Our community discord [Discord group](https://discord.gg/xrNE6Hg)
 :speech_balloon: Check our Community [Discord group](https://discord.gg/xrNE6Hg)  [![Discord Channel](https://img.shields.io/discord/536575691563466772?label=)](https://discord.gg/xrNE6Hg)
 
 
-:email: raisetheempires@gmail.com 
-:email: questandachievement@gmail.com 
+:email: raisetheempires@gmail.com
+:email: questandachievement@gmail.com
 
 ## Tools
 

@@ -18,6 +18,18 @@ cleanup(){
 rm -rf RaiseTheEmpires
 }
 
+reposync_rteMain(){
+  if [ ! -d raisetheempires-dev ]; then
+    echo newly imported Repostitory
+    git clone https://github.com/AcidCaos/raisetheempires raisetheempires-dev
+  fi
+  if [ ! -d raisetheempires-dev ]; then
+    echo FATAL ERROR EMPIRES ALLIES SRC STILL NOT FOUND
+    exit
+  fi
+
+}
+
 reposync_mainBranch(){
   clear
   #set -e
@@ -346,7 +358,7 @@ bindistTrimming(){
     cat ${origindir}/staticTemplate/defaultFlaskConfig >> ${origindir}/empires-server-routines.sh
     echo 'export TMPDIR=$(pwd)/RaiseTheEmpires/RNT' >> ${origindir}/empires-server-routines.sh
     echo 'export origindir=$(pwd)' >> ${origindir}/empires-server-routines.sh
-    cat ${origindir}/staticTemplate/empires-server-routine-menu >> ${origindir}/empires-server-routines.sh
+    echo 'python3 executionRoutines_universal.py' >> ${origindir}/empires-server-routines.sh
   fi
 
   if [ ${instTarget} == 'termux' ]; then
@@ -365,7 +377,7 @@ bindistTrimming(){
     echo 'python -m pip install tendo py3amf flask flask_session flask_sqlalchemy flask_compress flask_socketio daiquiri git+git://github.com/christhechris/libscrc python-editor' >> ${origindir}/empires-server-routines.sh
     cat ${origindir}/staticTemplate/defaultFlaskConfig_termux >> ${origindir}/empires-server-routines.sh
     echo 'export origindir=$(pwd)' >> ${origindir}/empires-server-routines.sh
-    cat ${origindir}/staticTemplate/empires-server-routine-menu >> ${origindir}/empires-server-routines.sh
+    echo 'python3 executionRoutines_universal.py' >> ${origindir}/empires-server-routines.sh
   fi
 
 

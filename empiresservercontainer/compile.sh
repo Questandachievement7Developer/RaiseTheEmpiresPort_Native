@@ -23,7 +23,7 @@ if [ -z $(which dialog) ]; then #check if qemu static is in place
 #sudo pacman -S python dialog base-devel qemu-arch-extra git qemu trizen --noconfirm --needed
 #trizen -S qemu-user-static-bin --noconfirm --needed
 
-sudo apt-get install python3 dialog qemu build-essential git -y
+sudo apt-get install python3 dialog build-essential git -y
 fi
 
 #if [ ! -d ${origindir}/devTool/android_* ]; then
@@ -52,7 +52,7 @@ fi
 cleanup # cleaning previous interupted build
 # Synchronizing repository
 
-
+reposync_rteMain
 
 OPTIONS=(
 "repoSync" "Download and sync all repo Its a must when you are first time downloading the compiler"

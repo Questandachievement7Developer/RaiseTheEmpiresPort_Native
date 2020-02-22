@@ -7,4 +7,5 @@ rootfs
 **/*experiment*
 **/*raisetheempires-dev*
 **/*lastCompileArch*
+**/*saveSnapshot*
 empires-server
