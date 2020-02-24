@@ -28,6 +28,29 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 | 20   | Released noArch version     | January, 2020  | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires29TNoArch) |
 | 1  | First initial Release on android x86 and GNU systems natively | January, 2020       | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires2020_01_24) |
 > Single Script Archive is a single installation file that automates the installation of the server ( Same as a setup wizard in windows but custom built )
+
+## How to install ?
+### Installing in GNU/Linux Distribution
+```
+Installing in Standard GNU / Linux
+Make sure you have python3 and pip installed
+We recommend to use python3.8 since it will have recent bugfixes
+0. navigate to the directory 
+1. chmod +x empires-server
+2. ./empires-server
+done
+```
+### installing in Android using Termux
+```
+0. Make sure you grant termux storage access by doing $ termux-setup-storage
+1. cp ~/storage/downloads/empires-server ~
+2. bash empires-server
+done
+```
+
+
+
+
 ## Feels confused about the installation setup or anything wanted to implemented in this version?
 Feel free to contact to these: <br>
 :email: questandachievement@gmail.com  <br>
