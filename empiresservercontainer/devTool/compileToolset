@@ -242,8 +242,10 @@ fi
 procid=$!
 kill -9 ${procid}
 echo "${compileprefix} Setup Container"
-pacmanRuntime=$(${BL} "pacman -Sy cmake jdk-openjdk npm patchelf python3 python3-setuptools nano wget busybox python python-setuptools upx binutils fish wine-staging base-devel git --cachedir /installCache/${Arch} --needed --noconfirm" > /dev/tty )
+pacmanRuntime=$(${BL} "pacman -Sy cmake jdk-openjdk npm patchelf python python-setuptools nano wget busybox python python-setuptools upx binutils fish wine-staging base-devel git --cachedir /installCache/${Arch} --needed --noconfirm" > /dev/tty )
 #npmRuntime=$(${BL} npm install -g grunt > /dev/tty ) #compile tool swf to html5
+easyInstallRuntime=$(${BL} "easy_install pip" > /dev/tty )
+
 cp -r ${rootfs}/installCache/* ${installCache}
 echo "${compileprefix} Building EAL"
 sudo cp -r ${origindir}/Python37src ${rootfs}
@@ -322,7 +324,7 @@ fi
 ${BL} "/bin/busybox ls /"
 ${BL} "/bin/sh /compilescript.sh"
 
-if [ ! -f ${rootfs}/RaiseTheEmpires/empires-server ] && [ ${instTarget} != 'windows' ] && [ ${instTarget} != 'android' ] && [ ${instTarget} != 'termux' ]; then
+if [ ! -f ${rootfs}/RaiseTheEmpires/empires-server ] && [ ${instTarget} != 'windows' ] && [ ${instTarget} != 'android' ] && [ ${instTarget} != 'termux' ] && [ ${instTarget} != 'gnulinux' ]; then
 echo "${compileprefix} Compile Failed!"
 echo "${compileprefix} Entering Diagnostic Mode"
 ${BL} sh > /dev/tty
