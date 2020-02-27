@@ -45,12 +45,21 @@ def cp(source, target):
     shutil.copy(source, target, follow_symlinks=True)
 
 def mv(source, target):
-    shutil.movefile(source, target, copy_function=copy2)
+    shutil.move(source, target)
 
 def ls(target):
     output=os.listdir(target)
     return output
 
+def cpRecursive(source, target):
+    for file in glob.glob(source):
+        print(source)
+        cp(file, target)
+
+def mvRecursive(source, target):
+    for file in glob.glob(source):
+        print(source)
+        mv(file, target)
 
 ######################UPDATE DEPENDENCIES#####################
 
@@ -183,7 +192,7 @@ def runtimeMEISetup():
     if not os.path.exists(snapshotdir): #https://linuxize.com/post/python-check-if-file-exists/
             os.mkdir(runtimeMEI)
     if not os.path.exists(runtimeMEI + "empires-server.py"):
-        mv( origindir + "RaiseTheEmpires/*" , runtimeMEI)
+        mvRecursive( origindir + "/RaiseTheEmpires/*" , runtimeMEI)
     if not os.path.exists(defaultfilesave):
         cp( runtimeMEI + "/fileSave", defaultfilesave)
 
