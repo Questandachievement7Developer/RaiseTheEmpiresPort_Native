@@ -167,13 +167,13 @@ def periodicsnapShotThread():
 def migratetoMain():
     print("Exporting into main version of save File")
     sleep(2)
-    if not os.file.exists(EALsdcardAndroid):
+    if not os.path.exists(EALsdcardAndroid):
         os.mkdir(EALsdcardAndroid)
     cp(defaultfilesave + "/*", EALsdcardAndroid)
 
 def MaintoGNU():
     print("Importing from main version into GNU version")
-    if not os.file.exists(EALsdcardAndroid):
+    if not os.path.exists(EALsdcardAndroid):
         return "No such save file detected"
     else:
         cp(EALsdcardAndroid + "/*", defaultfilesave)
@@ -182,7 +182,7 @@ def MaintoGNU():
 def runtimeMEISetup():
     if not os.path.exists(snapshotdir): #https://linuxize.com/post/python-check-if-file-exists/
             os.mkdir(runtimeMEI)
-    if not os.file.exists(runtimeMEI + "empires-server.py"):
+    if not os.path.exists(runtimeMEI + "empires-server.py"):
         mv( origindir + "RaiseTheEmpires/*" , runtimeMEI)
     if not os.path.exists(defaultfilesave):
         cp( runtimeMEI + "/fileSave", defaultfilesave)
@@ -259,6 +259,7 @@ def UserInterface():
 
 ################################################################
 def main():
+    snapshotNOW()
     portingTest()
     UserInterface()
 
