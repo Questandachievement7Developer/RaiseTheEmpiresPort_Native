@@ -27,7 +27,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 | 119   | Automatic Host forwarding           | January, 2020 | :tickets: [Single Script Archive](http://tiny.cc/EALSERVE119) |
 | 99  | Initial Host forwarding         | January, 2020    | [Release Cancelled] |
 | 20   | Released noArch version     | January, 2020  | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires29TNoArch) |
-| 1  | First initial Release on android x86 and GNU systems natively | January, 2020       | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires2020_01_24) |
+| 57~58  | First initial Release on android x86 and GNU systems natively | January, 2020       | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires2020_01_24) |
 > Single Script Archive is a single installation file that automates the installation of the server ( Same as a setup wizard in windows but custom built )
 
 ## How to install ?
