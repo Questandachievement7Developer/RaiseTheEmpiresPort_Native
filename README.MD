@@ -11,9 +11,10 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 ## Current Status
 | Things | Parameter |
 | ------- | ------ |
-| Current Developed Build | ![version](https://img.shields.io/badge/build-146-blue) |
+| Current Developed Build | ![version](https://img.shields.io/badge/build-169-blue) |
+|nice| lmao |
 | Features that currently working on | UI Overhaul, FlashJS emulation, Kivy Porting                                   |
-| Current Built Server Size | [![size](https://img.shields.io/badge/size-298%20MB-brightgreen)](#) |
+| Current Built Server Size | [![size](https://img.shields.io/badge/size-289%20MB-brightgreen)](#) |
 | Current Source Size | [![size](https://img.shields.io/badge/size-1015%20MB-brightgreen)](#) |
 
 
@@ -35,7 +36,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 Installing in Standard GNU / Linux
 Make sure you have python3 and pip installed
 We recommend to use python3.8 since it will have recent bugfixes
-0. navigate to the directory 
+0. navigate to the directory
 1. chmod +x empires-server
 2. ./empires-server
 done
