@@ -84,12 +84,19 @@ sanitizeMountrootfs(){
 sudo mount --bind /dev ${rootfs}/dev
 sudo mount --bind /proc ${rootfs}/proc
 sudo mount --bind /sys ${rootfs}/sys
+sudo mount --bidn /mnt ${rootfs}/mnt
 }
 
 deSanitizeMountrootfs(){
   sudo umount -lf ${rootfs}/dev
   sudo umount -lf ${rootfs}/proc
   sudo umount -lf ${rootfs}/sys
+  sudo umount -lf ${rootfs}/mnt
+  if [ -d ${rootfs}/mnt/c ]; then
+    echo BAIL ERROR OUT
+    echo COMPILER HAVE STOPPED FROM WORKING TO PREVENT DATALOSS
+    exit
+  fi
 }
 
 
@@ -243,6 +250,8 @@ procid=$!
 kill -9 ${procid}
 echo "${compileprefix} Setup Container"
 pacmanRuntime=$(${BL} "pacman -Sy cmake jdk-openjdk npm patchelf python python-setuptools nano wget busybox python python-setuptools upx binutils fish wine-staging base-devel git --cachedir /installCache/${Arch} --needed --noconfirm" > /dev/tty )
+${BL} "git clone http://github.com/christhechris/libscrc"
+${BL} "cd libscrc ;python setup.py install"
 #npmRuntime=$(${BL} npm install -g grunt > /dev/tty ) #compile tool swf to html5
 easyInstallRuntime=$(${BL} "easy_install pip" > /dev/tty )
 
@@ -252,16 +261,50 @@ sudo cp -r ${origindir}/Python37src ${rootfs}
 
 
 if [ ${instTarget} == 'windows' ]; then
-echo 'if [ ! -f python-3.7.6-amd64.exe ]; then' > ${rootfs}/compilescript.sh
-  echo 'wget https://www.python.org/ftp/python/3.7.6/python-3.7.6-amd64.exe' >> ${rootfs}/compilescript.sh
+export backDir=$(pwd)
+
+if [[ $(grep Microsoft /proc/version) ]]; then
+  cd ${rootfs}
+echo ${compileprefix} Unfortunately compiling windows binary is unsupported on WSL 32BitELF is unsupported
+echo ${compileprefix} However we could try some tricks but its not guranteed it will work if you dont have admin rights
+echo ${compileprefix} Attempting to use Bare metal NT Kernel mode
+sleep 2
+echo ${compileprefix} if you see windows version popup means it is working
+winver.exe
+rm -rf python-3.8* get-pip.p*
+wget "https://www.python.org/ftp/python/3.8.2/python-3.8.2.exe"
+wget "https://bootstrap.pypa.io/get-pip.py"
+export PATH="${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files/AMD/AMDuProf/bin:/mnt/c/Program Files/Intel/WiFi/bin/:/mnt/c/Program Files/Common Files/Intel/WirelessCommon/:/mnt/c/tools/php74:/mnt/c/ProgramData/ComposerSetup/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/OpenJDK/jdk-13.0.2/bin:/mnt/c/Users/masam/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/masam/AppData/Local/atom/bin:/mnt/c/Users/masam/AppData/Roaming/Composer/vendor/bin:/mnt/c/Users/masam/AppData/Local/GitHubDesktop/bin"
+echo ${PATH}
+pwd
+cmd.exe /C "python-3.8.2.exe /quiet"
+cmd.exe /C "python get-pip.py --install --user"
+git clone http://github.com/christhechris/libscrc
+cd libscrc
+pwd
+cmd.exe /C "python setup.py install"
+cd ..
+pwd
+cmd.exe /C "python -m pip install -r requirements.txt"
+cmd.exe /C "python -m pip install pyinstaller"
+cd raisetheempires-dev
+cp build-tools/empires-server.spec .
+mkdir RNT
+
+cmd.exe /C "python -m pyinstaller empires-server.spec --distpath /RaiseTheEmpires"
+echo 'echo Compilation Skipped' > ${rootfs}/compilescript.sh
+echo 'sh' > ${rootfs}/compilescript.sh
+else
+    echo 'wget https://www.python.org/ftp/python/3.8.2/python-3.8.2.exe' > ${rootfs}/compilescript.sh
 echo 'wget https://bootstrap.pypa.io/get-pip.py' >> ${rootfs}/compilescript.sh
-echo 'wine python-3.7.6-amd64.exe /quiet' >> ${rootfs}/compilescript.sh
+echo 'wine python-3.8.2.exe /quiet' >> ${rootfs}/compilescript.sh
 echo 'wine python get-pip.py --install --user' >> ${rootfs}/compilescript.sh
 echo 'fi' >> ${rootfs}/compilescript.sh
 echo 'cd /raisetheempires-dev' >> ${rootfs}/compilescript.sh
 echo 'wine python -m pip install -r requirements.txt' >> ${rootfs}/compilescript.sh
 echo 'wine python -m pip install pyinstaller' >> ${rootfs}/compilescript.sh
 echo 'sh' >> ${rootfs}/compilescript.sh
+fi
 fi
 
 if [ ${instTarget} == 'termux' ]; then
@@ -428,13 +471,15 @@ packallupfordist(){
   XZ_OPT=-9 tar cvzf empires-RNT --exclude experiments --exclude "*rootfs*" --exclude frontEnd --exclude shumway --exclude raisetheempiresMod-dev --exclude ${exclusion} --exclude Python37src --exclude installCache --exclude devTool --exclude devnote.txt --exclude containerdist --exclude proot --exclude x64EMU --exclude x86_64 --exclude raisetheempires-dev --exclude proot --exclude containerdist --exclude x86_64_prepared --exclude compile.sh --exclude x86_64kernel --exclude empires-setup.exe --exclude io --exclude installcache --exclude commandergenius --exclude firmware --exclude "bochsEngine" --exclude "*empiresTest*" --exclude staticTemplate --exclude RaiseTheEmpire empiresservercontainer
   if [ ${instTarget} == 'termux' ]; then
     echo '#!/data/data/com.termux/files/usr/bin/bash' > empires-server
+    cat ${origindir}/staticTemplate/Starttemplate_termux >> empires-server
   fi
 
   if [ ${instTarget} == 'gnulinux' ]; then
     echo '#!/bin/bash' > empires-server
+    cat ${origindir}/staticTemplate/Starttemplate_gnulinux >> empires-server
   fi
 
-  cat ${origindir}/staticTemplate/Starttemplate >> empires-server
+
   md5sum empires-RNT >> empires-server
   cat empires-RNT >> empires-server
   chmod 777 empires-server

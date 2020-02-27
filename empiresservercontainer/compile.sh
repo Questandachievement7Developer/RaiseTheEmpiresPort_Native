@@ -38,6 +38,7 @@ fi
 #fi
 
 # to make sure that ndk-build or sdkmanager able to call within this script
+echo ${PATH}
 export PATH=${PATH}:${origindir}/devTool/android_ndk:${origindir}/devTool/android_sdk
 echo ${PATH}
 #sdkmanager
@@ -48,7 +49,7 @@ echo ${PATH}
 if [ ! -d ${origindir}/rootfs ]; then
   sudo chmod -R 777 ${origindir}
 fi
-
+#deSanitizeMountrootfs
 cleanup # cleaning previous interupted build
 # Synchronizing repository
 
@@ -83,10 +84,10 @@ echo "${compileprefix} Skipping empires-engine x64 Build"
 echo "${compileprefix} Launching empires-server arch selection"
 
 OPTIONS=(
+
 "windows" "use wine64 to cross compile to windows"
 "termux" "Compiles for Android termux so it can be run on that platform"
-"gnulinux" "compiles to standard gnuLinux Format "
-"androidWrap" "Wrapping android + electron")
+"gnulinux" "compiles to standard gnuLinux Format ")
 
 instTarget=$(dialog --clear \
                 --backtitle "$BACKTITLE" \

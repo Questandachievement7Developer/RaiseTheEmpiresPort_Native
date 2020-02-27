@@ -9,7 +9,7 @@ export currentexecfile=${0}
 fi
 ##############################
 # Install dependencies
-apt-get install wget proot tar sed -y; sudo apt-get install wget proot busybox tar sed -y
+su -c "installRuntime=$(apt-get install python python-setuptools wget proot busybox tar sed -y; pacman -S python python-setuptools wget busybox tar sed" ; echo "${installRuntime}" 
 ##############################
 
 
