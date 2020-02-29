@@ -16,13 +16,13 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 | Current Built Server Size | [![size](https://img.shields.io/badge/size-289%20MB-brightgreen)](#) |
 | Current Source Size | [![size](https://img.shields.io/badge/size-1015%20MB-brightgreen)](#) |
 
-> Build 179 is postponed due to unforseen circumtances for other developer computer 
+> SSA is Single Script Archive
 
 ## Releases
 
 | Build | Update | Release date  | Download |
 | ------- | ------ | ------------  | -------- |
-| 171   | Partial UI Overhaul & Additional Military decoration |  February,2020 | :tickets: [Single Script Archive FOR GNULINUX](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/171/empires-server-gnulinux) <br> :tickets: [Single Script Archive For Termux](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/171/empires-server-termux)|
+| 171   | Partial UI Overhaul & Additional Military decoration |  February,2020 | :tickets: [SSA GNU/Linux](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/171/empires-server-gnulinux) <br> :tickets: [SSA Termux/Linux](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/171/empires-server-termux)|
 | 129   | Multiplayer Update Merge with version 0.05a   | February, 2020    | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires_129) |
 | 119   | Automatic Host forwarding           | January, 2020 | :tickets: [Single Script Archive](http://tiny.cc/EALSERVE119) |
 | 99  | Initial Host forwarding         | January, 2020    | [Release Cancelled] |
