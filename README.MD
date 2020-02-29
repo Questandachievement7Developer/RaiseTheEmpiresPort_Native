@@ -31,6 +31,14 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 > Single Script Archive is a single installation file that automates the installation of the server ( Same as a setup wizard in windows but custom built )
 
 ## How to install ?
+### Installing in a dedicated Server
+```
+Try to use the tarball dist
+0. Extract the tarball and cd into the folder
+1. chmod +x execRoutines ; ./execRoutines
+```
+
+
 ### Installing in GNU/Linux Distribution
 ```
 Installing in Standard GNU / Linux
