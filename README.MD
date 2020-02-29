@@ -22,7 +22,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 
 | Build | Update | Release date  | Download |
 | ------- | ------ | ------------  | -------- |
-| 179   | UI Overhaul & Additional Military decoration |  March,2020 | WORK IN PROGRESS |
+| 171   | Partial UI Overhaul & Additional Military decoration |  February,2020 | WORK IN PROGRESS |
 | 129   | Multiplayer Update Merge with version 0.05a   | February, 2020    | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires_129) |
 | 119   | Automatic Host forwarding           | January, 2020 | :tickets: [Single Script Archive](http://tiny.cc/EALSERVE119) |
 | 99  | Initial Host forwarding         | January, 2020    | [Release Cancelled] |
