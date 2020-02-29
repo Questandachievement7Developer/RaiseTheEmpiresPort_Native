@@ -11,7 +11,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 ## Current Status
 | Things | Parameter |
 | ------- | ------ |
-| Current Developed Build | ![version](https://img.shields.io/badge/build-169-blue) |
+| Current Developed Build | ![version](https://img.shields.io/badge/build-171-blue) |
 | Features that currently working on | UI Overhaul, FlashJS emulation, Kivy Porting                                   |
 | Current Built Server Size | [![size](https://img.shields.io/badge/size-289%20MB-brightgreen)](#) |
 | Current Source Size | [![size](https://img.shields.io/badge/size-1015%20MB-brightgreen)](#) |
