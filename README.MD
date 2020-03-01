@@ -45,15 +45,15 @@ Installing in Standard GNU / Linux
 Make sure you have python3 and pip installed
 We recommend to use python3.8 since it will have recent bugfixes
 0. navigate to the directory
-1. chmod +x empires-server
-2. ./empires-server
+1. chmod +x empires-server-gnulinux
+2. ./empires-server-gnulinux
 done
 ```
 ### installing in Android using Termux
 ```
 0. Make sure you grant termux storage access by doing $ termux-setup-storage
-1. cp ~/storage/downloads/empires-server ~
-2. bash empires-server
+1. cp ~/storage/downloads/empires-server-termux ~
+2. bash empires-server-termux
 done
 ```
 
