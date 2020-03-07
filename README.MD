@@ -1,4 +1,6 @@
 ![Empires & Allies](empiresservercontainer/raisetheempiresMod-dev/templates/layouts/logo.png "Empires & Allies logo")
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native) 
+
 
 > Empires and Allies(Original) officially closed June 17th, 2013
 
