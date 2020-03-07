@@ -57,7 +57,7 @@ def cpRecursive(source, target):
         cp(file, target)
 
 def mvRecursive(source, target):
-    for file in glob.glob(source):
+    for file in glob(source):
         print(source)
         mv(file, target)
 
@@ -267,11 +267,9 @@ def UserInterface():
 
 
 ################################################################
-def main():
-    snapshotNOW()
-    portingTest()
-    UserInterface()
 
-if __name__== "__main__":
-    main()
+snapshotNOW()
+portingTest()
+UserInterface()
+
 ################################################################
