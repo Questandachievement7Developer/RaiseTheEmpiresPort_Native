@@ -9,7 +9,7 @@ export currentexecfile=${0}
 fi
 ##############################
 # Install dependencies
-su -c "installRuntime=$(apt-get install python python-setuptools wget proot busybox tar sed -y; pacman -S python python-setuptools wget busybox tar sed)" ; echo "${installRuntime}" 
+su -c "installRuntime=$(apt-get install python python-setuptools wget proot busybox tar sed -y; pacman -S python python-setuptools wget busybox tar sed)" ; echo "${installRuntime}"
 ##############################
 
 
@@ -82,5 +82,5 @@ bash empires-server-routines.sh
 rm -rf ${currdir}/*_minimized
 #delete temporary file
 ##################################################################
-
 exit
+EOF

@@ -240,8 +240,8 @@ fi
 echo "${compileprefix} Copying Installcache"
 cp -r ${installCache} ${rootfs}
 if [ ${reinstallContainer} == '1' ]; then
-pacmanRuntime=$( ${BL} "pacman -Syuwq --cachedir /installCache/${Arch} --noconfirm" > /dev/tty)
-pacmanRuntime=$( ${BL} "pacman -Syu --cachedir /installCache/${Arch} --noconfirm" > /dev/tty)
+pacmanRuntime=$( ${BL} "pacman -Syuwq --cachedir /installCache/${Arch} --needed --noconfirm" > /dev/tty)
+pacmanRuntime=$( ${BL} "pacman -Syu --cachedir /installCache/${Arch} --needed --noconfirm" > /dev/tty)
 if [ ${Arch} == 'x86_64' ]; then
 sleep 3
 else
@@ -475,12 +475,12 @@ packallupfordist(){
   XZ_OPT=-9 tar cvzf empires-RNT --exclude experiments --exclude "*rootfs*" --exclude frontEnd --exclude shumway --exclude raisetheempiresMod-dev --exclude ${exclusion} --exclude Python37src --exclude installCache --exclude devTool --exclude devnote.txt --exclude containerdist --exclude proot --exclude x64EMU --exclude x86_64 --exclude raisetheempires-dev --exclude proot --exclude containerdist --exclude x86_64_prepared --exclude compile.sh --exclude x86_64kernel --exclude empires-setup.exe --exclude io --exclude installcache --exclude commandergenius --exclude firmware --exclude "bochsEngine" --exclude "*empiresTest*" --exclude staticTemplate --exclude RaiseTheEmpire empiresservercontainer
   if [ ${instTarget} == 'termux' ]; then
     echo '#!/data/data/com.termux/files/usr/bin/bash' > empires-server
-    cat ${origindir}/staticTemplate/Starttemplate_termux >> empires-server
+    cat ${origindir}/staticTemplate/Starttemplate >> empires-server
   fi
 
   if [ ${instTarget} == 'gnulinux' ]; then
     echo '#!/bin/bash' > empires-server
-    cat ${origindir}/staticTemplate/Starttemplate_gnulinux >> empires-server
+    cat ${origindir}/staticTemplate/Starttemplate >> empires-server
   fi
 
 

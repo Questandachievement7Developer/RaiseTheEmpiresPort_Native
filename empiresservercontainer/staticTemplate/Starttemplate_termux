@@ -82,5 +82,5 @@ bash empires-server-routines.sh
 rm -rf ${currdir}/*_minimized
 #delete temporary file
 ##################################################################
-
 exit
+EOF
