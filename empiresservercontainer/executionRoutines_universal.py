@@ -8,6 +8,7 @@ from time import sleep
 import locale
 import json
 import shutil
+import glob
 from threading import Thread
 locale.setlocale(locale.LC_ALL, '')
 from datetime import datetime
@@ -57,7 +58,7 @@ def cpRecursive(source, target):
         cp(file, target)
 
 def mvRecursive(source, target):
-    for file in glob(source):
+    for file in glob.glob(source):
         print(source)
         mv(file, target)
 
@@ -148,7 +149,7 @@ def menuSel():
                                 ("MigratetoPC", "Export your save file into your Internal storage if you are using android"),
                                 ("MigratetoTermux", "This will import save file on RaiseTheEmpires folder on the internal storage if you use android"),
                                 ("trim", "This will trim the storage usage but sacrifices the snapshot backup"),
-                                ("exit", "Exut frin the empires-server boot menu")])
+                                ("exit", "Exit from the empires-server boot menu")])
     print("DEBUG:" + str(MAINMENU))
 
     return MAINMENU
@@ -267,9 +268,11 @@ def UserInterface():
 
 
 ################################################################
+def main():
+    snapshotNOW()
+    portingTest()
+    UserInterface()
 
-snapshotNOW()
-portingTest()
-UserInterface()
-
+if __name__== "__main__":
+    main()
 ################################################################
