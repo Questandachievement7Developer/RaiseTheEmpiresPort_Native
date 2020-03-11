@@ -20,7 +20,7 @@ fi
 . ${origindir}/devTool/compileToolset
 source ${origindir}/devTool/compileToolset
 if [ -z $(which dialog) ]; then #check if qemu static is in place
- pacman -S python dialog base-devel git qemu trizen --noconfirm --needed
+ pacman -S python dialog base-devel git qemu --noconfirm --needed
 #trizen -S qemu-user-static-bin --noconfirm --needed
 
  apt-get install python3 dialog build-essential git -y
