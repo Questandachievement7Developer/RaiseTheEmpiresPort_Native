@@ -68,8 +68,8 @@ except ImportError:
 
 # import logging.config
 
-version = "0.05a"
-release_date = 'Monday, 3 Feb 2020'
+version = "0.05a.2020_02_23"
+release_date = 'Sunday, 23 Feb 2020'
 
 COMPRESS_MIMETYPES = ['text/html', 'text/css', 'text/xml', 'application/json', 'application/javascript',
                       'application/x-amf']
@@ -937,10 +937,8 @@ def init_user():
     # resources = {"energy": 100, "coins": 100000, "oil": 7000, "wood": 5000, "aluminum": 9000,
     #                                 "copper": 4000, "gold": 3000, "iron": 2000, "uranium": 1000}
 
-    resources = {"energy": 25, "coins": 5000, "oil": 50, "wood": 2000, "aluminum":250,
+    resources = {"energy": 25, "coins": 5000, "oil": 25, "wood": 150, "aluminum": 1000,
                  "copper": 0, "gold": 0, "iron": 0, "uranium": 0}
-
-    ## Rebalancing User initialization ~muddro
 
     # xp = 20000
     # level =100
@@ -951,7 +949,7 @@ def init_user():
     level = 1
     zcash = 15
     energy = 25
-    energy_max = 50
+    energy_max = 25
 
     # user_fleet = {
     #     "type": "army",
@@ -1157,7 +1155,7 @@ def init_user():
         "DEATHMATCH_DURATION": None,
         "clansInfo": None,
         "immunityTimeVariant": 0,
-        "experiments": {"empire_combataicancritical": 2},
+        "experiments": {"empire_combataicancritical": 2, "empire_decorations_master": 2},
         "completedQuests": [],
         "decorationsInfo": None,
         "treasureVaultHighlights": None,
@@ -1320,7 +1318,7 @@ def user_response():
 
     for neighbor in user["neighbors"]:
         if neighbor["uid"] in [-1, 123]:
-            neighbor["level"] =  user["userInfo"]["player"]["level"] + 7
+            neighbor["level"] =  user["userInfo"]["player"]["level"] + 5
 
     if session.get('save_version') != version:
         print("Trying migration")
@@ -1557,6 +1555,15 @@ def perform_world_response(step, supplied_id, position, item_name, reference_ite
         # session['user_object']["userInfo"]["world"]["objects"] = list(filter(lambda i: i['position'] != position), list1)
 
 
+    if step == "staffPosition":
+        decoration = lookup_object(id)
+        item = lookup_item_by_name(item_name)
+        #TODO bonus buildings staffing
+        print("staffing")
+
+    if step == "decoCrewBuyOnce":
+        pass
+
     print("perform_world_response", repr(perform_world_response))
     return perform_world_response
 
@@ -1788,7 +1795,7 @@ def load_world_response(params):
         # ally["world"]["yimf"] = ""
     ally["pvpMode"] = params[2]
     ally["pvpImmunity"] = {"expTS": None}
-    ally["visitorEnergy"] = 20 #ape together stronk
+    ally["visitorEnergy"] = 5
 
     load_world_response = {"errorType": 0, "userId": 1, "metadata": meta,
                            "data": ally}
@@ -1978,7 +1985,7 @@ def delete_save(message):
 @app.errorhandler(500)
 def server_error_page(error):
     text = editor.edit(filename=os.path.join(log_path(), "log.txt"))
-    return ':( Umm Well we have a problem houston Please check log.txt ERROR 500'
+    return 'It went wrong'
 
 
 if __name__ == '__main__':
