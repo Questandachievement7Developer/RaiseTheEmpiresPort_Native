@@ -20,10 +20,10 @@ fi
 . ${origindir}/devTool/compileToolset
 source ${origindir}/devTool/compileToolset
 if [ -z $(which dialog) ]; then #check if qemu static is in place
- pacman -S python dialog base-devel git qemu --noconfirm --needed
+#sudo pacman -S python dialog base-devel qemu-arch-extra git qemu trizen --noconfirm --needed
 #trizen -S qemu-user-static-bin --noconfirm --needed
 
- apt-get install python3 dialog build-essential git -y
+sudo apt-get install python3 dialog build-essential git -y
 fi
 
 #if [ ! -d ${origindir}/devTool/android_* ]; then
@@ -47,7 +47,7 @@ echo ${PATH}
 #breakpoint
 
 if [ ! -d ${origindir}/rootfs ]; then
-   chmod -R 777 ${origindir}
+  sudo chmod -R 777 ${origindir}
 fi
 #deSanitizeMountrootfs
 cleanup # cleaning previous interupted build
