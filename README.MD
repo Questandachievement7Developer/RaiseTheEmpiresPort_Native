@@ -2,7 +2,7 @@
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native) 
 
 
-> Empires and Allies(Original) officially closed June 17th, 2013
+> Empires and Allies(Facebook) officially closed June 17th, 2013
 
 
 :world_map: [Main Repo](https://github.com/AcidCaos/raisetheempires)
