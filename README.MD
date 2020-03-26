@@ -17,7 +17,6 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 | Current Built Server Size | [![size](https://img.shields.io/badge/size-282%20MB-brightgreen)](#) |
 | Current Source Size | [![size](https://img.shields.io/badge/size-1015%20MB-brightgreen)](#) |
 
-> SSA is Single Script Archive
 
 ## Releases
 
@@ -32,27 +31,9 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 > Single Script Archive is a single installation file that automates the installation of the server ( Same as a setup wizard in windows but custom built )
 
 ## How to install ?
-### Installing in a dedicated Server
+### Installing on Android using Termux
 ```
-Try to use the tarball dist
-0. Extract the tarball and cd into the folder
-1. chmod +x execRoutines ; ./execRoutines
-```
-
-
-### Installing in GNU/Linux Distribution
-```
-Installing in Standard GNU / Linux
-Make sure you have python3 and pip installed
-We recommend to use python3.8 since it will have recent bugfixes
-0. navigate to the directory
-1. chmod +x empires-server-gnulinux
-2. ./empires-server-gnulinux
-done
-```
-### installing in Android using Termux
-```
-0. Make sure you grant termux storage access by doing $ termux-setup-storage
+0. Make sure you grant termux storage access by doing '$ termux-setup-storage'
 1. cp ~/storage/downloads/empires-server ~
 2. sh empires-server
 done
