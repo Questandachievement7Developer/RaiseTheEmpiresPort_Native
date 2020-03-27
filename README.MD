@@ -33,9 +33,12 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 ## How to install ?
 ### Installing on Android using Termux
 ```
-0. Make sure you grant termux storage access by doing '$ termux-setup-storage'
-1. cp ~/storage/downloads/empires-server ~
-2. sh empires-server
+1. Install Termux and Puffin Browser from Play Store
+2. Open Termux and make sure you grant termux storage access by typing 'termux-setup-storage'
+3. Type: cp ~/storage/downloads/empires-server ~
+4. Type: sh empires-server
+5. Wait until the installation is completed (and make sure your internet is stable)
+6. After the empires-server is running, copy the link into the Puffin Browser
 done
 ```
 
