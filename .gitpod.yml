@@ -1,5 +1,5 @@
 tasks:
-  - init: echo "Hello Gordon"
-    command: echo "Hello Gordon"
+  - init: su
+    command: su -c "bash"
 image:
   file: .gitpod.Dockerfile
