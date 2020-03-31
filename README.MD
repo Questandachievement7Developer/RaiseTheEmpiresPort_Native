@@ -42,8 +42,9 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 done
 ```
 ### Installing on GNU/Linux/Ubuntu
+Copy this command to terminal:
 ```
-1. Type: curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/containers_EmpiresandAllies/master/curlRTE0_ubuntu" | bash -
+curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/containers_EmpiresandAllies/master/curlRTE0_ubuntu" | bash -
 ```
 
 
