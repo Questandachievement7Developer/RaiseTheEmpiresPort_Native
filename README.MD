@@ -41,7 +41,10 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 6. After the empires-server is running, copy the link into the Puffin Browser
 done
 ```
-
+### Installing on GNU/Linux/Ubuntu
+```
+1. Type: curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/containers_EmpiresandAllies/master/curlRTE0_ubuntu" | bash -
+```
 
 
 
