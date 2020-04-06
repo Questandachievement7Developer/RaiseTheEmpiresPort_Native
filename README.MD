@@ -33,14 +33,20 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 ## How to install ?
 ### Installing on Android using Termux
 ```
-1. Install Termux and Puffin Browser from Play Store
-2. Open Termux and make sure you grant termux storage access by typing 'termux-setup-storage'
-3. Type: cp ~/storage/downloads/empires-server ~
-4. Type: sh empires-server
-5. Wait until the installation is completed (and make sure your internet is stable)
-6. After the empires-server is running, copy the link into the Puffin Browser
+1. Download the latest version of Single Script Archive (right now is Build 185)
+2. Install Termux and Puffin Browser from Play Store
+3. Open Termux and make sure you grant termux storage access by typing 'termux-setup-storage'
+4. Type: cp ~/storage/downloads/empires-server ~
+5. Type: sh empires-server
+6. Wait until the installation is completed (and make sure your internet is stable)
+7. After the empires-server is running, copy the link into the Puffin Browser
 done
 ```
+
+```
+Tip: If you occur 'remote port forwarding failed..' try to Clear Data and Cache of Termux app, then you should repeat the steps above
+```
+
 ### Installing on GNU/Linux/Ubuntu
 Copy this command to terminal:
 ```
