@@ -23,7 +23,6 @@ TITLE="Empires And Allies Mission Control"
 . ${origindir}/executionRoutines
 
 
-UpdateSERVER & # This will updates the server while in use without needing to do manual labour
 
 
 
