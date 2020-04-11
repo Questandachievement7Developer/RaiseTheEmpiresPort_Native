@@ -1,12 +1,12 @@
 #!/bin/bash
 
-
+rdm=$RANDOM
 
 function serverRun(){
 cd ${origindir} ; sh periodicSaveSnapshot & export periodicSavePID=$!
 mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSave RaiseTheEmpires
 cd ${RUNTIMEDIR} ; python3 empires-server.py --host 0.0.0.0 --port 5005 --no-popup >> ${origindir}/SERVERTHREAD.log 2>&1 & export EALSERVERTHREAD=$! ; tail -f ${origindir}/SERVERTHREAD.log | grep traceback &
-clear ;echo Server is running!;echo Please Connect to To play empires-server;ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -R 80:localhost:5005 ssh.localhost.run
+clear ;echo Server is running!;echo Please Connect to To play empires-server;ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "empires-$rdm" -R 80:localhost:5005 ssh.localhost.run
 dialog --msgbox "Server is Terminated" 40 40
 kill -9 ${periodicSavePID} ; kill -9 ${EALSERVERTHREAD} ; echo killsig > ${origindir}/killsigforwardHost ; echo Server Terminated
 }
@@ -20,8 +20,8 @@ echo done
 
 function changelogsee(){
 cat ${origindir}/changelog.txt
-echo This changelog window will automatically closed within 60 seconds
-sleep 60
+echo This changelog will automatically closed in 30 seconds
+sleep 30
 }
 
 function MigratetoTermux(){
