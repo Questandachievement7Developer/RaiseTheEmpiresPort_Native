@@ -13,7 +13,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 ## Current Status
 | Things | Parameter |
 | ------- | ------ |
-| Current Developed Build | ![version](https://img.shields.io/badge/build-192-blue) |
+| Current Developed Build | ![version](https://img.shields.io/badge/build-193-blue) |
 | Current Built Server Size | [![size](https://img.shields.io/badge/size-282%20MB-brightgreen)](#) |
 | Current Source Size | [![size](https://img.shields.io/badge/size-1015%20MB-brightgreen)](#) |
 
@@ -22,7 +22,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 
 | Build | Update | Release date  | Download |
 | ------- | ------ | ------------  | -------- |
-| 192 | Custom ssh config & Merge with new main repo | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_192/empires-192) |
+| 193 | Custom ssh config & Merge with new main repo | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_193/empires-193) |
 | 185   | UI Overhaul & Additional bonus decorations | March, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_185/empires-server) |
 | 129   | Multiplayer Update Merge with version 0.05a   | February, 2020    | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires_129) |
 | 119   | Automatic Host forwarding           | January, 2020 | :tickets: [Single Script Archive](http://tiny.cc/EALSERVE119) |
@@ -34,11 +34,11 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 ## How to install ?
 ### Installing on Android using Termux
 ```
-1. Download the latest version of Single Script Archive (right now is Build 192)
+1. Download the latest version of Single Script Archive (right now is Build 193)
 2. Install Termux and Puffin Browser from Play Store
 3. Open Termux and make sure you grant termux storage access by typing 'termux-setup-storage'
-4. Type: cp ~/storage/downloads/empires-192 ~
-5. Type: sh empires-192
+4. Type: cp ~/storage/downloads/empires-193 ~
+5. Type: sh empires-193
 6. Wait until the installation is completed (and make sure your internet is stable)
 7. After the empires-server is running, copy the link into the Puffin Browser
 done
