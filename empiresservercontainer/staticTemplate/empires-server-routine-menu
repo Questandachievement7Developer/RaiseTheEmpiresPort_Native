@@ -21,8 +21,8 @@ OPTIONS=(
 "changelog" "see the changelog"
 "RestoreSnapshot" "Restore Save File Snapshot"
 "ManualUpdate" "Triggers the empires-server to update manually if you had downloaded the newest version but no update"
-"MigratetoPC" "This will export the save file to your internal storage in RaiseTheEmpires folder"
-"MigratetoTermux" "This will import save file that is on RaiseTheEmpires Folder in your internal storage "
+"ExportSave" "This will export the save file to your internal storage in RaiseTheEmpires folder"
+"ImportSave" "This will import save file that is on RaiseTheEmpires Folder in your internal storage "
 "trim" "This will trim the storage usage but sacrifices the snapshot backup"
 "exit" "Exit from the empires-server boot menu")
 
