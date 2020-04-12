@@ -1,5 +1,5 @@
 #!/bin/sh
-pkg install python wget -y
+pkg install clang wget -y
 wget "https://github-production-release-asset-2e65be.s3.amazonaws.com/241745490/2eeda200-7ce2-11ea-8efe-60693f7e7da0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20200412%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200412T160443Z&X-Amz-Expires=300&X-Amz-Signature=9e641454e4db8690a402e6a2ec9dd564757af47c4e028ebd765ca1be797fd501&X-Amz-SignedHeaders=host&actor_id=48942028&repo_id=241745490&response-content-disposition=attachment%3B%20filename%3Dempires-193&response-content-type=application%2Foctet-stream" -O empires-server
 chmod +x ./empires-server
 sh empires-server
