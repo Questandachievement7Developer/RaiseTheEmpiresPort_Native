@@ -1,5 +1,4 @@
 #!/bin/sh
-termux-setup-storage
 pkg install clang wget -y
 if [ ! -f empires-server ]; then
 wget "https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_193/empires-193" -O empires-server
