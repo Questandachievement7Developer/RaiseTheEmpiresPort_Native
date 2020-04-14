@@ -13,7 +13,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 ## Current Status
 | Things | Parameter |
 | ------- | ------ |
-| Current Developed Build | ![version](https://img.shields.io/badge/build-193-blue) |
+| Current Developed Build | ![version](https://img.shields.io/badge/build-201-blue) |
 | Current Built Server Size | [![size](https://img.shields.io/badge/size-282%20MB-brightgreen)](#) |
 | Current Source Size | [![size](https://img.shields.io/badge/size-1015%20MB-brightgreen)](#) |
 
@@ -22,34 +22,33 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 
 | Build | Update | Release date  | Download |
 | ------- | ------ | ------------  | -------- |
+| 201 | New Welcome screen & Simpler installation with 'curl' | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_201/empires-server) |
 | 193 | Custom ssh config & Merge with new main repo | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_193/empires-193) |
-| 185   | UI Overhaul & Additional bonus decorations | March, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_185/empires-server) |
-| 129   | Multiplayer Update Merge with version 0.05a   | February, 2020    | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires_129) |
-| 119   | Automatic Host forwarding           | January, 2020 | :tickets: [Single Script Archive](http://tiny.cc/EALSERVE119) |
-| 99  | Initial Host forwarding         | January, 2020    | [Release Cancelled] |
-| 20   | Released noArch version     | January, 2020  | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires29TNoArch) |
-| 57~58  | First initial Release on android x86 and GNU systems natively | January, 2020       | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires2020_01_24) |
+| 185 | UI Overhaul & Additional bonus decorations | March, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_185/empires-server) |
+| 129 | Multiplayer Update Merge with version 0.05a   | February, 2020    | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires_129) |
+| 119 | Automatic Host forwarding | January, 2020 | :tickets: [Single Script Archive](http://tiny.cc/EALSERVE119) |
+| 99  | Initial Host forwarding | January, 2020 | [Release Cancelled] |
+| 20  | Released noArch version | January, 2020 | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires29TNoArch) |
+| 57~58 | First initial Release on android x86 and GNU systems natively | January, 2020 | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires2020_01_24) |
 > Single Script Archive is a single installation file that automates the installation of the server ( Same as a setup wizard in windows but custom built )
 
 ## How to install ?
 ### Installing on Android using Termux
+1. Install Termux and Puffin Browser from Play Store
+2. Copy paste this command to Termux:
 ```
-1. Download the latest version of Single Script Archive (right now is Build 193)
-2. Install Termux and Puffin Browser from Play Store
-3. Open Termux and make sure you grant termux storage access by typing 'termux-setup-storage'
-4. Type: cp ~/storage/downloads/empires-193 ~
-5. Type: sh empires-193
-6. Wait until the installation is completed (and make sure your internet is stable)
-7. After the empires-server is running, copy the link into the Puffin Browser
+curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/TermuxAutoinstaller" | bash -
+```
+3. Wait until the installation is completed (and make sure your internet is stable)
+4. After the empires-server is running, copy the link into the Puffin Browser
 done
-```
 
 ```
-Tip: If the installation often failed, try to use VPN
+Tip: If the installation often failed / takes too long, try to use VPN
 ```
 
 ### Installing on GNU/Linux/Ubuntu
-Copy this command to terminal:
+Copy paste this command to terminal:
 ```
 curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/containers_EmpiresandAllies/master/curlRTE0_ubuntu" | bash -
 ```
