@@ -39,13 +39,19 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 ```
 curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/TermuxAutoinstaller" | bash -
 ```
-3. Wait until the installation is completed (and make sure your internet is stable)
-4. After the empires-server is running, copy the link into the Puffin Browser
-done
+3. Wait until the process is completed, then type:
+```
+sh empires-server
+```
+4. Wait until the installation is completed (and make sure your internet is stable)
+5. After the empires-server is running, copy the link into the Puffin Browser
 
-```
+*Done!*
+
+
 Tip: If the installation often failed / takes too long, try to use VPN
-```
+
+
 
 ### Installing on GNU/Linux/Ubuntu
 Copy paste this command to terminal:
