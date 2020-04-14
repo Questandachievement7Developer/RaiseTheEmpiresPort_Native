@@ -1,2 +1,2 @@
 #!/bin/sh
-ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "empires" -t -t -R 80:localhost:5005 ssh.localhost.run
+ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "empires" -T -R 80:localhost:5005 ssh.localhost.run
