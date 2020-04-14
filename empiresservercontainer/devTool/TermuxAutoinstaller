@@ -1,8 +1,3 @@
 #!/bin/sh
-pkg install clang wget -y
-if [ ! -f empires-server ]; then
-wget "https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_193/empires-193" -O empires-server
-else
-echo "empires-server has been downloaded"
-fi
-sh empires-server
+rdm=$RANDOM
+ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "empires-$rdm" -R 80:localhost:5005 ssh.localhost.run
