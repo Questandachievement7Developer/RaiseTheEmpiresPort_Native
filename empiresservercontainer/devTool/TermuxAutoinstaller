@@ -5,4 +5,4 @@ wget "https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Nativ
 else
 echo "empires-server has been downloaded"
 fi
-sh empires-server
+echo 'Please do $ sh empires-server'
