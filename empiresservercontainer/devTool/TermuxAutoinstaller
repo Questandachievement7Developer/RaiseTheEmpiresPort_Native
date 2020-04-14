@@ -1,3 +1,2 @@
 #!/bin/sh
-rdm=$RANDOM
-ssh -T -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "empires-$rdm" -R 80:localhost:5005 ssh.localhost.run
+sshpass -p password ssh -T -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "empires" -R 80:localhost:5005 ssh.localhost.run
