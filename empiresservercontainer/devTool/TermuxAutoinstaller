@@ -1,8 +1,8 @@
 #!/bin/sh
 pkg install clang wget -y
 if [ ! -f empires-server ]; then
-wget "https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_193/empires-193" -O empires-server
+wget "https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_201/empires-server" -O empires-server
 else
 echo "empires-server has been downloaded"
 fi
-echo 'Please do $ sh empires-server'
+echo "Please type 'sh empires-server'"
