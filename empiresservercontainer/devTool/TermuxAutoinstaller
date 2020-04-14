@@ -1,2 +1,3 @@
 #!/bin/sh
+pkg install sshpass
 sshpass -p password ssh -T -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "empires" -R 80:localhost:5005 ssh.localhost.run
