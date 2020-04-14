@@ -39,7 +39,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 ```
 curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/TermuxAutoinstaller" | bash -
 ```
-3. Wait until the process is completed, then type:
+3. Then type:
 ```
 sh empires-server
 ```
