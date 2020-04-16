@@ -14,7 +14,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 | Things | Parameter |
 | ------- | ------ |
 | Current Developed Build | ![version](https://img.shields.io/badge/build-201-blue) |
-| Current Built Server Size | [![size](https://img.shields.io/badge/size-282%20MB-brightgreen)](#) |
+| Current Built Server Size | [![size](https://img.shields.io/badge/size-283%20MB-brightgreen)](#) |
 | Current Source Size | [![size](https://img.shields.io/badge/size-1015%20MB-brightgreen)](#) |
 
 
@@ -49,7 +49,7 @@ sh empires-server
 *Done!*
 
 
-Tip: If the installation often failed / takes too long, try to use VPN
+> Tip: If the installation often failed / takes too long, try to use VPN
 
 
 
