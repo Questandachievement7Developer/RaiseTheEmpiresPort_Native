@@ -17,7 +17,8 @@ dialog --msgbox "Welcome to empires-server build ${ver}" 40 40
 function menuSel()
 {
 OPTIONS=(
-"Start" "Start empires-server"
+"Start" "Start empires-server online"
+"StartLocally" "Connect server to PC locally"
 "changelog" "see the changelog"
 "RestoreSnapshot" "Restore Save File Snapshot"
 "ManualUpdate" "Triggers the empires-server to update manually if you had downloaded the newest version but no update"
@@ -44,6 +45,10 @@ if [ ${mission} == 'Start' ]; then
 serverRun
 fi
 
+if [ ${mission} == 'StartLocally' ]; then
+serverLocal
+fi
+
 if [ ${mission} == 'RestoreSnapshot' ]; then
 snapshotMenu
 fi
@@ -52,12 +57,12 @@ if [ ${mission} == 'ManualUpdate' ]; then
 UpdateSERVER
 fi
 
-if [ ${mission} == 'MigratetoPC' ]; then
-MigratetoPC
+if [ ${mission} == 'ExportSave' ]; then
+ExportSave
 fi
 
-if [ ${mission} == 'MigratetoTermux' ]; then
-MigratetoTermux
+if [ ${mission} == 'ImportSave' ]; then
+ImportSave
 fi
 
 
