@@ -13,7 +13,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 ## Current Status
 | Things | Parameter |
 | ------- | ------ |
-| Current Developed Build | ![version](https://img.shields.io/badge/build-201-blue) |
+| Current Developed Build | ![version](https://img.shields.io/badge/build-210-blue) |
 | Current Built Server Size | [![size](https://img.shields.io/badge/size-283%20MB-brightgreen)](#) |
 | Current Source Size | [![size](https://img.shields.io/badge/size-1015%20MB-brightgreen)](#) |
 
@@ -22,6 +22,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 
 | Build | Update | Release date  | Download |
 | ------- | ------ | ------------  | -------- |
+| 210 | Added Local mode feature & Stability improvements | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_210/empires-v210) |
 | 201 | New Welcome screen & Simpler installation with 'curl' | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_201/empires-server) |
 | 193 | Custom ssh config & Merge with new main repo | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_193/empires-193) |
 | 185 | UI Overhaul & Additional bonus decorations | March, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_185/empires-server) |
@@ -41,7 +42,7 @@ curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTh
 ```
 3. Then type:
 ```
-sh empires-server
+sh empires-v210
 ```
 4. Wait until the installation is completed (and make sure your internet is stable)
 5. After the empires-server is running, copy the link into the Puffin Browser
