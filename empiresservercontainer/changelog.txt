@@ -1,5 +1,11 @@
 Announcement
 
+The nightly version of universal build 200>
+++ Simpler installation command with 'curl'
+ + ssh integration to 'curl' command
++ Updated Welcome screen with new logo
++ empires-server now can be start locally to play on PC
+
 The nightly version of universal build 190>
 + Custom ssh address, to prevent the link has been used
 + Merge with AcidCaos' repo 2020_04_05:
