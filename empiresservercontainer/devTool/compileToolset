@@ -15,7 +15,9 @@ exit
 }
 
 cleanup(){
-rm -rf RaiseTheEmpires
+rm -rf ${origindir}/RaiseTheEmpires ${origindir}/fakeroot
+#rm -rf ${origindir}/fakeroot
+#echo "cleanup() ignored"
 }
 
 reposync_rteMain(){
@@ -127,8 +129,6 @@ fi
     fi
 
     if [[ $(grep Microsoft /proc/version) ]]; then
-      echo "Bash is running on WSL"
-      echo "PTRACE ON WSL 1 IS NOT SUPPORTED"
       export ptracecompat='0'
       export WSLenv="1"
     fi
@@ -179,8 +179,21 @@ fi
     export pyInstallParam="install"
     fi
 
+# Sourced from unifyServer technology
+}
+
+pkginstall(){
+distroDetection
+export installerprefix="[ModularInstaller]"
+for a in ${1}; do
+  echo "${installerprefix} Checking ${a}"
+  ${packmanager} ${installParameter} ${a} >> ${origindir}/packageManager.log 2>&1
+  ${pyPacman} ${pyInstallParam} ${a} >> ${origindir}/packageManager.log 2>&1
+done
 
 }
+
+
 
 
 compileUniversal(){
@@ -194,9 +207,7 @@ compileUniversal(){
   export lastArchCache=${origindir}/${lastArch}_fakerootCache
 
 
-  BL="sudo chroot"
-  BL+=" ${fakeroot}"
-  BL+=" /bin/su -c "
+  BL=""
 
 
 
@@ -213,39 +224,36 @@ exit
 fi
 
 echo "${compileprefix} Initiating Compile"
-echo "${compileprefix} Preparing Proot"
-export prootsrc=${origindir}/proot/src
-if [ -z $(which proot) ]; then
-cd ${prootsrc}
-make
-sudo make install
-fi
 cd ${origindir}
 cd ${origindir}
 
 
 #Copying raisetheempires to prepare compilation on that platform
 echo "${compileprefix} Preparing empires-server Master sourcefile"
+mkdir -p "${fakeroot}"
+mkdir -p "${fakeroot}/raisetheempires-dev"
 sudo cp -r ${origindir}/raisetheempires-dev ${fakeroot}
 echo "${compileprefix} Installing Language Files"
 sudo cp -r ${origindir}/language/* ${fakeroot}/raisetheempires-dev/assets/32995
 sudo cp -r ${origindir}/language/* ${fakeroot}/raisetheempires-dev/assets/29oct2012
 echo "${compileprefix} Injecting Custom Mods source"
 sudo cp -r ${origindir}/raisetheempiresMod-dev/* ${fakeroot}/raisetheempires-dev
-echo Merging empires-server.py
+echo "${compileprefix} Merging empires-server.py"
+if [ -f "raisetheempiresMod-dev/empires-server.py" ]; then
 diff -D RepoMergeTool raisetheempires-dev/empires-server.py  raisetheempiresMod-dev/empires-server.py > ${fakeroot}/raisetheempires-dev/empires-server.py
+fi
 echo "${compileprefix} Installing Dependencies"
 sleep 2
 distroDetection
-list="cmake jdk-openjdk npm patchelf dialog python python3 python3-setuptools python-setuptools nano wget busybox python python-setuptools upx binutils fish wine-staging base-devel git "
-for a in ${list} ;do
-${packmanager} ${installParameter} ${a}
-done
-pip install git+git://github.com/christhechris/libscrc
-#npmRuntime=$(${BL} npm install -g grunt > /dev/tty ) #compile tool swf to html5
-easy_install pip 
+#list="cmake jdk-openjdk npm patchelf dialog python python3 python3-setuptools python-setuptools nano wget busybox python python-setuptools upx binutils fish wine-staging build-essential base-devel git "
+#for a in ${list} ;do
+#${packmanager} ${installParameter} ${a}
+#done
+pkginstall "cmake jdk-openjdk npm patchelf dialog python python3 python3-setuptools python-setuptools nano wget busybox python python-setuptools upx binutils fish wine-staging build-essential base-devel git pip git+git://github.com/christhechris/libscrc"
+#pip install git+git://github.com/christhechris/libscrc
+#npmRuntime=$( npm install -g grunt > /dev/tty ) #compile tool swf to html5
+#easy_install pip
 echo "${compileprefix} Building EAL"
-sudo cp -r ${origindir}/Python37src ${fakeroot}
 
 
 if [ ${instTarget} == 'windows' ]; then
@@ -360,17 +368,6 @@ echo 'python3 -m pip install -r requirements.txt' >> ${fakeroot}/compilescript.s
 echo 'cp build-tools/empires-server.spec .' >> ${fakeroot}/compilescript.sh
 echo 'mkdir RNT;pyinstaller empires-server.spec --distpath /RaiseTheEmpires' >> ${fakeroot}/compilescript.sh #https://stackoverflow.com/questions/18841334/using-an-alternate-tmp-location-with-pyinstaller/18848945
 fi
-${BL} "/bin/busybox ls /"
-${BL} "/bin/sh /compilescript.sh"
-
-if [ ! -f ${fakeroot}/RaiseTheEmpires/empires-server ] && [ ${instTarget} != 'windows' ] && [ ${instTarget} != 'android' ] && [ ${instTarget} != 'termux' ] && [ ${instTarget} != 'gnulinux' ]; then
-echo "${compileprefix} Compile Failed!"
-echo "${compileprefix} Entering Diagnostic Mode"
-${BL} sh > /dev/tty
-echo "${compileprefix} Exiting Diagnostic mode"
-echo ${Arch} > ${origindir}/lastCompileArch
-exit
-fi
 
 deSanitizeMountfakeroot
 echo "${compileprefix} Universal Binary Compile finished"
@@ -385,15 +382,13 @@ bindistTrimming(){
 
   if [ ${packmode} == 'staticbin' ]; then
     echo "${compileprefix} Cleaning up"
-        rm -rf ${origindir}/RaiseTheEmpires ${origindir}/tmp
-    mkdir ${origindir}/tmp
-    cp -r ${fakeroot}/RaiseTheEmpires ${origindir}/tmp
-    echo "Static Bin"
+        rm -rf ${origindir}/tmp
     #exit
-    mv ${origindir}/tmp/RaiseTheEmpires ${origindir}
     echo "${compileprefix} Writing server-routines"
     echo "${compileprefix} Writing .ini generator"
-    echo 'sudo apt-get install python3 python3-setuptools python3-dev git dialog ssh -y' > ${origindir}/empires-server-routines.sh
+    echo 'export origindir=$(pwd)' > ${origindir}/empires-server-routines.sh
+    echo 'export RUNTIMEDIR=${origindir}/._MEI202028' >> ${origindir}/empires-server-routines.sh
+    echo 'sudo apt-get install python3 python3-setuptools python3-dev git dialog ssh -y' >> ${origindir}/empires-server-routines.sh
     echo 'sudo pacman -S python git dialog python-setuptools openssh --noconfirm' >> ${origindir}/empires-server-routines.sh
     echo 'python3 -m pip install tendo py3amf flask flask_session flask_sqlalchemy flask_compress flask_socketio daiquiri git+git://github.com/christhechris/libscrc python-editor' >> ${origindir}/empires-server-routines.sh
     cat ${origindir}/staticTemplate/defaultFlaskConfig >> ${origindir}/empires-server-routines.sh
@@ -404,12 +399,9 @@ bindistTrimming(){
 
   if [ ${instTarget} == 'termux' ]; then
     echo "${compileprefix} Cleaning up"
-    rm -rf ${origindir}/RaiseTheEmpires ${origindir}/tmp
+    rm -rf ${origindir}/tmp
     mkdir ${origindir}/tmp
-    cp -r ${fakeroot}/RaiseTheEmpires ${origindir}/tmp
-    echo "BreakPoint"
     #exit
-    mv ${origindir}/tmp/RaiseTheEmpires ${origindir}
     echo "${compileprefix} Writing server-routines"
     echo "${compileprefix} Writing .ini generator"
     echo 'export origindir=$(pwd)' > ${origindir}/empires-server-routines.sh
@@ -424,12 +416,9 @@ bindistTrimming(){
 
   if [ ${instTarget} == 'androidWrap' ]; then
     echo "${compileprefix} Cleaning up"
-    rm -rf ${origindir}/RaiseTheEmpires ${origindir}/tmp
+    rm -rf ${origindir}/tmp
     mkdir ${origindir}/tmp
-    cp -r ${fakeroot}/RaiseTheEmpires ${origindir}/tmp
-    echo "BreakPoint"
     #exit
-    mv ${origindir}/tmp/RaiseTheEmpires ${origindir}
     echo "${compileprefix} Writing server-routines"
     echo "${compileprefix} Writing .ini generator"
     echo 'export origindir=$(pwd)' > ${origindir}/empires-server-routines.sh
@@ -464,7 +453,7 @@ packallupfordist(){
   echo "${compileprefix} Packing Empires-server"
   printf '\e[38;5;221m ' yellow
   cd ${origindir}/..
-  XZ_OPT=-9 tar cvzf empires-RNT --exclude experiments --exclude "*fakeroot*" --exclude frontEnd --exclude shumway --exclude raisetheempiresMod-dev --exclude ${exclusion} --exclude Python37src --exclude installCache --exclude devTool --exclude devnote.txt --exclude containerdist --exclude proot --exclude x64EMU --exclude x86_64 --exclude raisetheempires-dev --exclude proot --exclude containerdist --exclude x86_64_prepared --exclude compile.sh --exclude x86_64kernel --exclude empires-setup.exe --exclude io --exclude installcache --exclude commandergenius --exclude firmware --exclude "bochsEngine" --exclude "*empiresTest*" --exclude staticTemplate --exclude RaiseTheEmpire empiresservercontainer
+  XZ_OPT=-9 tar czf empires-RNT --exclude experiments --exclude "*fakeroot*" --exclude "*.log*" --exclude frontEnd --exclude shumway --exclude raisetheempiresMod-dev --exclude ${exclusion} --exclude Python37src --exclude installCache --exclude devTool --exclude devnote.txt --exclude containerdist --exclude proot --exclude x64EMU --exclude x86_64 --exclude raisetheempires-dev --exclude proot --exclude containerdist --exclude x86_64_prepared --exclude compile.sh --exclude x86_64kernel --exclude empires-setup.exe --exclude io --exclude installcache --exclude commandergenius --exclude firmware --exclude "bochsEngine" --exclude "*empiresTest*" --exclude staticTemplate --exclude RaiseTheEmpire empiresservercontainer
   if [ ${instTarget} == 'termux' ]; then
     echo '#!/data/data/com.termux/files/usr/bin/bash' > empires-server
     cat ${origindir}/staticTemplate/Starttemplate_termux >> empires-server
@@ -485,8 +474,11 @@ packallupfordist(){
   cat empires-RNT | base32 >> empires-server
   chmod 777 empires-server
   rm -rf empires-RNT ${emu64fakeroot}
-  echo $compileprefix compiled successfully became empires-server
-  echo "Version ${updateVer}"
+  mkdir compiledbin
+  mv empires-server compiledbin/empires-server-${instTarget}-${buildnum}
+  echo $compileprefix compiled successfully became empires-server-${instTarget}-${buildnum}
+  echo You can check it on compiledbin folder
+  echo "Version ${buildnum}"
 
   if [ ${instTarget} == 'androidWrap' ]; then
     echo Compiling Export to the Wrapper
@@ -503,10 +495,11 @@ buildNumberRequest(){
   if [ ! -f ${origindir}/buildnumber ]; then
     echo 0 > ${origindir}/buildnumber
   fi
-  bldnum=$(cat ${origindir}/buildnumber)
-  bldnum=$(( $bldnum + 1 ))
-  echo ${bldnum} > ${origindir}/buildnumber
-  echo empires-server Port_native edition build number ${bldnum}
+  bldnum=$( cat ${origindir}/buildnumber )
+  export buildnum=$(echo ${bldnum})
+  export buildnum=$(( ${buildnum} + 1 ))
+  echo ${buildnum} > ${origindir}/buildnumber
+  echo empires-server Port_native edition build number ${buildnum}
 }
 
 
@@ -516,17 +509,21 @@ assembleServer(){
 
 cd ${origindir}
 echo "${compileprefix} Assembling server into a program folder"
-${BL} "mkdir /RaiseTheEmpires"
+echo "${compileprefix} ${origindir}/RaiseTheEmpires"
+mkdir -p "${origindir}/RaiseTheEmpires"
 echo "${compileprefix} Assembling savefiles"
+# for Main execution
+#This is copying what already patched by the RaiseTheEmpiresMod-dev
+cp -r ${fakeroot}/raisetheempires-dev/*.py ${origindir}/RaiseTheEmpires
 #see devnote.txt for details
-${BL} "mkdir /RaiseTheEmpires/fileSave"
-${BL} "cp -r /raisetheempires-dev/allies /RaiseTheEmpires/fileSave"
-${BL} "cp -r /raisetheempires-dev/gamesettings-converted.json /RaiseTheEmpires/fileSave"
-${BL} "cp -r /raisetheempires-dev/questsettings-converted.json /RaiseTheEmpires/fileSave"
-${BL} "cp -r /raisetheempires-dev/save.db /RaiseTheEmpires/fileSave"
-echo "${compileprefix} Assembling assets"
-${BL} "cp -r /raisetheempires-dev/assets /RaiseTheEmpires/"
-${BL} "cp -r /raisetheempires-dev/templates /RaiseTheEmpires/"
+mkdir ${origindir}/RaiseTheEmpires/fileSave
+cp -r ${fakeroot}/raisetheempires-dev/allies ${origindir}/RaiseTheEmpires/fileSave
+cp -r ${fakeroot}/raisetheempires-dev/gamesettings-converted.json ${origindir}/RaiseTheEmpires/fileSave
+cp -r ${fakeroot}/raisetheempires-dev/questsettings-converted.json ${origindir}/RaiseTheEmpires/fileSave
+cp -r ${fakeroot}/raisetheempires-dev/save.db ${origindir}/RaiseTheEmpires/fileSave
+echo ${compileprefix} Assembling assets
+cp -r ${fakeroot}/raisetheempires-dev/assets ${origindir}/RaiseTheEmpires/
+cp -r ${fakeroot}/raisetheempires-dev/templates ${origindir}/RaiseTheEmpires/
 if [ ${packmode} == "fakeroot" ]; then
 echo "${compileprefix} fakeroot mode requested creating .ini files"
 

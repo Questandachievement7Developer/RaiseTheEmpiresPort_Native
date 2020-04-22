@@ -19,23 +19,7 @@ fi
 
 . ${origindir}/devTool/compileToolset
 source ${origindir}/devTool/compileToolset
-if [ -z $(which dialog) ]; then #check if qemu static is in place
-#sudo pacman -S python dialog base-devel qemu-arch-extra git qemu trizen --noconfirm --needed
-#trizen -S qemu-user-static-bin --noconfirm --needed
-
-sudo apt-get install python3 dialog build-essential git -y
-fi
-
-#if [ ! -d ${origindir}/devTool/android_* ]; then
-#cd ${origindir}/devTool
-#wget "https://dl.google.com/android/repository/android-ndk-r21-linux-x86_64.zip"
-#mkdir devTool/android_ndk
-#unzip android-ndk-r21-linux-x86_64.zip
-
-#wget "https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip"
-#mkdir devTool/android_sdk
-#unzip sdk-tools-linux-4333796.zip
-#fi
+pkginstall "python3 dialog build-essential git"
 
 # to make sure that ndk-build or sdkmanager able to call within this script
 echo ${PATH}
@@ -49,36 +33,46 @@ echo ${PATH}
 if [ ! -d ${origindir}/rootfs ]; then
   sudo chmod -R 777 ${origindir}
 fi
-#deSanitizeMountrootfs
 cleanup # cleaning previous interupted build
-# Synchronizing repository
 
 reposync_rteMain
 
+if [ -z ${compilealltrigger} ]; then
+
 OPTIONS=(
-"repoSync" "Download and sync all repo Its a must when you are first time downloading the compiler"
-"skip" "skip the repo sync")
+"repoSync" "Download and sync all repo Its a must when you are first time downloading the compiler and then proceed compile"
+"Compile" "skip the repo sync"
+"compileall" "skip the reposync and compile all platforms only for termux macOS gnulinux")
 
 
 
-REPOSYN=$(dialog --clear \
+ACTION=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
-                --title "Select the target platform" \
+                --title "Select the Action" \
                 --menu "$MENU" \
                 $HEIGHT $WIDTH $CHOICE_HEIGHT \
                 "${OPTIONS[@]}" \
                 2>&1 >/dev/tty)
-if [ ${REPOSYN} == 'repoSync' ]; then
+if [ ${ACTION} == 'repoSync' ]; then
 reposync_mainBranch
 fi
 
-
-if [ $(uname -m) != "x86_64" ]; then
-echo Please use x86_64 machine to compile this program
+if [ ${ACTION} == "compileall" ]; then
+export compilealltrigger=1
+listofplatform="termux gnulinux macOS"
+for a in ${listofplatform}; do
+export instTarget="${a}"
+bash ${0}
+done
 exit
 fi
 
+fi
+if [ $(uname -m) != "x86_64" ]; then
+echo it is recomended to use x86_64 machine to compile this program
+fi
 
+if [ -z ${instTarget} ]; then
 
 echo "${compileprefix} Skipping empires-engine x64 Build"
 echo "${compileprefix} Launching empires-server arch selection"
@@ -99,7 +93,7 @@ instTarget=$(dialog --clear \
                 "${OPTIONS[@]}" \
                 2>&1 >/dev/tty)
 
-
+fi
 export packmode=staticbin
 
 #if [ ${instTarget} != 'termux' ]; then

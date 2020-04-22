@@ -8,4 +8,5 @@ rootfs
 **/*raisetheempires-dev*
 **/*lastCompileArch*
 **/*saveSnapshot*
+**/*compiledbin*
 empires-server

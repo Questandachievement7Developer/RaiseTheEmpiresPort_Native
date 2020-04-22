@@ -7,10 +7,11 @@ fi
 if [ -z ${currentexecfile} ] ;then
 export currentexecfile=${0}
 fi
+xcode-select --install
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ##############################
 # Install dependencies
-su -c "installRuntime=$(brew install python3 python3-setuptools wget gnu-tar gnu-sed -y)" ; echo "${installRuntime}"
+sudo brew install python3 python3-setuptools wget gnu-tar gnu-sed -y
 ##############################
 
 
@@ -27,7 +28,7 @@ su -c "installRuntime=$(brew install python3 python3-setuptools wget gnu-tar gnu
 #exit
 #fi
 if [ ! -d empiresservercontainer ] || [ $(cat empiresservercontainer/buildnumber) -lt 120 ] ; then
-lineno=88 #This line is the position of the md5hash stored #Please Change this Number to successfully compiles +2 from last line
+lineno=89 #This line is the position of the md5hash stored #Please Change this Number to successfully compiles +2 from last line
 initorigindir=$(pwd)
 integrity=$(sed -n "${lineno}p" "$0") #https://stackoverflow.com/questions/21651310/reading-a-particular-line-from-a-file-in-bash-script-using-variable-as-line-numb
 echo "${integrity}" > hash
@@ -35,7 +36,7 @@ echo Preparing package empires-server
 echo Pulling Package from the script
 if [ -z $(which busybox) ]; then echo no busybox detected toybox unsupported ; exit ;fi
 echo 'Preparing For installation'
-tail -n +89 $0 | base32 --decode > empires-RNT #Please Change this Number to successfully compiles +3 from last line IF 87 Line then 89
+tail -n +90 $0 | base32 --decode > empires-RNT #Please Change this Number to successfully compiles +3 from last line IF 87 Line then 89
 if md5sum -c hash ; then
 echo Archive Integrity Verified
 rm hash
@@ -59,7 +60,7 @@ EmpiresEngineSize=$(stat -c%s "${currentexecfile}")
 TargetSize=5000000 #5MB
 if [ ! -f ${currentexecfile}_minimized ]; then
 echo Shedding unecessary Storage Weight
-sed 87q "${currentexecfile}" > "${currentexecfile}_minimized" # What this will do is minimizing unused package file and shrinking the script from 1500MB to 24KB
+sed 88q "${currentexecfile}" > "${currentexecfile}_minimized" # What this will do is minimizing unused package file and shrinking the script from 1500MB to 24KB
 replaceCurrentexec=$(sleep 5;cp -r "${currentexecfile}_minimized" "${currentexecfile}") &
 bash ${currentexecfile}_minimized
 fi

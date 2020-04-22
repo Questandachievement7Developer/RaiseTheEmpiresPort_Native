@@ -2,13 +2,21 @@
 
 rdm=$RANDOM
 
+
+
+
+
+
 function serverRun(){
 cd ${origindir} ; sh periodicSaveSnapshot & export periodicSavePID=$!
 mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSave RaiseTheEmpires
-cd ${RUNTIMEDIR} ; python3 empires-server.py --host 0.0.0.0 --port 5005 --no-popup >> ${origindir}/SERVERTHREAD.log 2>&1 & export EALSERVERTHREAD=$! ; tail -f ${origindir}/SERVERTHREAD.log | grep traceback &
-clear ;echo Server is running!;echo Copy paste the link below on Puffin Browser;ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "empires-$rdm" -T -R 80:localhost:5005 ssh.localhost.run
+cd ${RUNTIMEDIR} ; python3 empires-server.py --host 0.0.0.0 --port 5005 --no-popup >> ${origindir}/SERVERTHREAD.log 2>&1 &
+export EALSERVERTHREAD=$!
+tail -f ${origindir}/SERVERTHREAD.log | grep traceback &
+export ttyforwardPID=$!
+clear ;echo Server is running!;echo Copy paste the link below on Puffin Browser;ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "RaiseTheEmpires-$rdm" -T -R 80:localhost:5005 ssh.localhost.run
 dialog --msgbox "Server is Terminated" 40 40
-kill -9 ${periodicSavePID} ; kill -9 ${EALSERVERTHREAD} ; echo killsig > ${origindir}/killsigforwardHost ; echo Server Terminated
+kill -9 --${periodicSavePID} ; kill -9 --${EALSERVERTHREAD}; kill -9 ${ttyforwardPID} ; echo killsig > ${origindir}/killsigforwardHost ; echo Server Terminated
 }
 
 function serverLocal(){
@@ -17,7 +25,7 @@ mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSa
 echo '===================================';echo Server is running!;echo Local mode can only be played on PC;echo Connect to server address below;echo '==================================='
 cd ${RUNTIMEDIR} ; python3 empires-server.py --host 0.0.0.0 --port $RANDOM
 dialog --msgbox "Server is Terminated" 40 40
-kill -9 ${periodicSavePID} ; echo Server Terminated
+kill -9 --${periodicSavePID} ; echo Server Terminated
 }
 
 function ExportSave(){
