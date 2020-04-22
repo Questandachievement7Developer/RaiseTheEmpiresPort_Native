@@ -88,7 +88,8 @@ OPTIONS=(
 "windows" "use wine64 to cross compile to windows"
 "termux" "Compiles for Android termux so it can be run on that platform"
 "gnulinux" "compiles to standard gnuLinux Format "
-"appleiOS" "compiles to iSH iOS runtime (i686) ")
+"appleiOS" "compiles to iSH iOS runtime (i686) "
+"macOS" "compiles to macOS powered by homebrew ")
 
 instTarget=$(dialog --clear \
                 --backtitle "$BACKTITLE" \

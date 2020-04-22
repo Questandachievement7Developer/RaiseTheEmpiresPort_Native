@@ -7,11 +7,11 @@ fi
 if [ -z ${currentexecfile} ] ;then
 export currentexecfile=${0}
 fi
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ##############################
 # Install dependencies
-su -c "installRuntime=$(apt-get install python python-setuptools wget proot busybox tar sed -y; pacman -S python python-setuptools wget busybox tar sed)" ; echo "${installRuntime}"
+su -c "installRuntime=$(brew install python3 python3-setuptools wget gnu-tar gnu-sed -y)" ; echo "${installRuntime}"
 ##############################
-
 
 
 
