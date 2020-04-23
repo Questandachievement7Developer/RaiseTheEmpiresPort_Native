@@ -108,7 +108,7 @@ for a in ${1}; do
 done
 
 }
-
+if [ $(whoami) != "root" ]; then echo Please run this as root; exit; fi
 ##############################
 # Install dependencies
 pkginstall "python python-setuptools wget proot busybox tar sed python3 python3-setuptools pip"

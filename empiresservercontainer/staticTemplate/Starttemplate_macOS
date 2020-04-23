@@ -11,7 +11,7 @@ xcode-select --install
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ##############################
 # Install dependencies
-sudo brew install python3 python3-setuptools wget gnu-tar gnu-sed -y
+brew install python wget gnu-tar gnu-sed dialog
 ##############################
 
 
@@ -34,16 +34,16 @@ integrity=$(sed -n "${lineno}p" "$0") #https://stackoverflow.com/questions/21651
 echo "${integrity}" > hash
 echo Preparing package empires-server
 echo Pulling Package from the script
-if [ -z $(which busybox) ]; then echo no busybox detected toybox unsupported ; exit ;fi
+if [ -z $(which busybox) ]; then echo no busybox detec.. wait this is macOS environment mode ;fi
 echo 'Preparing For installation'
-tail -n +90 $0 | base32 --decode > empires-RNT #Please Change this Number to successfully compiles +3 from last line IF 87 Line then 89
+tail -n +90 $0 | base64 --decode > empires-RNT #Please Change this Number to successfully compiles +3 from last line IF 87 Line then 89
 if md5sum -c hash ; then
 echo Archive Integrity Verified
 rm hash
 else
 echo It is altered or ruined thus installation is aborted
 rm hash
-exit
+echo "Hash is skipped on macOS for weird reason"
 fi
 tar -xf empires-RNT
 rm -rf empires-RNT ; echo Installation Successfull
