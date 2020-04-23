@@ -11,7 +11,7 @@ xcode-select --install
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ##############################
 # Install dependencies
-brew install python wget gnu-tar gnu-sed dialog
+brew install python wget gnu-tar subversion gnu-sed dialog
 ##############################
 
 

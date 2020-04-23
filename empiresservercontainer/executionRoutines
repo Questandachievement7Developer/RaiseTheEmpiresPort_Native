@@ -21,6 +21,47 @@ gray(){
 printf '\e[38;5;037m' > /dev/tty
 }
 
+function gamecontentUpdate(){
+export contentlifecyclegauge="${origindir}/contentlifecycle"
+export contentUptLog=${origindir}/contentUpdateSync.log
+function updated(){
+export tmpProcessDir=${origindir}/tmp
+export patchtarget=${origindir}/._MEI202028
+if [ ! -d ${tmpProcessDir} ]; then
+rm -rf ${tmpProcessDir}
+mkdir ${tmpProcessDir}
+fi
+cd ${tmpProcessDir}
+echo "Updating Game"
+svn checkout https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/trunk/empiresservercontainer/raisetheempiresMod-dev
+git clone https://github.com/AcidCaos/raisetheempires raisetheempires-dev
+mkdir fusionServer
+echo "Fusion Server!"
+cp -rv raisetheempires-dev fusionServer
+cp -rvua raisetheempiresMod-dev fusionServer
+echo "Patching runtime!"
+cp -rvua fusionServer/* ${patchtarget}
+cd ${origindir}
+echo "Cleaning Directory"
+rm -rfv ${tmpProcessDir}
+}
+
+if [ ! -f ${contentlifecyclegauge} ]; then
+echo 0 > ${contentlifecyclegauge}
+fi
+
+if [ -f ${contentlifecyclegauge} ] && [ $(cat ${contentlifecyclegauge}) -gt 10 ]; then
+echo 0 > ${contentlifecyclegauge}
+updated >> ${contentUptLog} 2>&1 &
+registerPID updatedaemon
+else
+lifecycleFullLine=$(cat ${contentlifecyclegauge})
+lifecycle=${lifecycleFullLine} # basically instructs it to only read first line because without ""
+lifecycle=$(( ${lifecycle} + 1 ))
+echo ${lifecycle} > ${contentlifecyclegauge}
+fi
+
+}
 
 function procManager(){
 export procdir=${origindir}/proc

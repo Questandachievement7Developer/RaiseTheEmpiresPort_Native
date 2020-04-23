@@ -56,6 +56,7 @@ git add -v .
 git commit -m "QuestandachievementBuild $(cat ${origindir}/buildnumber)_AcidCaos src ver ${updateVer}_Transmission $(date)"
 git remote add origin https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native.git
 git push --force
+exit
 }
 
 reposync_mainBranch(){

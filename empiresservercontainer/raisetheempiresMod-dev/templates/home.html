@@ -8,14 +8,13 @@
 		<img class="mtl img" src="layouts/loading.gif" alt="" width="32" height="32"/>
 	</center>
 </div>
-
 <head>
 	<title id="pageTitle">Empires &amp; Allies on Facebook | Facebook</title>
-	<link rel="icon" type="image/png" href="layouts/icon.png"/>
+	<link rel="shortcut icon" href="layouts/icon.png"/>
 	<meta charset="utf-8"/>
     <link rel="stylesheet" href="layouts/yc_r.css"/>
-<script>
-	function getUserInfo() {
+	<script>
+		function getUserInfo() {
 	    console.log("getUserInfo called")
 	    return {'zid': {{ zid | default(-1000) }}, 'uid': {{ zid | default(-1000) }}, 'first_name': 'Natalie', 'name':'Natalie', "sex":'F', 'pic_square': '{{ picture }}'};
 	}
@@ -29,210 +28,60 @@
 		return {{ app_friends | safe | default([]) }};
 	}
 
-	function onGameLoaded(seen, popp, canvas) {
-		console.log("Game is loaded " +seen +", " + popp + ", " + canvas)
-		return
-	}
-	function openInAppPurchaseAPI(gid, snid, snuid,cid,a,b,c) {
-		console.log("Purchase " +gid +", " + snid + ", " + snuid+ ", " + cid+ ", " + a+ ", " + b+ ", " + c)
-		return
-	}
+		function onGameLoaded(seen, popp, canvas) {
+			console.log("Game is loaded " +seen +", " + popp + ", " + canvas)
+			return
+		}
+		function openInAppPurchaseAPI(gid, snid, snuid,cid,a,b,c) {
+			console.log("Purchase " +gid +", " + snid + ", " + snuid+ ", " + cid+ ", " + a+ ", " + b+ ", " + c)
+			return
+		}
 
-	function hasPermission(perm, snuid,name) {
-		console.log("Perm " +perm +", "  +snuid+ ", " + name)
-        return
-    }
+		function hasPermission(perm, snuid,name) {
+			console.log("Perm " +perm +", "  +snuid+ ", " + name)
+			return
+		}
+		function showPermissions(d) {
+			console.log("Show Perm " +d)
+			return
+		}
 
-    function showPermissions(d) {
-        console.log("Show Perm " + d)
-        return
-    }
 
-
-    zynga = {
-	    "ads": {
-            "WatchToEarn": {
-                "service": {
-                    "available": function () {
-                        console.log("W2E avail");
-          				return false;
-                    },
-					"initializeFlash": function(oid, a,b,c) {
-						console.log("initF " +oid +", " + a+ ", " + b+ ", " + c);
-						return false;
-					}
+        zynga = {
+		    "ads": {
+                "WatchToEarn": {
+                    "service": {
+                        "available": function () {
+                            console.log("W2E avail");
+              				return false;
+                        },
+						"initializeFlash": function(oid, a,b,c) {
+							console.log("initF " +oid +", " + a+ ", " + b+ ", " + c);
+							return false;
+						}
+                    }
                 }
             }
-        }
-	}
-
-	statTracker = {
-	    "logWorldObjectCount":function () {
-                        console.log("World Count");
-          				return;
-                    }
-	}
-
-</script>
-
-<!-- debug websocket connection -->
-
-<script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
-		integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
-<script type="text/javascript" charset="utf-8">
-    var socket = io();
-    socket.on('connect', function () {
-        socket.emit('my event', {data: 'I\'m connected!'});
-
-        $('#delete_save').click(function(event) {
-			console.log('deleting save');
-			// event.preventDefault();
-
-			socket.emit('delete_save', "Deleting save game");
-
-			console.log('deleting cookie');
-			// $.cookie("session", null, { path: '/' });
-			// $.removeCookie('the_cookie', { path: '/' });
-
-		});
-
-    });
-    socket.on('tutorial_step', function (msg) {
-        console.log(msg);
-        // $('#tutorial_step').prepend('<div>' + JSON.stringify(msg) + '</div>');
-        $('#tutorial_step').prepend('<div><span class="req'+msg[6] + ' ' + (parseInt(msg[6].substring(1)) % 2 == 0 ? 'req_even' : 'req_odd' ) + '">' + msg[5] + ': </span><span class="tooltiplink">' + msg[0] + '<span class="tooltip">' + JSON.stringify(msg[3], null, 4).replace(/\n/g, "<br>").replace(/[ ]/g, "&nbsp;") + '</span></span>'
-            + (msg[1] || msg[2] ? ' &rarr; ' : '') + (msg[1] ? '<span class="tooltiplink response">' + JSON.stringify(msg[1]) + '<span class="tooltip">' + JSON.stringify(msg[4], null, 4).replace(/\n/g, "<br>").replace(/[ ]/g, "&nbsp;") + '</span></span>' : '') +
-            (msg[1] && msg[2] ? ', ' : '') + (msg[2] ? JSON.stringify(msg[2]) : '') + '</div>');
-        $('#tutorial_step').scrollTop(0)
-    });
-
-    socket.on('world_log', function (msg) {
-        console.log(msg);
-        $('#world_log').prepend('<div><span class="req'+msg[4] + ' ' + (parseInt(msg[4].substring(1)) % 2 == 0 ? 'req_even' : 'req_odd' ) + '">' + msg[3] + ': </span><span class="tooltiplink">' + msg[0] + '<span class="tooltip">' + JSON.stringify(msg[2], null, 4).replace(/\n/g, "<br>").replace(/[ ]/g, "&nbsp;") +
-			'</span></span>' + (msg[1] || msg[1] == 0 ? ' &rarr; <span class="tooltiplink response">' + msg[1] + '<span class="tooltip">' + JSON.stringify(msg[8], null, 4).replace(/\n/g, "<br>").replace(/[ ]/g, "&nbsp;") + '</span></span>' + (msg[5] ? ', <span class="tooltiplink response">' + JSON.stringify(msg[5]) + '<span class="tooltip">'+ JSON.stringify(msg[7], null, 4).replace(/\n/g, "<br>").replace(/[ ]/g, "&nbsp;") + '</span></span>' : '') + (msg[6] ? ', ' + JSON.stringify(msg[6]) :'')  : '') + '</div>');
-        $('#world_log').scrollTop(0)
-    });
-     socket.on('other_log', function (msg) {
-        console.log(msg);
-        $('#other_log').prepend('<div><span class="req'+ msg[4] + ' ' + (parseInt(msg[4].substring(1)) % 2 == 0 ? 'req_even' : 'req_odd' ) + '">' + msg[3] + ': </span><span class="tooltiplink">' + msg[0] + '<span class="tooltip">' + JSON.stringify(msg[2], null, 4).replace(/\n/g, "<br>").replace(/[ ]/g, "&nbsp;") +
-			'</span></span>' + (msg[1] ? ' &rarr; <span class="tooltiplink response">response<span class="tooltip">' + JSON.stringify(msg[1], null, 4).replace(/\n/g, "<br>").replace(/[ ]/g, "&nbsp;") + '</span></span>' : '')
-			+ '</div>');
-        $('#other_log').scrollTop(0)
-    });
-
-  	socket.on('battle_log', function (msg) {
-        console.log(msg);
-        $('#world_log').prepend('<div>' + msg + '</div>');
-        $('#world_log').scrollTop(0)
-    });
-
-  	function cookieCrumble(sessionId) {
-        console.log("session " + sessionId);
-        console.log(sessionId.replace(":", "=")+"; max-age="+(60*60*24*365*2));
-        document.cookie=sessionId.replace(":", "=")+"; max-age="+(60*60*24*365*2);
-        location.reload();
-    }
-
-  	function eatCookie() {
-        document.cookie= "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-		console.log("session cookie eaten");
-        location.reload();
-    }
-
-</script>
-<style>
-		.logbox {
-			/*max-width: 450px;*/
-			/*min-width: 325px;*/
-			width: 450px;
-			height: 200px;
-			vertical-align: top;
-			overflow-y: scroll;
-			z-index: 5;
-			display: inline-block;
 		}
 
-		.tooltiplink {
-			color: olive;
-			position: relative;
-			display: inline-block;
+		statTracker = {
+		    "logWorldObjectCount":function () {
+                            console.log("World Count");
+              				return;
+                        }
 		}
+	</script>
 
-		.tooltiplink.response {
-			color: cadetblue;
+	<style>
+		body:focus-within {
+			overflow: hidden;
+			padding-right: 17px;
 		}
-
-		.req_odd {
-			color: crimson;
-		}
-
-		.tooltiplink .tooltip {
-			/* width: 120px; */
-			background-color: black;
-			color: #fff;
-			/* text-align: center; */
-			/* padding: 5px 0; */
-			padding: 0px 0px 2px 2px;
-			/* border-radius: 6px; */
-
-			/* Position the tooltip text - see examples below! */
-			/*position: absolute;*/
-			position: fixed;
-			display: none;
-
-			/*z-index: 1;*/
-			z-index: 2000;
-			vertical-align: top;
-			/* 			bottom: 100%;
-                      left: 50%; */
-
-			/* margin-left: -60px; */
-			/* Use half of the width (120/2 = 60), to center the tooltip */
-		}
-
-		.tooltiplink:hover .tooltip {
-			/* z-index: 5; */
-			display: inline;
-			top: 0;
-			left: 118px;
-
-		}
-
-		.tooltiplink:hover {
-			position: relative;
-		}
-
-		.tooltiplink .tooltip::after {
-			content: " ";
-			/*position: absolute;*/
-			position: fixed;
-
-			top: 100%;
-			/* At the bottom of the tooltip */
-			left: 50%;
-			margin-left: -5px;
-			border-width: 5px;
-			border-style: solid;
-			border-color: black transparent transparent transparent;
-		}
-
-	body:focus-within {
-		overflow: hidden;
-		padding-right: 17px;
-		/*position: fixed;*/
-		/*z-index: 3;*/
-	 	/*height: 100%;*/
-	}
-
-/*body::-webkit-scrollbar{ width: 0}*/
 	</style>
+
 </head>
 
 <body class="ego_wide canvas center_fixed_width_app fbx UIPage_LoggedOut liquid hideBanner Locale_en_US">
-
-	<!-- TOP BANNER -->
-
 	<div class="-cx-PRIVATE-fbLayout__root">
 	  	<div id="pagelet_bluebar" data-referrer="pagelet_bluebar">
 	  		<div id="blueBarHolder">
@@ -244,29 +93,8 @@
 	  								<i class="fb_logo img sp_e2gpgs sx_584554">
 	  									<u>Facebook logo</u>
 	  								</i>
-								</a>
-								<ul class="userMenu rfloat">
-									<li>
-										<b>{% for dropdown_item in dropdown_items %}{% if dropdown_item["uid"] == zid | int %}
-												{{dropdown_item["world_name"]}} Level {{dropdown_item["level"]}} xp {{dropdown_item["xp"]}}
-											{% endif %}{% endfor %}</b>
-										<ul class="dropdownUser">
-											<li><a href="#" onclick="eatCookie(); return false">New</a><li>
-											<li><a href="#" onclick="return false">Change ore</a>
-												<ul class="third-level-menu">
-													<li><a href="/patch/user_object/userInfo/player/playerResourceType/int/3"><img src="layouts/Aluminum_60.png"></a></li>
-													<li><a href="/patch/user_object/userInfo/player/playerResourceType/int/4"><img src="layouts/Copper_60.png"></a></li>
-													<li><a href="/patch/user_object/userInfo/player/playerResourceType/int/5"><img src="layouts/Gold_60.png"></a></li>
-													<li><a href="/patch/user_object/userInfo/player/playerResourceType/int/6"><img src="layouts/Iron_60.png"></a></li>
-													<li><a href="/patch/user_object/userInfo/player/playerResourceType/int/7"><img src="layouts/Uranium_60.png"></a></li>
-												</ul></li>
-											 {% for dropdown_item in dropdown_items %}{% if dropdown_item["uid"] != zid | int %}
-											<li><a href="#" onclick="cookieCrumble(&quot;{{dropdown_item['session_id']}}&quot;); return false">{{dropdown_item["world_name"]}} Level {{dropdown_item["level"]}} xp {{dropdown_item["xp"]}}</a></li>
-											 {% endif %}{% endfor %}
-										</ul>
-									</li>
-								</ul>
-							</div>
+	  							</a>
+	  						</div>
 	  					</div>
 	  				<div class="signupBanner">
 	  					<div class="signup_bar_container">
@@ -278,9 +106,6 @@
 	  		</div>
 		</div>
 	</div>
-
-	<!-- PAGE BODY -->
-
 	<div id="globalContainer" class="uiContextualLayerParent">
 		<div id="content" class="fb_content clearfix">
 			<div>
@@ -322,7 +147,6 @@
 								</div>
 							</div>
 						</div>
-
 						<div id="contentArea" role="main" aria-describedby="pageTitle">
 							<div class="uiInterstitial canvas_error_page " title="" style="margin-bottom: 20px">
 								
@@ -333,20 +157,12 @@
 
 
 										<div class="rfloat">
-											<a class="uiButton uiButtonConfirm" href="nodebug.html" role="button" name="try_again_button">
-												<span class="uiButtonText">No debug version</span>
-											</a>
 											
-											<a class="inputaux uiButton" href="wipe_session" role="button" name="exit_button">
-												<span class="uiButtonText">Delete save game</span>
-											</a>
+											<a class="inputaux uiButton" href="home.html" role="button" name="exit_button">
+												<span class="uiButtonText">Debug version</span>
 
-											<a class="inputaux uiButton" href="save-editor" role="button" name="exit_button">
-												<span class="uiButtonText">Edit save game</span>
-											</a>
-
-											<!-- <a class="inputaux uiButton" href="https://empiresandallies.fandom.com/wiki/Empires_%26_Allies_Wiki/Main_2" role="button" name="exit_button" target="_blank">
-												<span class="uiButtonText">E&amp;A Wiki</span> -->
+											<a class="inputaux uiButton" href="https://empiresandallies.fandom.com/wiki/Empires_%26_Allies_Wiki/Main_2" role="button" name="exit_button" target="_blank">
+												<span class="uiButtonText">E&amp;A Wiki</span>
 											</a>
 										</div>
 										<div class="pts">
@@ -354,69 +170,11 @@
 									</div>
 								</div>
 							</div>
-
-							<style>
-								.zBar {
-									text-align: left; 
-									border: solid 1px; 
-									border-color: #DCDCDC; 
-									width:1000px; 
-									height:105px; 
-									border-radius:15px; 
-									margin-bottom: 15px; 
-									padding: 0px 10px 0px 10px; 
-									background-color:#F8F8FB; 
-									background-image: url('layouts/remake.png');
-									background-repeat: no-repeat; 
-									background-size: contain;
-								}
-
-								.zBarButtons {
-									display: inline-block;
-									border: solid 1px;
-									border-color: #DCDCDC;
-									width:50px; 
-									height:50px; 
-									border-radius:5px;
-									background-repeat: no-repeat; 
-									background-size: contain;
-									cursor: pointer;
-								}
-
-								.zBarButtons:hover {
-									border-color: #FAFAFA;
-								}
-
-							</style>
-							<center><div class="zBar" id="zBar">
-								<div style="display: inline-block; float: left; width: 315px; height:105px;"><!-- Used for background--></div>
-								<div style="float: left; height:97px; padding: 4px;">
-									<!-- zbar column 1 content here-->
-									
-									<a title="Empires & Allies Wiki" href="https://empiresandallies.fandom.com/wiki/Empires_%26_Allies_Wiki/Main_2" target="_blank"><div class="zBarButtons" id="zBarButtons" style="background-image: url('layouts/fandom.png');"></div></a>
-
-									<a title="Discord group" href="https://discord.gg/xrNE6Hg" target="_blank"><div class="zBarButtons" id="zBarButtons" style="background-image: url('layouts/discord.png');"></div></a>
-
-									<a title="Github repository" href="https://github.com/AcidCaos/empires-and-allies" target="_blank"><div class="zBarButtons" id="zBarButtons" style="background-image: url('layouts/github.png');"></div></a>
-
-								</div>
-
-								<div style="float: right; height:97px; padding: 4px;">
-									<!-- zbar column 3 content here-->
-									<img src="layouts/RewardVilleLogo.png" style="vertical-align: bottom; display: inline; margin-top: 53px;">
-									
-								</div>
-								<div style="float: right; height:97px; padding: 4px; display: flex;">
-									<!-- zbar column 2 content here-->
-									<img src="layouts/Zcoins.png" style="align-self:flex-end">							
-								</div>
-
-							</div></center>
-
-							<center><div style="text-align: center; width:1010px;">
-								<div class="gameButtons" id="gameButtons" style=" margin-bottom:4px; margin-left: 5px; text-align: left; /*border: solid 1px*/; height:20px; padding-top: 4px;">
+							<center>
+								<div style="text-align: center; width:1010px;">
+								<div class="gameButtons" id="gameButtons" style=" margin-bottom:4px; margin-left: 5px; text-align: left;">
 									<style>
-										#gameButtons a.unsel {
+										#gameButtons a{
 											color: #000;
 											background-color:#FFFAF0;
 											font: 12px Arial;
@@ -430,86 +188,49 @@
 											border-radius: 15px;
 											margin-left: 3px;
 										}
-
-										#gameButtons a.selec {
-											color: #000;
+										#gameButtons a.selec{
+											
 											background-color:#FFA500;
-											font: 12px Arial;
-											border: solid 1.2px;
-											text-decoration: none;
-											display:inline;
-											padding: 4px;
-											padding-left: 8px;
-											padding-right: 8px;
-											border-color: #DEB887;
-											border-radius: 15px;
-											margin-left: 3px;
 											box-shadow: inset 0px 3px 4px -1px #ffffff;
+											
 										}
-
-										#gameButtons a.unsel:hover {
-											background-color:#FFFEFB;
-											border: solid 1.2px;
-											border-color: #DEB887;
-										}
-
-										#gameButtons a.selec:hover {
-											background-color:#FFB711;
-											box-shadow: inset 0px 3px 3px -1px #ffDA11;
-										}
-
+										
 									</style>
-									<a href="#" class="unsel">Free Gifts</a>
+									<a href="#">Free Gifts</a>
 									<a href="#" class="selec">Play</a>
-									<a href="#" class="unsel">My Neighbors</a>
-									<a href="#" class="unsel">Invite Friends</a>
-									<a title="Check the Empires & Allies Wiki" href="https://empiresandallies.fandom.com/wiki/Empires_%26_Allies_Wiki/Main_2" class="unsel">Help</a>
-									<a title="Adds 10k Empire Points" href="/gazillionaire" class="unsel">Get Empire Points</a>
-									<a href="#" class="unsel">Earn Empire Points</a>
-									<a href="#" class="unsel">GameCards</a>
-
-									<a href="#" style="display:inline; float:right; padding-top: 0px;"><img src="layouts/globe.png" style="height:25px"></a>
-
+									<a href="#">My Meighbors</a>
+									<a href="#">Invite Friends</a>
+									<a href="#">Help</a>
+									<a href="/gazillionaire">Get Empire Points</a>
+									<a href="#">Earn Empire Points</a>
+									<a href="#">GameCards</a>
 								</div>
 								
 								<div style="margin:10px">
 								</div>
 								<object codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" WIDTH="1000" HEIGHT="750" id="ea" ALIGN="">
 									<param NAME=movie VALUE="/files/empire-s.assets.zgncdn.com/assets/109338/ZGame.109338.swf">
-									<param name=FlashVars value="serverTime={{ time | default(1308211688) }}&is_staging=true&debugMode=true&generateSchema=1&sn_app_url=&stats=1">  <!--serverTime=1565300889& mute=true& &zlingshot_zoom= skipFacebook=false&decouple_from_facebook=false&decoupled_facebook_id=5452 -->
+									<param name=FlashVars value="serverTime={{ time | default(1308211688) }}&sn_app_url=&stats=1">  <!--mute=true& &zlingshot_zoom= skipFacebook=false&decouple_from_facebook=false&decoupled_facebook_id=5452 -->
 									<param NAME=quality VALUE=high>
 									<param NAME=bgcolor VALUE=#333399>
 					                <param name="allowFullScreen" value="true" />
-									<embed src="/files/empire-s.assets.zgncdn.com/assets/109338/ZGame.109338.swf" allowFullScreen="true" FlashVars="serverTime={{ time | default(1308211688) }}&is_staging=true&debugMode=true&generateSchema=1&sn_app_url=&stats=1" quality=high bgcolor=#333399 WIDTH="1000" HEIGHT="750" NAME="ea" ALIGN="" TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">
+									<embed src="/files/empire-s.assets.zgncdn.com/assets/109338/ZGame.109338.swf" allowFullScreen="true" FlashVars="serverTime={{ time | default(1308211688) }}&sn_app_url=&stats=1" quality=high bgcolor=#333399 WIDTH="1000" HEIGHT="750" NAME="ea" ALIGN="" TYPE="application/x-shockwave-flash" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer">
 									</embed>
 								</object>
 
-								<!-- Debug table removed from here: caused some div-float problems -->
 
-							</div></center>
-						</div>
-
-						<div style="margin: 30px"></div>
-						<div class="uiInterstitialBar uiBoxGray topborder">
-							<div class="clearfix">
-								<center><table style="border: 1px solid #3b5998; border-radius: 5px;">
+								<table>
 									<tr>
 										<td><div class="logbox" id="tutorial_step">&nbsp;</div></td>
 										<td><div class="logbox" id="world_log">&nbsp;</div></td>
 										<td><div class="logbox" id="other_log">&nbsp;</div></td>
 									</tr>
-								</table></center>
-								<center>
-									<p style="color: #666699;"> <br>
-									The Raise the Empires team. Empires &amp; Allies {{ version | default("")}}
-									</p>
-								</center>
-							</div>
+								</table>
+							</center>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</body>
-</html>
+</div>

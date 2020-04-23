@@ -9,7 +9,7 @@ export currentexecfile=${0}
 fi
 ##############################
 # Install dependencies
-pkg install python python-setuptools wget proot busybox tar sed -y
+pkg install python python-setuptools wget proot busybox subversion tar sed -y
 ##############################
 
 
