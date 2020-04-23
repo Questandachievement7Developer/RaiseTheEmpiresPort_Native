@@ -41,6 +41,7 @@ if [ -z ${compilealltrigger} ]; then
 
 OPTIONS=(
 "repoSync" "Download and sync all repo Its a must when you are first time downloading the compiler and then proceed compile"
+"localPushRemote" "Push local compiler update to the remote git"
 "Compile" "skip the repo sync"
 "compileall" "skip the reposync and compile all platforms only for termux macOS gnulinux")
 
@@ -55,6 +56,10 @@ ACTION=$(dialog --clear \
                 2>&1 >/dev/tty)
 if [ ${ACTION} == 'repoSync' ]; then
 reposync_mainBranch
+fi
+
+if [ ${ACTION} == 'localPushRemote' ]; then
+repopush_mainBranch
 fi
 
 if [ ${ACTION} == "compileall" ]; then

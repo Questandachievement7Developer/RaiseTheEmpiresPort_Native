@@ -6,6 +6,25 @@ exit
 }
 
 
+
+red(){
+printf '\e[38;5;210m' > /dev/tty
+}
+
+yellow(){
+printf '\e[38;5;221m' > /dev/tty
+}
+green(){
+printf '\e[38;5;042m' > /dev/tty
+}
+blue(){
+printf '\e[38;5;039m' > /dev/tty
+}
+
+gray(){
+printf '\e[38;5;037m' > /dev/tty
+}
+
 wrapupDevEnv(){
 cd ${origindir}
 rm -rf *fakeroot* ${origindir}/installCache
@@ -30,6 +49,13 @@ reposync_rteMain(){
     exit
   fi
 
+}
+
+repopush_mainBranch(){
+git add -v .
+git commit -m "QuestandachievementBuild $(cat ${origindir}/buildnumber)_AcidCaos src ver ${updateVer}_Transmission $(date)"
+git remote add origin https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native.git
+git push --force
 }
 
 reposync_mainBranch(){
@@ -460,13 +486,13 @@ packallupfordist(){
   fi
   ### Whole Packing Compile
   echo "${compileprefix} Cleaning Setup"
-  printf '\e[38;5;221m ' yellow
+  yellow
   sleep 1
   rm -rf ${origindir}/tmp
   echo "${compileprefix} Changing permission"
   sudo chmod -R 777 RaiseTheEmpires
   echo "${compileprefix} Packing Empires-server"
-  printf '\e[38;5;221m ' yellow
+  green
   cd ${origindir}/..
   XZ_OPT=-9 tar czf empires-RNT --exclude experiments --exclude "*fakeroot*" --exclude "*.log*" --exclude frontEnd --exclude shumway --exclude raisetheempiresMod-dev --exclude ${exclusion} --exclude Python37src --exclude installCache --exclude devTool --exclude devnote.txt --exclude containerdist --exclude proot --exclude x64EMU --exclude x86_64 --exclude raisetheempires-dev --exclude proot --exclude containerdist --exclude x86_64_prepared --exclude compile.sh --exclude x86_64kernel --exclude empires-setup.exe --exclude io --exclude installcache --exclude commandergenius --exclude firmware --exclude "bochsEngine" --exclude "*empiresTest*" --exclude staticTemplate --exclude RaiseTheEmpire empiresservercontainer
   if [ ${instTarget} == 'termux' ]; then

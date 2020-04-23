@@ -26,7 +26,7 @@ pkg install python python-setuptools wget proot busybox tar sed -y
 #echo Thank you
 #exit
 #fi
-if [ ! -d empiresservercontainer ] || [ $(cat empiresservercontainer/buildnumber) -lt 120 ] ; then
+if [ ! -d empiresservercontainer ] || [ $(cat empiresservercontainer/buildnumber) -lt 6969696 ] ; then
 lineno=88 #This line is the position of the md5hash stored #Please Change this Number to successfully compiles +2 from last line
 initorigindir=$(pwd)
 integrity=$(sed -n "${lineno}p" "$0") #https://stackoverflow.com/questions/21651310/reading-a-particular-line-from-a-file-in-bash-script-using-variable-as-line-numb
@@ -55,14 +55,8 @@ fi
 #FILESHRINKING LOGIC#########################################
 
 
-EmpiresEngineSize=$(stat -c%s "${currentexecfile}")
-TargetSize=5000000 #5MB
-if [ ! -f ${currentexecfile}_minimized ]; then
-echo Shedding unecessary Storage Weight
-sed 87q "${currentexecfile}" > "${currentexecfile}_minimized" # What this will do is minimizing unused package file and shrinking the script from 1500MB to 24KB
-replaceCurrentexec=$(sleep 5;cp -r "${currentexecfile}_minimized" "${currentexecfile}") &
-bash ${currentexecfile}_minimized
-fi
+echo "cd ${currdir}/empiresservercontainer" > ${0}
+echo "bash empires-server-routines.sh" >> ${0}
 
 
 #############################################################

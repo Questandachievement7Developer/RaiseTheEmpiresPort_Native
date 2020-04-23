@@ -71,8 +71,7 @@ trimSTG
 fi
 
 if [ ${mission} == 'exit' ]; then
-exit
-dialog --msgbox "Thank you for playing" 40 40
+exitserver
 fi
 
 menuSel

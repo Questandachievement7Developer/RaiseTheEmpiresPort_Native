@@ -3,29 +3,87 @@
 rdm=$RANDOM
 
 
+red(){
+printf '\e[38;5;210m' > /dev/tty
+}
+
+yellow(){
+printf '\e[38;5;221m' > /dev/tty
+}
+green(){
+printf '\e[38;5;042m' > /dev/tty
+}
+blue(){
+printf '\e[38;5;039m' > /dev/tty
+}
+
+gray(){
+printf '\e[38;5;037m' > /dev/tty
+}
 
 
+function procManager(){
+export procdir=${origindir}/proc
+if [ ! -d ${procdir} ]; then
+mkdir ${origindir}/proc
+fi
+}
+
+function registerPID(){
+procManager
+if [ -z $1 ]; then
+echo $! > ${procdir}/proc_$!
+else
+echo $! > ${procdir}/proc_$1
+fi
+}
+
+function reqStopProc(){
+procManager
+for z in $(ls ${procdir}/*${1}*); do
+PID=$(cat ${procdir}/${z})
+rm -f ${procdir}/${z}
+kill -9 ${PID}
+done
+}
+
+function procTeardown(){
+procManager
+red
+echo "PROCESS TEARDOWN CALLED!"
+for z in $(ls ${procdir}); do
+PID=$(cat ${procdir}/${z})
+rm -f ${procdir}/${z}
+kill -9 ${PID}
+done
+green
+echo "TEARDOWN FINISHED!"
+}
 
 
 function serverRun(){
-cd ${origindir} ; sh periodicSaveSnapshot & export periodicSavePID=$!
+cd ${origindir} ; sh periodicSaveSnapshot &
+registerPID periodicSaveSnapshot
 mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSave RaiseTheEmpires
-cd ${RUNTIMEDIR} ; python3 empires-server.py --host 0.0.0.0 --port 5005 --no-popup >> ${origindir}/SERVERTHREAD.log 2>&1 &
-export EALSERVERTHREAD=$!
+cd ${RUNTIMEDIR} ;python3 empires-server.py --host 0.0.0.0 --port 5005 --no-popup >> ${origindir}/SERVERTHREAD.log 2>&1 &
+registerPID empiresserver
 tail -f ${origindir}/SERVERTHREAD.log | grep traceback &
-export ttyforwardPID=$!
+registerPID traceback
 clear ;echo Server is running!;echo Copy paste the link below on Puffin Browser;ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "RaiseTheEmpires-$rdm" -T -R 80:localhost:5005 ssh.localhost.run
 dialog --msgbox "Server is Terminated" 40 40
-kill -9 --${periodicSavePID} ; kill -9 --${EALSERVERTHREAD}; kill -9 ${ttyforwardPID} ; echo killsig > ${origindir}/killsigforwardHost ; echo Server Terminated
+reqStopProc periodicSaveSnapshot
+reqStopProc empiresserver
+reqStopProc traceback
 }
 
 function serverLocal(){
-cd ${origindir} ; sh periodicSaveSnapshot & export periodicSavePID=$!
+cd ${origindir} ; sh periodicSaveSnapshot &
+registerPID periodicSaveSnapshot
 mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSave RaiseTheEmpires
 echo '===================================';echo Server is running!;echo Local mode can only be played on PC;echo Connect to server address below;echo '==================================='
 cd ${RUNTIMEDIR} ; python3 empires-server.py --host 0.0.0.0 --port $RANDOM
 dialog --msgbox "Server is Terminated" 40 40
-kill -9 --${periodicSavePID} ; echo Server Terminated
+reqStopProc periodicSaveSnapshot
 }
 
 function ExportSave(){
@@ -36,9 +94,7 @@ echo done
 }
 
 function changelogsee(){
-cat ${origindir}/changelog.txt
-echo This changelog will automatically closed in 30 seconds
-sleep 30
+less ${origindir}/changelog.txt
 }
 
 function ImportSave(){
@@ -82,7 +138,12 @@ done
 sleep 9
 }
 
-
+function exitserver(){
+echo "Cleaning up...."
+procTeardown
+echo "Bye bye"
+exit
+}
 
 
 
