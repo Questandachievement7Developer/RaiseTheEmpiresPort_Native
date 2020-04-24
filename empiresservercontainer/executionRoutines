@@ -50,7 +50,7 @@ if [ ! -f ${contentlifecyclegauge} ]; then
 echo 0 > ${contentlifecyclegauge}
 fi
 
-if [ -f ${contentlifecyclegauge} ] && [ $(cat ${contentlifecyclegauge}) -gt 10 ]; then
+if [ -f ${contentlifecyclegauge} ] && [ $(cat ${contentlifecyclegauge}) -gt 10 ]; then #deffered update when you run 10x
 echo 0 > ${contentlifecyclegauge}
 updated >> ${contentUptLog} 2>&1 &
 registerPID updatedaemon
