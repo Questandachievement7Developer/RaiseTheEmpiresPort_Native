@@ -31,6 +31,8 @@ TITLE="Empires And Allies Mission Control"
 
 dialog --msgbox "Welcome to empires-server build ${ver}" 40 40
 
+gamecontentUpdate #update game in the background if its needed already 
+
 function menuSel()
 {
 OPTIONS=(
