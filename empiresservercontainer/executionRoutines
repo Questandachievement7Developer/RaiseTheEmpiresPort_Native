@@ -1,7 +1,7 @@
 #!/bin/bash
 
 rdm=$RANDOM
-
+export computername="RTEPlayer"
 
 red(){
 printf '\e[38;5;210m' > /dev/tty
@@ -33,12 +33,15 @@ mkdir ${tmpProcessDir}
 fi
 cd ${tmpProcessDir}
 echo "Updating Game"
+svn checkout https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/trunk/empiresservercontainer/executionRoutines
 svn checkout https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/trunk/empiresservercontainer/raisetheempiresMod-dev
 git clone https://github.com/AcidCaos/raisetheempires raisetheempires-dev
 mkdir fusionServer
 echo "Fusion Server!"
 cp -rv raisetheempires-dev fusionServer
 cp -rvua raisetheempiresMod-dev fusionServer
+echo "Patching Execution Routines"
+cp -rvua executionRoutines ${origindir}
 echo "Patching runtime!"
 cp -rvua fusionServer/* ${patchtarget}
 cd ${origindir}
