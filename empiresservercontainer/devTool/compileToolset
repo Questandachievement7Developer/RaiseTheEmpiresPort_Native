@@ -877,6 +877,27 @@ gray
 rm -rf ${origindir}/tmp_sanitycheck
 }
 
+bulkBuild(){
+  buildNOW(){
+  export packmode=staticbin
+  export Arch=x86_64
+  buildNumberRequest
+  sleep 3
+  compileUniversal
+  assembleServer
+  bindistTrimming
+  packallupfordist
+  echo ${Arch} > ${origindir}/lastCompileArch
+  cleanup
+}
+  yellow
+  echo "${compileprefix} Building ${instTarget}"
+  buildNOW >> ${origindir}/bulkBuild.log
+  green
+  echo "${compileprefix} Building done"
+}
+
+
 buildTHESERVER(){
   export packmode=staticbin
   export Arch=x86_64

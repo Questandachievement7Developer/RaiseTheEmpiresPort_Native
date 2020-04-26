@@ -111,7 +111,7 @@ export compilealltrigger=1
 listofplatform="termux gnulinux macOS"
 for a in ${listofplatform}; do
 export instTarget="${a}"
-compileInitiator
+bulkBuild
 done
 exit
 fi
