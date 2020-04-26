@@ -40,11 +40,17 @@ startupMenu(){
 if [ -z ${compilealltrigger} ]; then
 
 OPTIONS=(
-"repoSync" "Download and sync all repo Its a must when you are first time downloading the compiler and then proceed compile"
-"localPushRemote" "Push local compiler update to the remote git"
+"" '>>>>> Version <<<<<'
+"" "Port_native Build $(cat ${origindir}/buildnumber)"
+"" "Compiler Version $(cd ${origindir}/.. ; git log -1 --format=%cd)"
+"==========" "===================Compile Action=========================="
 "Compile" "skip the repo sync"
 "buildtest" "check current build stability"
-"compileall" "skip the reposync and compile all platforms only for termux macOS gnulinux")
+"compileall" "skip the reposync and compile all platforms only for termux macOS gnulinux"
+"==========" "===================Repo Action============================="
+"repoSync" "Download and sync all repo Its a must when you are first time downloading the compiler and then proceed compile"
+"localPushRemote" "Push local compiler update to the remote git"
+"localegen" "Generate Languages Compilation")
 
 
 
@@ -52,26 +58,52 @@ ACTION=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
                 --title "Select the Action" \
                 --menu "$MENU" \
-                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                27 120 $CHOICE_HEIGHT \
                 "${OPTIONS[@]}" \
                 2>&1 >/dev/tty)
+
+#welp if the devloper is bored and decided to go to this menu instead
+if [ -z ${ACTION} ]; then
+  startupMenu
+  exit
+fi
+if [ ${ACTION} == "==========" ]; then
+startupMenu
+exit
+fi
+
+
 if [ ${ACTION} == 'repoSync' ]; then
 reposync_mainBranch
 startupMenu
+exit
+fi
+
+if [ ${ACTION} == 'localegen' ]; then
+xmlTranslator
+sleep 5
+startupMenu
+exit
 fi
 
 if [ ${ACTION} == 'buildtest' ]; then
+export instTarget="gnulinux"
 sanitybuildcheck
 startupMenu
+exit
 fi
 
 if [ ${ACTION} == 'localPushRemote' ]; then
 repopush_mainBranch
 startupMenu
+exit
 fi
+
+
 
 if [ ${ACTION} == 'Compile' ]; then
 compileInitiator
+exit
 fi
 
 if [ ${ACTION} == "compileall" ]; then
@@ -114,7 +146,6 @@ instTarget=$(dialog --clear \
                 2>&1 >/dev/tty)
 
 fi
-export packmode=staticbin
 
 #if [ ${instTarget} != 'termux' ]; then
 #Architechture Selection
@@ -133,7 +164,7 @@ export packmode=staticbin
 
 
 #else
-export Arch=x86_64
+
 #fi
 #compiles the dependencies and binaries first
 

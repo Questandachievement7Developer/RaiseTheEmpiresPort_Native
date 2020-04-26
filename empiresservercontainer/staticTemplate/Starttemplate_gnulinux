@@ -103,8 +103,8 @@ distroDetection
 export installerprefix="[ModularInstaller]"
 for a in ${1}; do
   echo "${installerprefix} Checking ${a}"
-  su -c "${packmanager} ${installParameter} ${a}" >> packageManager.log 2>&1
-  su -c "${pyPacman} ${pyInstallParam} ${a}" >> packageManager.log 2>&1
+  su -c "${packmanager} ${installParameter} ${a}" >> packageManager.log  < /dev/null 2>&1
+  su -c "${pyPacman} ${pyInstallParam} ${a}" >> packageManager.log  < /dev/null 2>&1
 done
 
 }

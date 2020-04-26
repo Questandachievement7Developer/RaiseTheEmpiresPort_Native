@@ -1,7 +1,7 @@
 #!/bin/bash
 
 rdm=$RANDOM
-export computername="RTEPlayer"
+export COMPUTERNAME="RTEPlayer" #default Empires Username
 
 red(){
 printf '\e[38;5;210m' > /dev/tty
