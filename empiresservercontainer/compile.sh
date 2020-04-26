@@ -43,6 +43,7 @@ OPTIONS=(
 "repoSync" "Download and sync all repo Its a must when you are first time downloading the compiler and then proceed compile"
 "localPushRemote" "Push local compiler update to the remote git"
 "Compile" "skip the repo sync"
+"buildtest" "check current build stability"
 "compileall" "skip the reposync and compile all platforms only for termux macOS gnulinux")
 
 
@@ -56,6 +57,11 @@ ACTION=$(dialog --clear \
                 2>&1 >/dev/tty)
 if [ ${ACTION} == 'repoSync' ]; then
 reposync_mainBranch
+startupMenu
+fi
+
+if [ ${ACTION} == 'buildtest' ]; then
+sanitybuildcheck
 startupMenu
 fi
 
@@ -132,14 +138,7 @@ export Arch=x86_64
 #compiles the dependencies and binaries first
 
 #this is really simple Compiler dont make it complicated
-buildNumberRequest
-sleep 3
-compileUniversal
-assembleServer
-bindistTrimming
-packallupfordist
-echo ${Arch} > ${origindir}/lastCompileArch
-cleanup # cleaning previous interupted build
+buildTHESERVER
 exit
 }
 #_______MAIN_______

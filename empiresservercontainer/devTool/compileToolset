@@ -84,7 +84,8 @@ echo "================================================"
 echo Retrieving new changes from remote
 git fetch
 echo Pushing local changes to the remote
-git push --set-upstream origin master --force
+#git push --set-upstream origin master --force
+git push --set-upstream origin master
 cd ${origindir}
 echo Repo Sync Done
 read -n 1 -s -r -p "Press any key to continue"
@@ -196,8 +197,8 @@ distroDetection
 export installerprefix="[ModularInstaller]"
 for a in ${1}; do
   echo "${installerprefix} Checking ${a}"
-  ${packmanager} ${installParameter} ${a} >> ${origindir}/packageManager.log 2>&1
-  ${pyPacman} ${pyInstallParam} ${a} >> ${origindir}/packageManager.log 2>&1
+  ${packmanager} ${installParameter} ${a} >> ${origindir}/packageManager.log < /dev/null 2>&1
+  ${pyPacman} ${pyInstallParam} ${a} >> ${origindir}/packageManager.log < /dev/null 2>&1
 done
 
 }
@@ -556,4 +557,24 @@ if [ ${packmode} == "fakeroot" ]; then
 echo "${compileprefix} fakeroot mode requested creating .ini files"
 
 fi
+}
+
+sanitybuildcheck(){
+buildTHESERVER
+mkdir ${origindir}/tmp_sanitycheck
+cp ${origindir}/../compiledbin/empires-server-gnuLinux-${buildnum} ${origindir}/tmp_sanitycheck
+cd ${origindir}/tmp_sanitycheck
+./empires-server-gnuLinux-${buildnum}
+rm -rf ${origindir}/tmp_sanitycheck
+}
+
+buildTHESERVER(){
+  buildNumberRequest
+  sleep 3
+  compileUniversal
+  assembleServer
+  bindistTrimming
+  packallupfordist
+  echo ${Arch} > ${origindir}/lastCompileArch
+  cleanup # cleaning previous interupted build
 }
