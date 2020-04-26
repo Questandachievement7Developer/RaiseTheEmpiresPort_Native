@@ -1,14 +1,14 @@
 export origindir=$(pwd)
 export RUNTIMEDIR=${origindir}/._MEI202028
 pkg install python git clang dialog openssh -y
-python -m pip install tendo py3amf flask flask_session flask_sqlalchemy flask_compress flask_socketio daiquiri git+git://github.com/christhechris/libscrc python-editor
+pip3 install tendo py3amf flask flask_session flask_sqlalchemy flask_compress flask_socketio daiquiri git+git://github.com/christhechris/libscrc python-editor
 export RaiseTheEmpiresRNTINI=RaiseTheEmpires/RaiseTheEmpires.ini
 echo "[Info]" > ${RaiseTheEmpiresRNTINI}
 echo "Name=RaiseTheEmpires_GNU_LINUX_EDITION" >> ${RaiseTheEmpiresRNTINI}
 echo "URL=https://github.com/AcidCaos/empires-and-allies" >> ${RaiseTheEmpiresRNTINI}
 echo "Binary=empires-server" >> ${RaiseTheEmpiresRNTINI}
 echo "[InstallFolders]" >> ${RaiseTheEmpiresRNTINI}
-echo "InstallPath=${RUNTIMEDIR}" >> ${RaiseTheEmpiresRNTINI}
+echo "InstallPath=$(pwd)/RaiseTheEmpires" >> ${RaiseTheEmpiresRNTINI}
 echo "MyGamesPath=$(pwd)/RaiseTheEmpires/fileSave" >> ${RaiseTheEmpiresRNTINI}
 echo "[InstallSettings]" >> ${RaiseTheEmpiresRNTINI}
 echo "Arch=$(uname -m)" >> ${RaiseTheEmpiresRNTINI}
@@ -24,7 +24,8 @@ TITLE="Empires And Allies Mission Control"
 
 
 
-
+procTeardown
+#Cleanup Leftover by previous session that caused the port to be binded
 
 
 dialog --msgbox "Welcome to empires-server build ${ver}" 40 40
@@ -36,6 +37,7 @@ function menuSel()
 OPTIONS=(
 "Start" "Start empires-server online"
 "StartLocally" "Connect server to PC locally"
+"exportDiagnostic" "export logs to a link so that the developer can review the problem"
 "changelog" "see the changelog"
 "RestoreSnapshot" "Restore Save File Snapshot"
 "ExportSave" "This will export the save file to your internal storage in RaiseTheEmpires folder"
@@ -55,6 +57,11 @@ mission=$(dialog --clear \
 
 if [ ${mission} == 'changelog' ]; then
 changelogsee
+fi
+
+
+if [ ${mission} == 'exportDiagnostic' ]; then
+sendlogdev
 fi
 
 if [ ${mission} == 'Start' ]; then

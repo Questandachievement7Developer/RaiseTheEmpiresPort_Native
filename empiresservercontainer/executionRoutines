@@ -76,9 +76,9 @@ fi
 function registerPID(){
 procManager
 if [ -z $1 ]; then
-echo $! > ${procdir}/proc_$!
+echo $! >> ${procdir}/proc_$!
 else
-echo $! > ${procdir}/proc_$1
+echo $! >> ${procdir}/proc_$1
 fi
 }
 
@@ -87,7 +87,9 @@ procManager
 for z in $(ls ${procdir}/*${1}*); do
 PID=$(cat ${procdir}/${z})
 rm -f ${procdir}/${z}
-kill -9 ${PID}
+for i in ${PID}; do
+kill -9 ${i}
+done
 done
 }
 
@@ -98,7 +100,9 @@ echo "PROCESS TEARDOWN CALLED!"
 for z in $(ls ${procdir}); do
 PID=$(cat ${procdir}/${z})
 rm -f ${procdir}/${z}
-kill -9 ${PID}
+for i in ${PID}; do
+kill -9 ${i}
+done
 done
 green
 echo "TEARDOWN FINISHED!"
@@ -107,12 +111,12 @@ echo "TEARDOWN FINISHED!"
 
 function serverRun(){
 cd ${origindir}
-sh periodicSaveSnapshot &
+sh periodicSaveSnapshot >> ${origindir}/periodicSaveSnapshotDaemon.log 2>&1  &
 registerPID periodicSaveSnapshot
 mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSave RaiseTheEmpires
 cd ${RUNTIMEDIR} ;python3 empires-server.py --host 0.0.0.0 --port 5005 --no-popup >> ${origindir}/SERVERTHREAD.log 2>&1 &
 registerPID empiresserver
-tail -f ${origindir}/SERVERTHREAD.log | grep traceback &
+$(tail -f ${origindir}/SERVERTHREAD.log | grep traceback) &
 registerPID traceback
 clear ;echo Server is running!;echo Copy paste the link below on Puffin Browser;ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "RaiseTheEmpires-$rdm" -T -R 80:localhost:5005 ssh.localhost.run
 dialog --msgbox "Server is Terminated" 40 40
@@ -122,13 +126,20 @@ reqStopProc traceback
 }
 
 function serverLocal(){
-cd ${origindir} ; sh periodicSaveSnapshot &
+cd ${origindir}
+sh periodicSaveSnapshot >> ${origindir}/periodicSaveSnapshotDaemon.log 2>&1 &
 registerPID periodicSaveSnapshot
 mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSave RaiseTheEmpires
 echo '===================================';echo Server is running!;echo Local mode can only be played on PC;echo Connect to server address below;echo '==================================='
-cd ${RUNTIMEDIR} ; python3 empires-server.py --host 0.0.0.0 --port $RANDOM
+cd ${RUNTIMEDIR}
+dialog --msgbox "To terminate the server you can press any key after this dialog" 40 40
+python3 empires-server.py --host 0.0.0.0 --port 5005 &
+registerPID empiresserver
+sleep 6
+read -n 1 -s -r -p "Press any key to terminate..."
 dialog --msgbox "Server is Terminated" 40 40
 reqStopProc periodicSaveSnapshot
+reqStopProc empiresserver
 }
 
 function ExportSave(){
@@ -193,12 +204,16 @@ exit
 
 
 
+
+
 function snapshotMenu(){
 export snapshotdir=${origindir}/saveSnapshot
 export defaultfilesave=${origindir}/RaiseTheEmpires/fileSave
 #https://stackoverflow.com/questions/3200252/prompt-user-to-select-a-directory-with-a-bash-script-and-read-result
 clear
-ls ${origindir}/saveSnapshot/
+snapshotlist=$( ls ${origindir}/saveSnapshot/ )
+if [ ! -z ${snapshotlist} ]; then
+echo "${snapshotlist}"
 echo '==================================='
 echo 'Please Type the number of the snapshot date below'
 read FolderSelection
@@ -220,5 +235,32 @@ echo Snapshot Found
 echo Restoring Snapshot
 cp -rv ${snapshotdir}/${FolderSelection}/* ${defaultfilesave}
 fi
+else
+echo "No snapshot found"
+sleep 3
+fi
 
+}
+
+sendlogdev(){
+  sendLog() {
+    if [[ $1 ]]; then
+      curl -F 'sprunge=<-' "http://sprunge.us" < "$1"
+    else
+      curl -F 'sprunge=<-' "http://sprunge.us"
+    fi
+  }
+  logsfile=$( ls ${origindir} | grep log )
+  if [ ! -z "${logsfile}" ]; then
+  cat ${origindir}/*.log* > ${origindir}/diagnostics.txt
+  echo "======================="
+  echo "Send this Link to the developer"
+  sendLog ${origindir}/diagnostics.txt
+  echo "======================="
+  exitserver
+else
+echo "No logs found"
+echo "Cancelling"
+sleep 3
+fi
 }

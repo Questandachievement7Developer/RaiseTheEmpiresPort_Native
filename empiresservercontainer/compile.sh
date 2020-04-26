@@ -148,6 +148,11 @@ instTarget=$(dialog --clear \
 
 fi
 
+if [ -z ${instTarget} ]; then
+  startupMenu
+  exit
+fi
+
 #if [ ${instTarget} != 'termux' ]; then
 #Architechture Selection
 #                OPTIONS=(

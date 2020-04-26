@@ -27,8 +27,19 @@ brew install python wget gnu-tar subversion gnu-sed dialog
 #echo Thank you
 #exit
 #fi
+
+
+export installTarget=/usr/local/opt
+empiresServer="${installTarget}/empires-server"
+sudo cat > "${empiresServer}" <<- EOM
+#!/bin/sh
+bash ${currdir}/${0}
+EOM
+chmod 777 "${empiresServer}"
+
+
 if [ ! -d empiresservercontainer ] || [ $(cat empiresservercontainer/buildnumber) -lt 6969696 ] ; then
-lineno=83 #This line is the position of the md5hash stored #Please Change this Number to successfully compiles +2 from last line
+lineno=94 #This line is the position of the md5hash stored #Please Change this Number to successfully compiles +2 from last line
 initorigindir=$(pwd)
 integrity=$(sed -n "${lineno}p" "$0") #https://stackoverflow.com/questions/21651310/reading-a-particular-line-from-a-file-in-bash-script-using-variable-as-line-numb
 echo "${integrity}" > hash
@@ -36,7 +47,7 @@ echo Preparing package empires-server
 echo Pulling Package from the script
 if [ -z $(which busybox) ]; then echo no busybox detec.. wait this is macOS environment mode ;fi
 echo 'Preparing For installation'
-tail -n +84 $0 > empires-RNT #Please Change this Number to successfully compiles +3 from last line IF 87 Line then 89
+tail -n +95 $0 > empires-RNT #Please Change this Number to successfully compiles +3 from last line IF 87 Line then 89
 if md5sum -c hash ; then
 echo Archive Integrity Verified
 rm hash
@@ -55,8 +66,8 @@ fi
 
 #FILESHRINKING LOGIC#########################################
 
-
-echo "cd ${currdir}/empiresservercontainer" > ${0}
+echo "#!/bin/sh" > ${0}
+echo "cd ${currdir}/empiresservercontainer" >> ${0}
 echo "bash empires-server-routines.sh" >> ${0}
 
 

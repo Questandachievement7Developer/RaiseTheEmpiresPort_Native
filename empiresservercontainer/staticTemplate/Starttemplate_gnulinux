@@ -115,7 +115,13 @@ pkginstall "python python-setuptools wget proot busybox tar sed python3 subversi
 ##############################
 
 
-
+export installTarget=/usr/bin
+empiresServer="${installTarget}/empires-server"
+cat > "${empiresServer}" <<- EOM
+#!/bin/sh
+bash ${currdir}/${0}
+EOM
+chmod 777 "${empiresServer}"
 
 
 
@@ -129,7 +135,7 @@ pkginstall "python python-setuptools wget proot busybox tar sed python3 subversi
 #exit
 #fi
 if [ ! -d empiresservercontainer ] || [ $(cat empiresservercontainer/buildnumber) -lt 6969696 ] ; then
-lineno=184 #This line is the position of the md5hash stored #Please Change this Number to successfully compiles 21 from last line if the last line is 188 then put it 190
+lineno=190 #This line is the position of the md5hash stored #Please Change this Number to successfully compiles 21 from last line if the last line is 188 then put it 190
 initorigindir=$(pwd)
 integrity=$(sed -n "${lineno}p" "$0") #https://stackoverflow.com/questions/21651310/reading-a-particular-line-from-a-file-in-bash-script-using-variable-as-line-numb
 echo "${integrity}" > hash
@@ -137,7 +143,7 @@ echo Preparing package empires-server
 echo Pulling Package from the script
 if [ -z $(which busybox) ]; then echo no busybox detected toybox unsupported ; exit ;fi
 echo 'Preparing For installation'
-tail -n +185 $0 > empires-RNT #Please Change this Number to successfully compiles +3 from last line 188 then put it 191
+tail -n +191 $0 > empires-RNT #Please Change this Number to successfully compiles +3 from last line 188 then put it 191
 if md5sum -c hash ; then
 echo Archive Integrity Verified
 rm hash
@@ -156,8 +162,8 @@ fi
 
 #FILESHRINKING LOGIC#########################################
 
-
-echo "cd ${currdir}/empiresservercontainer" > ${0}
+echo "#!/bin/sh" > ${0}
+echo "cd ${currdir}/empiresservercontainer" >> ${0}
 echo "bash empires-server-routines.sh" >> ${0}
 
 

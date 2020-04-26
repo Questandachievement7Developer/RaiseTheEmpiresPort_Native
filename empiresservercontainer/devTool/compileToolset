@@ -803,7 +803,9 @@ packallupfordist(){
 cat empires-RNT >> empires-server
   chmod 777 empires-server
   rm -rf empires-RNT ${emu64fakeroot}
+  if [ ! -d compiledbin ]; then
   mkdir compiledbin
+  fi
   mv empires-server compiledbin/empires-server-${instTarget}-${buildnum}
   echo $compileprefix compiled successfully became empires-server-${instTarget}-${buildnum}
   echo You can check it on compiledbin folder
