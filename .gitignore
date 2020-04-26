@@ -2,6 +2,7 @@
 rootfs
 **/*rootfs*
 **/*cache*
+**/*packageManager.log*
 **/*Cache*
 **/*proot*
 **/*experiment*
