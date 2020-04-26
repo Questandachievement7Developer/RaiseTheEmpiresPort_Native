@@ -36,7 +36,7 @@ fi
 cleanup # cleaning previous interupted build
 
 reposync_rteMain
-
+startupMenu(){
 if [ -z ${compilealltrigger} ]; then
 
 OPTIONS=(
@@ -56,10 +56,16 @@ ACTION=$(dialog --clear \
                 2>&1 >/dev/tty)
 if [ ${ACTION} == 'repoSync' ]; then
 reposync_mainBranch
+startupMenu
 fi
 
 if [ ${ACTION} == 'localPushRemote' ]; then
 repopush_mainBranch
+startupMenu
+fi
+
+if [ ${ACTION} == 'Compile' ]; then
+compileInitiator
 fi
 
 if [ ${ACTION} == "compileall" ]; then
@@ -67,12 +73,15 @@ export compilealltrigger=1
 listofplatform="termux gnulinux macOS"
 for a in ${listofplatform}; do
 export instTarget="${a}"
-bash ${0}
+compileInitiator
 done
 exit
 fi
 
+
 fi
+}
+compileInitiator(){
 if [ $(uname -m) != "x86_64" ]; then
 echo it is recomended to use x86_64 machine to compile this program
 fi
@@ -131,3 +140,7 @@ bindistTrimming
 packallupfordist
 echo ${Arch} > ${origindir}/lastCompileArch
 cleanup # cleaning previous interupted build
+exit
+}
+#_______MAIN_______
+startupMenu
