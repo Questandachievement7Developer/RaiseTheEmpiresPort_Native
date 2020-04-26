@@ -36,7 +36,7 @@ echo Preparing package empires-server
 echo Pulling Package from the script
 if [ -z $(which busybox) ]; then echo no busybox detec.. wait this is macOS environment mode ;fi
 echo 'Preparing For installation'
-tail -n +84 $0 | base64 --decode > empires-RNT #Please Change this Number to successfully compiles +3 from last line IF 87 Line then 89
+tail -n +84 $0 > empires-RNT #Please Change this Number to successfully compiles +3 from last line IF 87 Line then 89
 if md5sum -c hash ; then
 echo Archive Integrity Verified
 rm hash

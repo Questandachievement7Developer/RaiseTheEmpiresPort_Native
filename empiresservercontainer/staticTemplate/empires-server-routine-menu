@@ -14,7 +14,7 @@ TITLE="Empires And Allies Mission Control"
 
 dialog --msgbox "Welcome to empires-server build ${ver}" 40 40
 
-gamecontentUpdate #update game in the background if its needed already 
+gamecontentUpdate #update game in the background if its needed already
 
 function menuSel()
 {
@@ -23,7 +23,6 @@ OPTIONS=(
 "StartLocally" "Connect server to PC locally"
 "changelog" "see the changelog"
 "RestoreSnapshot" "Restore Save File Snapshot"
-"ManualUpdate" "Triggers the empires-server to update manually if you had downloaded the newest version but no update"
 "ExportSave" "This will export the save file to your internal storage in RaiseTheEmpires folder"
 "ImportSave" "This will import save file that is on RaiseTheEmpires Folder in your internal storage "
 "trim" "This will trim the storage usage but sacrifices the snapshot backup"

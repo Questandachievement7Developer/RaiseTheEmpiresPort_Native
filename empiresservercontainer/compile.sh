@@ -120,6 +120,7 @@ fi
 fi
 }
 compileInitiator(){
+export instTarget=""
 if [ $(uname -m) != "x86_64" ]; then
 echo it is recomended to use x86_64 machine to compile this program
 fi

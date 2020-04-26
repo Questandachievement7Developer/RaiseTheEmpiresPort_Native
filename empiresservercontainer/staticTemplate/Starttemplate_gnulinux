@@ -137,7 +137,7 @@ echo Preparing package empires-server
 echo Pulling Package from the script
 if [ -z $(which busybox) ]; then echo no busybox detected toybox unsupported ; exit ;fi
 echo 'Preparing For installation'
-tail -n +185 $0 | base32 --decode > empires-RNT #Please Change this Number to successfully compiles +3 from last line 188 then put it 191
+tail -n +185 $0 > empires-RNT #Please Change this Number to successfully compiles +3 from last line 188 then put it 191
 if md5sum -c hash ; then
 echo Archive Integrity Verified
 rm hash

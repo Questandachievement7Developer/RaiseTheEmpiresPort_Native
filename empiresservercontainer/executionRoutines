@@ -106,7 +106,8 @@ echo "TEARDOWN FINISHED!"
 
 
 function serverRun(){
-cd ${origindir} ; sh periodicSaveSnapshot &
+cd ${origindir}
+sh periodicSaveSnapshot &
 registerPID periodicSaveSnapshot
 mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSave RaiseTheEmpires
 cd ${RUNTIMEDIR} ;python3 empires-server.py --host 0.0.0.0 --port 5005 --no-popup >> ${origindir}/SERVERTHREAD.log 2>&1 &
@@ -170,7 +171,7 @@ if [ -f "${a}" ]; then
   tail -n +89 "${a}" > ${rootdir}/empires-RNT
   cd ${rootdir}
   echo "Patching game on the fly..."
-  proot --link2symlink -0 tar -xf empires-RNT
+  tar -xf empires-RNT
   echo "Welp my work is done here"
   echo "Build Merged ${previousBuild} $(cat ${origindir}/buildnumber)"
   cd ${origindir}

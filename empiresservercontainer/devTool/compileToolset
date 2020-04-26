@@ -799,11 +799,8 @@ packallupfordist(){
   fi
 
   md5sum empires-RNT >> empires-server
-  if [ ${instTarget} != "macOS" ]; then #the reason why in macOS using base64 because on the toolset there only base64 tool and doesnt include with base32
-  cat empires-RNT | base32 >> empires-server
-else
-cat empires-RNT | base64 >> empires-server
-fi
+ #the reason why in macOS using base64 because on the toolset there only base64 tool and doesnt include with base32
+cat empires-RNT >> empires-server
   chmod 777 empires-server
   rm -rf empires-RNT ${emu64fakeroot}
   mkdir compiledbin
@@ -874,6 +871,8 @@ cd ${origindir}/tmp_sanitycheck
 yellow
 echo "============[TESTING MODE FINISHED]=============="
 gray
+echo "Will exit testing mode in 30 seconds"
+sleep 30
 rm -rf ${origindir}/tmp_sanitycheck
 }
 

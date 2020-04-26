@@ -12,4 +12,9 @@ echo "${infoSnapshot} Creating save file Snapshot ${snapshotTime}"
 cp -r "${defaultfilesave}" "${snapshotdir}/${snapshotTime}"
 echo "${infoSnapshot} Finished backup"
 sleep 600
+procbelong=$(ls ${origindir} | grep snapshot) # detects when the parent process PID terminated and doesnt exists anymore
+if [ -z ${procbelong} ];then
+echo "no parent process detected self termination initiated"
+exit
+fi
 done
