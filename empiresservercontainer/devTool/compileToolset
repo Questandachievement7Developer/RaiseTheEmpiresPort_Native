@@ -512,7 +512,14 @@ done
 
 }
 
-
+dependenciesCompilerInstall(){
+if [ ! -f ${origindir}/depinstalled.devflag ]; then
+echo "Installing dependencies"
+pkginstall "python3 dialog build-essential git cmake jdk-openjdk npm patchelf dialog python python3 python3-setuptools python-setuptools nano wget busybox python python-setuptools upx binutils fish wine-staging build-essential base-devel git pip git+git://github.com/christhechris/libscrc"
+else
+echo "dependencies installed"
+fi
+}
 
 
 compileUniversal(){
@@ -568,7 +575,8 @@ distroDetection
 #for a in ${list} ;do
 #${packmanager} ${installParameter} ${a}
 #done
-pkginstall "cmake jdk-openjdk npm patchelf dialog python python3 python3-setuptools python-setuptools nano wget busybox python python-setuptools upx binutils fish wine-staging build-essential base-devel git pip git+git://github.com/christhechris/libscrc"
+#Superseeded by dependenciesCompilerInstall
+#pkginstall "cmake jdk-openjdk npm patchelf dialog python python3 python3-setuptools python-setuptools nano wget busybox python python-setuptools upx binutils fish wine-staging build-essential base-devel git pip git+git://github.com/christhechris/libscrc"
 #pip install git+git://github.com/christhechris/libscrc
 #npmRuntime=$( npm install -g grunt > /dev/tty ) #compile tool swf to html5
 #easy_install pip

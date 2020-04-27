@@ -19,7 +19,8 @@ fi
 
 . ${origindir}/devTool/compileToolset
 source ${origindir}/devTool/compileToolset
-pkginstall "python3 dialog build-essential git"
+#install dependencies
+dependenciesCompilerInstall
 
 # to make sure that ndk-build or sdkmanager able to call within this script
 echo ${PATH}

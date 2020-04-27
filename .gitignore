@@ -11,5 +11,6 @@ rootfs
 **/*saveSnapshot*
 **/*compiledbin*
 **/*packageManager.log*
+**/*.devflag*
 **/*.log*
 empires-server
