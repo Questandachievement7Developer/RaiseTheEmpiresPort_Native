@@ -383,7 +383,10 @@ git fetch
 git pull
 #git pull https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native
 git add -v .
-git commit -m "QuestandachievementBuild $(cat ${origindir}/buildnumber)_AcidCaos src ver ${updateVer}_Transmission $(date)"
+echo "QuestandachievementBuild $(cat ${origindir}/buildnumber)_AcidCaos src ver ${updateVer}_Transmission $(date)" > commitcache
+nano commitcache
+git commit -m "$(cat commitcache)"
+rm -rf commitcache
 #git config --global user.name "Questandachievement7Developer"
 #git config --global user.email "questandachievement"
 git status
