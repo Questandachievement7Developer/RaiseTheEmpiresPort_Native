@@ -380,6 +380,7 @@ echo Please wait we are updating local repository
 git remote add origin https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native.git
 echo Pulling new changes from the remote
 git fetch
+git pull
 #git pull https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native
 git add -v .
 git commit -m "QuestandachievementBuild $(cat ${origindir}/buildnumber)_AcidCaos src ver ${updateVer}_Transmission $(date)"
