@@ -10,5 +10,6 @@ rootfs
 **/*lastCompileArch*
 **/*saveSnapshot*
 **/*compiledbin*
+**/*packageManager.log*
 **/*.log*
 empires-server
