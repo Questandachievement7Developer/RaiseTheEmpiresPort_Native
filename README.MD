@@ -41,9 +41,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 1. Install Termux and Puffin Browser from Play Store
 2. Copy paste this command to Termux:
 ```
-curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/TermuxAutoinstaller" | bash -
-sh empires-v260
-bash
+Under maintanance
 ```
 3. Wait until the installation is completed (and make sure your internet is stable)
 4. After the empires-server is running, copy the link into the Puffin Browser
@@ -52,7 +50,7 @@ bash
 
 If you want to run it next time, just type this:
 ```
-sh empires-v210
+$ empires-server
 ```
 
 
@@ -63,9 +61,22 @@ sh empires-v210
 ### Installing on GNU/Linux/Ubuntu
 Copy paste this command to terminal:
 ```
-curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/containers_EmpiresandAllies/master/curlRTE0_ubuntu" | bash -
+Under Maintanance
+```
+If you want to run it next time, just type this:
+```
+$ empires-server
 ```
 
+### Installing on macOS
+Copy paste this command to terminal:
+```
+Under Maintanance
+```
+If you want to run it next time, just type this:
+```
+$ empires-server
+```
 
 
 ## Feels confused about the installation setup or anything wanted to implemented in this version?
