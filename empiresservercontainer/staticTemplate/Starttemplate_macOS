@@ -29,14 +29,14 @@ brew install python wget gnu-tar subversion gnu-sed dialog
 #fi
 
 
-export installTarget=/usr/local/opt
+export installTarget=/usr/local/bin
 empiresServer="${installTarget}/empires-server"
+echo " Please Enter your password as we install empires-server in your PATH"
 sudo cat > "${empiresServer}" <<- EOM
 #!/bin/sh
 bash ${currdir}/${0}
 EOM
 chmod 777 "${empiresServer}"
-
 
 if [ ! -d empiresservercontainer ] || [ $(cat empiresservercontainer/buildnumber) -lt 6969696 ] ; then
 lineno=94 #This line is the position of the md5hash stored #Please Change this Number to successfully compiles +2 from last line

@@ -137,6 +137,9 @@ cd ${RUNTIMEDIR}
 dialog --msgbox "To terminate the server you can press any key after this dialog" 40 40
 python3 empires-server.py --host 0.0.0.0 --port 5005 --no-popup  >> ${origindir}/SERVERTHREAD.log 2>&1 & #if there is no --no-popup specified there will be lynx popping up in front of the terminal and mess with everything
 registerPID empiresserver
+clear
+sleep 1
+echo "Server is running!"
 sleep 2
 echo "You can connect it to <this device IP>:5005"
 sleep 6

@@ -4,7 +4,7 @@ pkg install clang wget -y
 if [ ! -f empires-server-termux-xxx ]; then
 wget "https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_210/empires-v210" -O empires-v210
 else
-echo "empires-v210 has been downloaded"
+echo "empires-server has been downloaded"
 fi
 chmod +x empires-server-termux-xxx
 ./empires-server-termux-xxx
