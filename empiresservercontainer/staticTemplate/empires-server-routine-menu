@@ -23,6 +23,7 @@ OPTIONS=(
 "Start" "Start empires-server online"
 "StartLocally" "Connect server to PC locally"
 "exportDiagnostic" "export logs to a link so that the developer can review the problem"
+"viewlogs" "See how your device run the server"
 "changelog" "see the changelog"
 "RestoreSnapshot" "Restore Save File Snapshot"
 "ExportSave" "This will export the save file to your internal storage in RaiseTheEmpires folder"
@@ -42,6 +43,10 @@ mission=$(dialog --clear \
 
 if [ ${mission} == 'changelog' ]; then
 changelogsee
+fi
+
+if [ ${mission} == 'viewlogs' ]; then
+seelogs
 fi
 
 

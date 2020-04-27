@@ -1,7 +1,8 @@
 export origindir=$(pwd)
 export RUNTIMEDIR=${origindir}/._MEI202028
-pkg install python git clang dialog openssh -y
-pip3 install tendo py3amf flask flask_session flask_sqlalchemy flask_compress flask_socketio daiquiri git+git://github.com/christhechris/libscrc python-editor
+sudo apt-get install python3 python3-setuptools python3-dev git dialog ssh -y
+sudo pacman -S python git dialog python-setuptools openssh --noconfirm
+python3 -m pip install tendo py3amf flask flask_session flask_sqlalchemy flask_compress flask_socketio daiquiri git+git://github.com/christhechris/libscrc python-editor
 export RaiseTheEmpiresRNTINI=RaiseTheEmpires/RaiseTheEmpires.ini
 echo "[Info]" > ${RaiseTheEmpiresRNTINI}
 echo "Name=RaiseTheEmpires_GNU_LINUX_EDITION" >> ${RaiseTheEmpiresRNTINI}
@@ -12,6 +13,7 @@ echo "InstallPath=$(pwd)/RaiseTheEmpires" >> ${RaiseTheEmpiresRNTINI}
 echo "MyGamesPath=$(pwd)/RaiseTheEmpires/fileSave" >> ${RaiseTheEmpiresRNTINI}
 echo "[InstallSettings]" >> ${RaiseTheEmpiresRNTINI}
 echo "Arch=$(uname -m)" >> ${RaiseTheEmpiresRNTINI}
+export TMPDIR=$(pwd)/RaiseTheEmpires/RNT
 export origindir=$(pwd)
 HEIGHT=15
 WIDTH=80
@@ -38,6 +40,7 @@ OPTIONS=(
 "Start" "Start empires-server online"
 "StartLocally" "Connect server to PC locally"
 "exportDiagnostic" "export logs to a link so that the developer can review the problem"
+"viewlogs" "See how your device run the server"
 "changelog" "see the changelog"
 "RestoreSnapshot" "Restore Save File Snapshot"
 "ExportSave" "This will export the save file to your internal storage in RaiseTheEmpires folder"
@@ -57,6 +60,10 @@ mission=$(dialog --clear \
 
 if [ ${mission} == 'changelog' ]; then
 changelogsee
+fi
+
+if [ ${mission} == 'viewlogs' ]; then
+seelogs
 fi
 
 
