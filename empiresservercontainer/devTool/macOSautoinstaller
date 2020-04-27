@@ -1,0 +1,8 @@
+#!/bin/sh
+if [ ! -f empires-server-macOS-xxx ]; then
+wget "https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_xxx"
+else
+echo "empires-server has been downloaded"
+fi
+chmod +x empires-server-macOS-xxx
+./empires-server-macOS-xxx
