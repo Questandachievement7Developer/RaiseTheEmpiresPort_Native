@@ -378,6 +378,12 @@ timelock_timetravel(){
   split --bytes=90m ${origindir}/devTool/timelock/timechunkBIG ${origindir}/devTool/timelock/time_chunk_
   rm -rf ${origindir}/devTool/timelock/timechunkBIG
   cd ${origindir}
+  echo "Branching Backup"
+  buildNumberRequest
+  git checkout -b "Backup_$(cat ${origindir}/buildnumber)"
+  git add -v .
+  git commit -m "Backup_yeet"
+  git checkout "master"
   echo 0 > ${origindir}/devTool/timelock.devflag
 fi
 }
@@ -385,6 +391,7 @@ fi
 reposync_mainBranch(){
   clear
   #set -e
+  git checkout master
   echo Are you the developer of RaiseTheEmpires?
     git clone https://github.com/AcidCaos/raisetheempires raisetheempires-dev
   cd raisetheempires-dev
@@ -419,6 +426,7 @@ git add -v .
 echo "QuestandachievementBuild $(cat ${origindir}/buildnumber)_AcidCaos src ver ${updateVer}_Transmission $(date)" > commitcache
 nano commitcache
 git commit -m "$(cat commitcache)"
+
 rm -rf commitcache
 #git config --global user.name "Questandachievement7Developer"
 #git config --global user.email "questandachievement"
