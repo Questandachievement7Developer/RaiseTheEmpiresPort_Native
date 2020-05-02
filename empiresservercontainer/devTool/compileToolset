@@ -395,7 +395,7 @@ reposync_mainBranch(){
   echo Are you the developer of RaiseTheEmpires?
     git clone https://github.com/AcidCaos/raisetheempires raisetheempires-dev
   cd raisetheempires-dev
-  git pull
+  git pull --depth 1
   git fetch
   export updateVer=$(git log -1 --format=%cd)
   #updateVer="stub"
@@ -420,7 +420,7 @@ exit
 fi
 echo Pulling new changes from the remote
 git fetch
-git pull
+git pull --depth 1
 #git pull https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native
 git add -v .
 echo "QuestandachievementBuild $(cat ${origindir}/buildnumber)_AcidCaos src ver ${updateVer}_Transmission $(date)" > commitcache
