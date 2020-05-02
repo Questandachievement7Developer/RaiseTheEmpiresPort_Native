@@ -1,32 +1,270 @@
 #!/bin/bash
 
+rdm=$RANDOM
+#export COMPUTERNAME="RTEPlayer" #default Empires Username
+export defaultPlayerNAME="RTEPlayer"
+export WORKON_HOME=${origindir} # virtualenv redirection
 
 
-function serverRun(){
-cd ${origindir} ; sh periodicSaveSnapshot & export periodicSavePID=$!
-mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSave RaiseTheEmpires
-cd ${RUNTIMEDIR} ; python3 empires-server.py --host 0.0.0.0 --port 5005 --no-popup >> ${origindir}/SERVERTHREAD.log 2>&1 & export EALSERVERTHREAD=$! ; tail -f ${origindir}/SERVERTHREAD.log | grep traceback &
-clear ;echo Server is running!;echo Please Connect to To play empires-server;ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -R 80:localhost:5005 ssh.localhost.run
-dialog --msgbox "Server is Terminated" 40 40
-kill -9 ${periodicSavePID} ; kill -9 ${EALSERVERTHREAD} ; echo killsig > ${origindir}/killsigforwardHost ; echo Server Terminated
+distrospecificFixes(){
+  if [ ${distribution} == "macOS" ]; then
+  export PATH=$PATH:/usr/local/bin:/usr/local/opt:/usr/bin
+  fi
 }
 
-function MigratetoPC(){
+distrospecificFixes
+
+registrarServerID(){
+if [ ! -f ${origindir}/serverID ]; then
+red
+echo "WARNING SERVER ID IS NOT FOUND!"
+yellow
+echo "CREATING!"
+export serverID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 12 | head -n 1)
+echo ${serverID} > ${origindir}/serverID
+echo ${serverID}
+sleep 1
+else
+echo "${serverID}"
+export serverID=$(cat ${origindir}/serverID)
+fi
+}
+
+
+
+confirmation(){
+  randcode="iwilltaketheresponsibilityofmyaction"
+  yellow
+  if [ -z ${SCRIPTCALL} ]; then
+  echo "${pbadge} ⚠️ Are you sure that you want to do this ?⚠️"
+  echo "${pbadge} if you do please type this token"
+  echo "${randcode}"
+  echo "Your input: "
+  read input
+  echo "debug ${input}"
+  fi
+  if [ $input == $randcode ] || [ ! -z ${SCRIPTCALL} ] ; then #SCRIPTCALL VARIABLE IS FOR WHEN YOU CALL THIS SCRIPT THRROUGH A SCRIPT AND YOU WANTED TO HAVE no CONFIRMATION
+    yellow
+    echo "${pbadge} 🚀 Initiating dangerous code"
+  else
+    red
+    echo "${pbadge} ❌ WRONG CODE CANCELLING ❌"
+  sleep 2
+  menuSel
+fi
+}
+
+requestnewServerID(){
+  yellow
+echo "New id will be requested!"
+red
+echo "YOUR PROGRESS WILL LIKELY TO BE PERSISTENT BUT YOU MAY LOGGED IN TO NEW ACCOUNT"
+confirmation
+rm -rf ${origindir}/serverID
+clear
+registrarServerID
+}
+
+
+red(){
+printf '\e[38;5;210m' > /dev/tty
+}
+
+yellow(){
+printf '\e[38;5;221m' > /dev/tty
+}
+green(){
+printf '\e[38;5;042m' > /dev/tty
+}
+blue(){
+printf '\e[38;5;039m' > /dev/tty
+}
+
+gray(){
+printf '\e[38;5;037m' > /dev/tty
+}
+
+function gamecontentUpdate(){
+echo "Automatic gamecontentUpdate has been deprecated since build 384+ due to the concern server breaks due to the untreated and unpatched python server files"
+}
+
+function procManager(){
+export procdir=${origindir}/proc
+if [ ! -d ${procdir} ]; then
+mkdir ${origindir}/proc
+fi
+}
+
+function registerPID(){
+procManager
+if [ -z $1 ]; then
+echo $! >> ${procdir}/proc_$!
+else
+echo $! >> ${procdir}/proc_$1
+fi
+}
+
+function reqStopProc(){
+procManager
+for z in $(ls ${procdir}/*${1}*); do
+PID=$(cat ${procdir}/${z})
+rm -f ${procdir}/${z}
+for i in ${PID}; do
+kill -9 ${i}
+kill -9 --${i}
+done
+done
+}
+
+function procTeardown(){
+procManager
+red
+echo "PROCESS TEARDOWN CALLED!"
+for z in $(ls ${procdir}); do
+PID=$(cat ${procdir}/${z})
+rm -f ${procdir}/${z}
+for i in ${PID}; do
+kill -9 ${i}
+kill -9 --${i}
+done
+done
+green
+echo "TEARDOWN FINISHED!"
+}
+
+
+function databandwidthwarning(){ #if distribution detected as termux then it will spit out this message
+if [ ${distribution} == "termux" ]; then
+dialog --msgbox "Please be aware if you are using your mobile data your data bandwidth might be eaten up using this mode" 40 40
+fi
+}
+
+function macOSsshWarning(){
+  if [ ${distribution} == "macOS" ]; then
+  dialog --msgbox "starting online in macOS are not recomended and you might run into ssh bug" 40 40
+  fi
+}
+
+
+
+
+distrospecificwarning(){
+  if [ ${distribution} == "termux" ]; then
+    databandwidthwarning
+  fi
+  if [ ${distribution} == "macOS" ]; then
+    macOSsshWarning
+  fi
+}
+
+serverLocalWarning(){
+  if [ ${distribution} == "termux" ]; then
+    dialog --msgbox "Please Be aware that puffin browser cannot connect locally and only works if you startOnline" 40 40
+  fi
+}
+
+function distributionRead(){
+  #read the dist file that created by the compiler which will detect the current environment
+export distribution=$(cat ${origindir}/dist)
+}
+
+
+installEnv(){
+  if [ ! -f ${origindir}/installed.flag ]; then
+  cd ${origindir}
+  mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSave RaiseTheEmpires
+  cd ${RUNTIMEDIR}
+  pipenv install --skip-lock tendo py3amf pep517 gevent flask flask_session python-editor gevent-websocket flask_sqlalchemy flask_compress flask_socketio daiquiri python-editor
+  pipenv install --skip-lock "git+git://github.com/christhechris/libscrc.git#egg=libscrc"
+  cd ${origindir}
+  echo 1 > ${origindir}/installed.flag
+fi
+}
+
+
+coreRun(){ #run server core
+  cd ${RUNTIMEDIR}
+  pipenv run python3 empires-server.py --host 0.0.0.0 --port 5005 --no-popup  > ${origindir}/SERVERTHREAD.log 2>&1 & #if there is no --no-popup specified there will be lynx popping up in front of the terminal and mess with everythin
+  registerPID empiresserver
+  $(tail -f ${origindir}/SERVERTHREAD.log | grep traceback) &
+  registerPID traceback
+}
+
+function serverRun(){
+cd ${origindir}
+distrospecificwarning
+sh periodicSaveSnapshot > ${origindir}/periodicSaveSnapshotDaemon.log 2>&1  &
+registerPID periodicSaveSnapshot
+coreRun
+clear ;echo Server is running!;echo Copy paste the link below on Puffin Browser;ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "RaiseTheEmpires-${serverID}" -T -R 80:localhost:5005 ssh.localhost.run
+dialog --msgbox "Server is Terminated" 40 40
+reqStopProc periodicSaveSnapshot
+reqStopProc empiresserver
+reqStopProc traceback
+}
+
+function serverLocal(){
+cd ${origindir}
+serverLocalWarning
+sh periodicSaveSnapshot > ${origindir}/periodicSaveSnapshotDaemon.log 2>&1 &
+registerPID periodicSaveSnapshot
+dialog --msgbox "To terminate the server you can press any key after this dialog" 40 40
+coreRun
+registerPID empiresserver
+clear
+sleep 1
+echo "Server is running!"
+sleep 2
+echo "You can connect it to <this device IP>:5005"
+echo "or if locally you can do 127.0.0.1:5005"
+sleep 6
+read -n 1 -s -r -p "Press any key to terminate..."
+dialog --msgbox "Server is Terminated" 40 40
+reqStopProc periodicSaveSnapshot
+reqStopProc empiresserver
+}
+
+function ExportSave(){
+  if [ -d ~/storage/shared ]; then
 rm -rf ~/storage/shared/RaiseTheEmpires
 cp -r ${origindir}/RaiseTheEmpires/fileSave ~/storage/shared/RaiseTheEmpires
+echo " ~/storage/shared/RaiseTheEmpires"
 echo done
+sleep 3
+else
+  rm -rf ~/Documents/RaiseTheEmpires
+  cp -r ${origindir}/RaiseTheEmpires/fileSave ~/Documents/RaiseTheEmpires
+  echo "~/Documents/RaiseTheEmpires"
+  echo done
+  sleep 3
+fi
+}
 
+function seelogs(){
+logsfile=$( ls ${origindir} | grep log )
+if [ ! -z "${logsfile}" ]; then
+logsCombined=$(cat ${origindir}/*.log*)
+echo "${logsCombined}"
+sleep 2
+read -n 1 -s -r -p "Press any key to exit from the log viewer"
+else
+echo "No logs found!"
+sleep 3
+fi
 }
 
 function changelogsee(){
-cat ${origindir}/changelog.txt
-echo This changelog window will automatically closed within 60 seconds
-sleep 60
+less ${origindir}/changelog.txt
 }
 
-function MigratetoTermux(){
+function ImportSave(){
+if [ -d ~/storage/shared ]; then
 cp -r ~/storage/shared/RaiseTheEmpires/* ${origindir}/RaiseTheEmpires/fileSave
 echo done
+else
+  cp -r ~/Documents/RaiseTheEmpires/* ${origindir}/RaiseTheEmpires/fileSave
+  echo done
+fi
 
 }
 
@@ -53,7 +291,7 @@ if [ -f "${a}" ]; then
   tail -n +89 "${a}" > ${rootdir}/empires-RNT
   cd ${rootdir}
   echo "Patching game on the fly..."
-  proot --link2symlink -0 tar -xf empires-RNT
+  tar -xf empires-RNT
   echo "Welp my work is done here"
   echo "Build Merged ${previousBuild} $(cat ${origindir}/buildnumber)"
   cd ${origindir}
@@ -65,9 +303,25 @@ done
 sleep 9
 }
 
+function exitserver(){
+echo "Cleaning up...."
+procTeardown >> ${origindir}/processmanagerTeardownShutdown.log 2>&1
+echo "Bye bye"
+exit
+}
 
-
-
+function updateManualServer(){
+cd ${origindir}/..
+clear
+red
+echo "Make sure your save are backed up and do not turn off your device power while updating!"
+confirmation
+curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/TermuxAutoinstaller" | bash -
+chmod +x ./empires-server-termux
+rm -rf ${origindir}/installed.flag
+./empires-server-termux
+exit
+}
 
 
 function snapshotMenu(){
@@ -75,7 +329,12 @@ export snapshotdir=${origindir}/saveSnapshot
 export defaultfilesave=${origindir}/RaiseTheEmpires/fileSave
 #https://stackoverflow.com/questions/3200252/prompt-user-to-select-a-directory-with-a-bash-script-and-read-result
 clear
-ls ${origindir}/saveSnapshot/
+snapshotlist=$( ls ${origindir}/saveSnapshot/ )
+clear
+export FolderSelection="cancel"
+if [ ! -z ${snapshotlist} ]; then
+echo "${snapshotlist}"
+echo "You can type cancel to cancel the selection"
 echo '==================================='
 echo 'Please Type the number of the snapshot date below'
 read FolderSelection
@@ -85,9 +344,10 @@ echo Please enter the Date
 snapshotMenu
 fi
 
-if [ ! -d ${origindir}/saveSnapshot/${FolderSelection} ];then
+if [ ! -d ${origindir}/saveSnapshot/${FolderSelection} ] && [ ${FolderSelection} != "cancel" ] ;then
 clear
 echo uh oh Folder does not exist please enter correctly
+sleep 3
 snapshotMenu
 fi
 
@@ -97,5 +357,45 @@ echo Snapshot Found
 echo Restoring Snapshot
 cp -rv ${snapshotdir}/${FolderSelection}/* ${defaultfilesave}
 fi
+else
+echo "No snapshot found"
+sleep 3
+fi
+}
 
+sendlogdev(){
+clear
+red
+echo "Please be aware by continuing this process part of your device information will be uploaded to the internet"
+echo "Those information are:"
+echo "-Empires and allies username"
+echo "-ServerID"
+echo "-ServerLogs"
+echo "-Kernel"
+confirmation
+  sendLog() {
+    if [[ $1 ]]; then
+      curl -F 'sprunge=<-' "http://sprunge.us" < "$1"
+    else
+      curl -F 'sprunge=<-' "http://sprunge.us"
+    fi
+  }
+  logsfile=$( ls ${origindir} | grep log )
+  if [ ! -z "${logsfile}" ]; then
+  uname -a > ${origindir}/diagnostics.txt
+  for a in ${logsfile}; do
+    echo "=======${a}=======" >> ${origindir}/diagnostics.txt
+  cat ${origindir}/${a} >> ${origindir}/diagnostics.txt
+  echo "==================" >> ${origindir}/diagnostics.txt
+done
+  echo "======================="
+  echo "Send this Link to the developer"
+  sendLog ${origindir}/diagnostics.txt
+  echo "======================="
+  read -n 1 -s -r -p "Press any key to continue"
+else
+echo "No logs found"
+echo "Cancelling"
+sleep 3
+fi
 }

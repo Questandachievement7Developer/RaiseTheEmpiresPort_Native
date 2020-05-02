@@ -19,23 +19,8 @@ fi
 
 . ${origindir}/devTool/compileToolset
 source ${origindir}/devTool/compileToolset
-if [ -z $(which dialog) ]; then #check if qemu static is in place
- pacman -S python dialog base-devel git qemu --noconfirm --needed
-#trizen -S qemu-user-static-bin --noconfirm --needed
-
- apt-get install python3 dialog build-essential git -y
-fi
-
-#if [ ! -d ${origindir}/devTool/android_* ]; then
-#cd ${origindir}/devTool
-#wget "https://dl.google.com/android/repository/android-ndk-r21-linux-x86_64.zip"
-#mkdir devTool/android_ndk
-#unzip android-ndk-r21-linux-x86_64.zip
-
-#wget "https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip"
-#mkdir devTool/android_sdk
-#unzip sdk-tools-linux-4333796.zip
-#fi
+#install dependencies
+dependenciesCompilerInstall
 
 # to make sure that ndk-build or sdkmanager able to call within this script
 echo ${PATH}
@@ -47,38 +32,106 @@ echo ${PATH}
 #breakpoint
 
 if [ ! -d ${origindir}/rootfs ]; then
-   chmod -R 777 ${origindir}
+  sudo chmod -R 777 ${origindir}
 fi
-#deSanitizeMountrootfs
 cleanup # cleaning previous interupted build
-# Synchronizing repository
 
 reposync_rteMain
+startupMenu(){
+  reset
+  cd ${origindir}
+if [ -z ${compilealltrigger} ]; then
 
 OPTIONS=(
-"repoSync" "Download and sync all repo Its a must when you are first time downloading the compiler"
-"skip" "skip the repo sync")
+"" '>>>>> Version <<<<<'
+"" "Port_native Build $(cat ${origindir}/buildnumber)"
+"" "Compiler Version $(cd ${origindir}/.. ; git log -1 --format=%cd)"
+"==========" "===================Compile Action=========================="
+"Compile" "Compile packages for distribution"
+"buildtest" "check current build stability"
+"compileall" "compile all platforms only for termux macOS gnulinux"
+"==========" "===================Repo Action============================="
+"repoSync" "sync all repo Its a must!"
+"==========" "===================Local Action============================="
+"exit" "exit Compiler toolset")
 
 
 
-REPOSYN=$(dialog --clear \
+ACTION=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
-                --title "Select the target platform" \
+                --title "Select the Action" \
                 --menu "$MENU" \
-                $HEIGHT $WIDTH $CHOICE_HEIGHT \
+                27 120 $CHOICE_HEIGHT \
                 "${OPTIONS[@]}" \
                 2>&1 >/dev/tty)
-if [ ${REPOSYN} == 'repoSync' ]; then
-reposync_mainBranch
+
+#welp if the devloper is bored and decided to go to this menu instead
+if [ -z ${ACTION} ]; then
+  startupMenu
+  exit
+fi
+if [ ${ACTION} == "==========" ]; then
+startupMenu
+exit
 fi
 
+if [ ${ACTION} == "exit" ]; then
+exit
+fi
 
-if [ $(uname -m) != "x86_64" ]; then
-echo Please use x86_64 machine to compile this program
+if [ ${ACTION} == 'repoSync' ]; then
+reposync_mainBranch
+startupMenu
+exit
+fi
+
+if [ ${ACTION} == 'localegen' ]; then
+xmlTranslator
+sleep 5
+startupMenu
+exit
+fi
+
+if [ ${ACTION} == 'buildtest' ]; then
+export instTarget="gnulinux"
+sanitybuildcheck
+startupMenu
+exit
+fi
+
+if [ ${ACTION} == 'localPushRemote' ]; then
+repopush_mainBranch
+startupMenu
 exit
 fi
 
 
+
+if [ ${ACTION} == 'Compile' ]; then
+compileInitiator
+exit
+fi
+
+if [ ${ACTION} == "compileall" ]; then
+export compilealltrigger=1
+listofplatform="termux gnulinux macOS"
+for a in ${listofplatform}; do
+export instTarget="${a}"
+bulkBuild
+done
+exit
+fi
+
+
+fi
+}
+compileInitiator(){
+export instTarget=""
+if [ $(uname -m) != "x86_64" ]; then
+echo it is recomended to use x86_64 machine to compile this program
+fi
+
+if [ -z ${instTarget} ]; then
 
 echo "${compileprefix} Skipping empires-engine x64 Build"
 echo "${compileprefix} Launching empires-server arch selection"
@@ -87,7 +140,9 @@ OPTIONS=(
 
 "windows" "use wine64 to cross compile to windows"
 "termux" "Compiles for Android termux so it can be run on that platform"
-"gnulinux" "compiles to standard gnuLinux Format ")
+"gnulinux" "compiles to standard gnuLinux Format "
+"appleiOS" "compiles to iSH iOS runtime (i686) "
+"macOS" "compiles to macOS powered by homebrew ")
 
 instTarget=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
@@ -97,8 +152,12 @@ instTarget=$(dialog --clear \
                 "${OPTIONS[@]}" \
                 2>&1 >/dev/tty)
 
+fi
 
-export packmode=staticbin
+if [ -z ${instTarget} ]; then
+  startupMenu
+  exit
+fi
 
 #if [ ${instTarget} != 'termux' ]; then
 #Architechture Selection
@@ -117,16 +176,13 @@ export packmode=staticbin
 
 
 #else
-export Arch=x86_64
+
 #fi
 #compiles the dependencies and binaries first
 
 #this is really simple Compiler dont make it complicated
-buildNumberRequest
-sleep 3
-compileUniversal
-assembleServer
-bindistTrimming
-packallupfordist
-echo ${Arch} > ${origindir}/lastCompileArch
-cleanup # cleaning previous interupted build
+buildTHESERVER
+startupMenu
+}
+#_______MAIN_______
+startupMenu

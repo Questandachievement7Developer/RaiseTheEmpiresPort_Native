@@ -7,13 +7,121 @@ fi
 if [ -z ${currentexecfile} ] ;then
 export currentexecfile=${0}
 fi
+
+
+distroDetection(){
+# DISTRO MANAGER DETECTION IS ALSO USED TO DETERMINE WHERE DOES THE SCRIPT RUN
+export ptracecompat='1' #flag ptrace compatibility based on the distro or kernel that its running
+export linktosymlinkActivated=0
+export foreignenvironment="0" # flag foreign environment such as freebsd darwin or other nix system
+export arch=$(uname -m)
+if [ ! -z $(which apk) ]; then
+  echo "Alpine Distro"
+  export packmanager=apk
+  export installParameter="add"
+  export ptracecompat='1'
+  export distro="alpine"
+fi
+
+if [ ! -z $(which apt) ]; then
+export packmanager="apt"
+export installParameter="install -y"
+export distro="debianGNU"
+fi
+    if [ ! -z $(which pkg) ]; then
+    export packmanager=pkg
+    export installParameter="install -y"
+    export linktosymlinkActivated=1
+    echo Termux Detected
+    export distro="termux"
+
+    fi
+
+
+    if [ ! -z $(which yum) ]; then
+    export packmanager="yum"
+    export installParameter="install -y"
+    export distro="centOSGNU"
+    fi
+
+    if [[ $(grep Microsoft /proc/version) ]]; then
+      export ptracecompat='0'
+      export WSLenv="1"
+    fi
+
+    if [[ $( uname -a | grep darwin ) ]]; then
+      echo "Bash is running on Darwin Kernel"
+      echo "Running Experimental mode"
+      yellow
+      echo "${pbadge} Running environment setup" > /dev/tty
+      if [ -z $(which brew) ]; then
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+      fi
+      export distro="darwinkrnl"
+      export packmanager="brew"
+      export foreignenvironment="1"
+      export installParameter="install -y"
+      export ptracecompat='0'
+      export WSLenv="0"
+    fi
+
+    if [[ $(grep iSH /proc/version) ]]; then
+      echo "Bash is running on iSH"
+      echo "PTRACE ON iSH IS NOT SUPPORTED"
+      export ptracecompat='0'
+      export WSLenv="0"
+    fi
+
+    if [ ! -z $(which pacman) ]; then
+    export packmanager="pacman"
+    export installParameter="-Sy --noconfirm"
+    export distro="archlinux"
+    echo Redownloading Databases
+    pacman -Syy
+    fi
+
+    if [ ! -z $(which easy_install) ]; then
+    export pyPacman="easy_install"
+    export pyInstallParam=""
+    fi
+
+    if [ ! -z $(which add-apt-repository) ]; then
+    export packmanager="apt-get"
+    export installParameter="install -y"
+    fi
+
+    if [ ! -z $(which pip) ]; then
+    export pyPacman="pip"
+    export pyInstallParam="install"
+    fi
+
+# Sourced from unifyServer technology
+}
+
+pkginstall(){
+distroDetection
+export installerprefix="[ModularInstaller]"
+for a in ${1}; do
+  echo "${installerprefix} Checking ${a}"
+  su -c "${packmanager} ${installParameter} ${a}" >> packageManager.log  < /dev/null 2>&1
+  su -c "${pyPacman} ${pyInstallParam} ${a}" >> packageManager.log  < /dev/null 2>&1
+done
+
+}
+if [ $(whoami) != "root" ]; then echo Please run this as root; exit; fi
 ##############################
 # Install dependencies
-su -c "installRuntime=$(apt-get install python python-setuptools wget proot busybox tar sed -y; pacman -S python python-setuptools wget busybox tar sed)" ; echo "${installRuntime}"
+pkginstall "python python-setuptools wget proot busybox tar sed python3 subversion python3-setuptools pip"
 ##############################
 
 
-
+export installTarget=/usr/bin
+empiresServer="${installTarget}/empires-server"
+cat > "${empiresServer}" <<- EOM
+#!/bin/sh
+bash ${currdir}/${0}
+EOM
+chmod 777 "${empiresServer}"
 
 
 
@@ -26,8 +134,8 @@ su -c "installRuntime=$(apt-get install python python-setuptools wget proot busy
 #echo Thank you
 #exit
 #fi
-if [ ! -d empiresservercontainer ] || [ $(cat empiresservercontainer/buildnumber) -lt 120 ] ; then
-lineno=88 #This line is the position of the md5hash stored #Please Change this Number to successfully compiles +2 from last line
+if [ ! -d empiresservercontainer ] || [ $(cat empiresservercontainer/buildnumber) -lt 6969696 ] ; then
+lineno=190 #This line is the position of the md5hash stored #Please Change this Number to successfully compiles 21 from last line if the last line is 188 then put it 190
 initorigindir=$(pwd)
 integrity=$(sed -n "${lineno}p" "$0") #https://stackoverflow.com/questions/21651310/reading-a-particular-line-from-a-file-in-bash-script-using-variable-as-line-numb
 echo "${integrity}" > hash
@@ -35,7 +143,7 @@ echo Preparing package empires-server
 echo Pulling Package from the script
 if [ -z $(which busybox) ]; then echo no busybox detected toybox unsupported ; exit ;fi
 echo 'Preparing For installation'
-tail -n +89 $0 > empires-RNT #Please Change this Number to successfully compiles +3 from last line IF 87 Line then 89
+tail -n +191 $0 > empires-RNT #Please Change this Number to successfully compiles +3 from last line 188 then put it 191
 if md5sum -c hash ; then
 echo Archive Integrity Verified
 rm hash
@@ -54,15 +162,9 @@ fi
 
 #FILESHRINKING LOGIC#########################################
 
-
-EmpiresEngineSize=$(stat -c%s "${currentexecfile}")
-TargetSize=5000000 #5MB
-if [ ! -f ${currentexecfile}_minimized ]; then
-echo Shedding unecessary Storage Weight
-sed 87q "${currentexecfile}" > "${currentexecfile}_minimized" # What this will do is minimizing unused package file and shrinking the script from 1500MB to 24KB
-replaceCurrentexec=$(sleep 5;cp -r "${currentexecfile}_minimized" "${currentexecfile}") &
-bash ${currentexecfile}_minimized
-fi
+echo "#!/bin/sh" > ${0}
+echo "cd ${currdir}/empiresservercontainer" >> ${0}
+echo "bash empires-server-routines.sh" >> ${0}
 
 
 #############################################################
@@ -83,4 +185,4 @@ rm -rf ${currdir}/*_minimized
 #delete temporary file
 ##################################################################
 exit
-EOF
+echo "The program has Reached out of the boundary of execution" #starting boundaries

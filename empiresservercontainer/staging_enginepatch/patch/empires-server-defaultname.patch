@@ -1,0 +1,29 @@
+--- empires-server_OG.py	2020-05-01 09:22:45.826121800 +0700
++++ empires-server_COMPUTERNAMECHANGE.py	2020-05-01 09:29:46.705373300 +0700
+@@ -108,7 +108,7 @@
+                            allies=json.dumps(get_allies_friend(saves),
+                                              default=lambda o: '<not serializable>', sort_keys=False, indent=2),
+                            app_friends=json.dumps(get_allies_id(saves)),
+-                           computername=os.environ['COMPUTERNAME'][:1].upper()+os.environ['COMPUTERNAME'].lower()[1:],
++                           defaultPlayer=os.environ['defaultPlayerNAME'][:1].upper()+os.environ['defaultPlayerNAME'].lower()[1:],
+                            picture=random_image(),
+                            dropdown_items=get_sessions_dropdown_info(saves)
+                            )
+@@ -981,7 +981,7 @@
+     #     "hp": None
+     # }
+ 
+-    worldName_ComputerName=os.environ['COMPUTERNAME'][:1].upper()+os.environ['COMPUTERNAME'].lower()[1:]+'\'s Empire'
++    worldName_defaultPlayer=os.environ['defaultPlayerNAME'][:1].upper()+os.environ['defaultPlayerNAME'].lower()[1:]+'\'s Empire'
+ 
+     user = {
+         "userInfo": {
+@@ -1108,7 +1108,7 @@
+                     "deathMatch": None
+                 }
+             },
+-            "worldName": worldName_ComputerName,
++            "worldName": worldName_defaultPlayer,
+             "titanName": "Natalie",
+             "isCIP": False,
+             "dominanceDefaultFleets": [],

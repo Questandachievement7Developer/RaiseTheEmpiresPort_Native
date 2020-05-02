@@ -6,114 +6,570 @@ exit
 }
 
 
+
+red(){
+printf '\e[38;5;210m' > /dev/tty
+}
+
+yellow(){
+printf '\e[38;5;221m' > /dev/tty
+}
+green(){
+printf '\e[38;5;042m' > /dev/tty
+}
+blue(){
+printf '\e[38;5;039m' > /dev/tty
+}
+
+gray(){
+printf '\e[38;5;037m' > /dev/tty
+}
+
+xmlTranslator(){
+export LANGUAGEXMLFOLDER=${origindir}/language
+export PYTHONIOENCODING=utf8
+python3 - << END
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+# Created by
+
+
+# This python skript extracts string resources, calls Google translate
+# and reassambles a new strings.xml as fitted for Android projects.
+
+# run via
+
+# PYTHONIOENCODING=utf8 python3 gtranslate.py  OR using pythong launcher
+# follow instructions
+
+# output format: values-XX folders with strings.xml inside
+
+# edited by alexVinrskis, March 2020
+
+### LANGUAGE CODES FOR REFERENCE
+
+#   af          Afrikaans
+#   ak          Akan
+#   sq          Albanian
+#   am          Amharic
+#   ar          Arabic
+#   hy          Armenian
+#   az          Azerbaijani
+#   eu          Basque
+#   be          Belarusian
+#   bem         Bemba
+#   bn          Bengali
+#   bh          Bihari
+#   xx-bork     Bork, bork, bork!
+#   bs          Bosnian
+#   br          Breton
+#   bg          Bulgarian
+#   km          Cambodian
+#   ca          Catalan
+#   chr         Cherokee
+#   ny          Chichewa
+#   zh-CN       Chinese (Simplified)
+#   zh-TW       Chinese (Traditional)
+#   co          Corsican
+#   hr          Croatian
+#   cs          Czech
+#   da          Danish
+#   nl          Dutch
+#   xx-elmer    Elmer Fudd
+#   en          English
+#   eo          Esperanto
+#   et          Estonian
+#   ee          Ewe
+#   fo          Faroese
+#   tl          Filipino
+#   fi          Finnish
+#   fr          French
+#   fy          Frisian
+#   gaa         Ga
+#   gl          Galician
+#   ka          Georgian
+#   de          German
+#   el          Greek
+#   gn          Guarani
+#   gu          Gujarati
+#   xx-hacker   Hacker
+#   ht          Haitian Creole
+#   ha          Hausa
+#   haw         Hawaiian
+#   iw          Hebrew
+#   hi          Hindi
+#   hu          Hungarian
+#   is          Icelandic
+#   ig          Igbo
+#   id          Indonesian
+#   ia          Interlingua
+#   ga          Irish
+#   it          Italian
+#   ja          Japanese
+#   jw          Javanese
+#   kn          Kannada
+#   kk          Kazakh
+#   rw          Kinyarwanda
+#   rn          Kirundi
+#   xx-klingon  Klingon
+#   kg          Kongo
+#   ko          Korean
+#   kri         Krio (Sierra Leone)
+#   ku          Kurdish
+#   ckb         Kurdish (Soranî)
+#   ky          Kyrgyz
+#   lo          Laothian
+#   la          Latin
+#   lv          Latvian
+#   ln          Lingala
+#   lt          Lithuanian
+#   loz         Lozi
+#   lg          Luganda
+#   ach         Luo
+#   mk          Macedonian
+#   mg          Malagasy
+#   ms          Malay
+#   ml          Malayalam
+#   mt          Maltese
+#   mi          Maori
+#   mr          Marathi
+#   mfe         Mauritian Creole
+#   mo          Moldavian
+#   mn          Mongolian
+#   sr-ME       Montenegrin
+#   ne          Nepali
+#   pcm         Nigerian Pidgin
+#   nso         Northern Sotho
+#   no          Norwegian
+#   nn          Norwegian (Nynorsk)
+#   oc          Occitan
+#   or          Oriya
+#   om          Oromo
+#   ps          Pashto
+#   fa          Persian
+#   xx-pirate   Pirate
+#   pl          Polish
+#   pt-BR       Portuguese (Brazil)
+#   pt-PT       Portuguese (Portugal)
+#   pa          Punjabi
+#   qu          Quechua
+#   ro          Romanian
+#   rm          Romansh
+#   nyn         Runyakitara
+#   ru          Russian
+#   gd          Scots Gaelic
+#   sr          Serbian
+#   sh          Serbo-Croatian
+#   st          Sesotho
+#   tn          Setswanadef findall_content(xml_string, tag):
+
+#   crs         Seychellois Creole
+#   sn          Shona
+#   sd          Sindhi
+#   si          Sinhalese
+#   sk          Slovak
+#   sl          Slovenian
+#   so          Somali
+#   es          Spanish
+#   es-419      Spanish (Latin American)
+#   su          Sundanese
+#   sw          Swahili
+#   sv          Swedish
+#   tg          Tajik
+#   ta          Tamil
+#   tt          Tatar
+#   te          Telugu
+#   th          Thai
+#   ti          Tigrinya
+#   to          Tonga
+#   lua         Tshiluba
+#   tum         Tumbuka
+#   tr          Turkish
+#   tk          Turkmen
+#   tw          Twi
+#   ug          Uighur
+#   uk          Ukrainian
+#   ur          Urdu
+#   uz          Uzbek
+#   vi          Vietnamese
+#   cy          Welsh
+#   wo          Wolof
+#   xh          Xhosa
+#   yi          Yiddish
+#   yo          Yoruba
+#   zu          Zulu
+
+#
+#   SUBROUTINES
+#
+
+# This subroutine calls Google translate and extracts the translation from
+# the html request
+def translate(to_translate, to_language="auto", language="auto"):
+    # send request
+    r = requests.get("https://translate.google.com/m?hl=%s&sl=%s&q=%s"% (to_language, language, to_translate.replace(" ", "+")))
+    if("notranslate" in r.text):
+        return(to_translate)
+    else:
+        # set markers that enclose the charset identifier
+        beforecharset='charset='
+        aftercharset='" http-equiv'
+        # extract charset
+        parsed1=r.text[r.text.find(beforecharset)+len(beforecharset):]
+        parsed2=parsed1[:parsed1.find(aftercharset)]
+        # Display warning when encoding mismatch
+        if(parsed2!=r.encoding):
+            print('\x1b[1;31;40m' + 'Warning: Potential Charset conflict' )
+            print(" Encoding as extracted by SELF    : "+parsed2)
+            print(" Encoding as detected by REQUESTS : "+r.encoding+ '\x1b[0m')
+
+        # Work around an AGE OLD Python bug in case of windows-874 encoding
+        # https://bugs.python.org/issue854511
+        if(r.encoding=='windows-874' and os.name=='posix'):
+            print('\x1b[1;31;40m' + "Alert: Working around age old Python bug (https://bugs.python.org/issue854511)\nOn Linux, charset windows-874 must be labeled as charset cp874"+'\x1b[0m')
+            r.encoding='cp874'
+
+        # convert html tags
+        text=html.unescape(r.text)
+        # set markers that enclose the wanted translation
+        before_trans = 'class="t0">'
+        after_trans='</div><form'
+        # extract translation and return it
+        parsed1=r.text[r.text.find(before_trans)+len(before_trans):]
+        parsed2=parsed1[:parsed1.find(after_trans)]
+        # fix parameter strings
+        parsed3 = re.sub('% ([ds])', r' %\1', parsed2)
+        parsed4 = re.sub('% ([\d]) \$ ([ds])', r' %\1$\2', parsed3).strip()
+        return html.unescape(parsed4).replace("'", r"\'")
+
+
+
+# MAIN PROGRAM
+
+# import libraries
+import html
+import requests
+import os
+import xml.etree.ElementTree as ET
+import sys
+from io import BytesIO
+import re
+
+# ask user for paramters, apply defaults
+#INFILE = input("Enter input filename: [default: strings.xml]\n")
+#INPUTLANGUAGE = input("\nEnter source language: [default: en]\n")
+OUTPUTlangs = input("\nEnter output language(s): (space separated) \n\n").split()
+INFILE = main.xml
+INPUTLANGUAGE = "en"
+#OUTPUTlangs = "en tr id fr".split()
+
+
+if not INFILE:
+    INFILE = "strings.xml"
+if not INPUTLANGUAGE:
+    INPUTLANGUAGE = "en"
+
+print("=================================================\n\n")
+
+# repeat proccess for each of the lang
+for OUTPUTLANGUAGE in OUTPUTlangs:
+    # create outfile in subfolder
+    name, ext=os.path.splitext(INFILE)
+    if not os.path.exists("values-" + OUTPUTLANGUAGE):
+        os.mkdir("values-" + OUTPUTLANGUAGE)
+    OUTFILE= "values-" + OUTPUTLANGUAGE + "\\strings.xml"
+    # read xml structure
+    tree = ET.parse(INFILE)
+    root = tree.getroot()
+
+    print(OUTPUTLANGUAGE + "...\n")
+
+    # cycle through elements
+    for i in range(len(root)):
+    #	for each translatable string call the translation subroutine
+    #   and replace the string by its translation,
+    #   descend into each string array
+        isTranslatable=root[i].get('translatable')
+        if(root[i].tag=='string') & (isTranslatable!='false'):
+            # trasnalte text and fix any possible issues traslotor creates: messing up HTML tags, adding spaces between string formatting elements
+            totranslate=root[i].text
+            if(totranslate!=None):
+                root[i].text=translate(totranslate,OUTPUTLANGUAGE,INPUTLANGUAGE).replace('\\ ', '\\').replace('\\ n ', '\\n').replace('\\n ', '\\n').replace('/ ', '/')
+            # if string was broken down due to HTML tags, reassemble it
+            if len(root[i]) != 0:
+                for element in range(len(root[i])):
+                    root[i][element].text = " " + translate(root[i][element].text, OUTPUTLANGUAGE, INPUTLANGUAGE).replace('\\ ', '\\').replace('\\ n ', '\\n').replace('\\n ', '\\n').replace('/ ', '/')
+                    root[i][element].tail = " " + translate(root[i][element].tail, OUTPUTLANGUAGE, INPUTLANGUAGE).replace('\\ ', '\\').replace('\\ n ', '\\n').replace('\\n ', '\\n').replace('/ ', '/')
+
+        if(root[i].tag=='string-array'):
+            for j in range(len(root[i])):
+    #	for each translatable string call the translation subroutine
+    #   and replace the string by its translation,
+                isTranslatable=root[i][j].get('translatable')
+                if(root[i][j].tag=='item') & (isTranslatable!='false'):
+                    # trasnalte text and fix any possible issues traslotor creates: messing up HTML tags, adding spaces between string formatting elements
+                    totranslate=root[i][j].text
+                    if(totranslate!=None):
+                        root[i][j].text=translate(totranslate,OUTPUTLANGUAGE,INPUTLANGUAGE).replace('\\ ', '\\').replace('\\ n ', '\\n').replace('\\n ', '\\n').replace('/ ', '/')
+
+                    # if string was broken down due to HTML tags, reassemble it
+                    if len(root[i][j]) != 0:
+                        for element in range(len(root[i][j])):
+                            root[i][j][element].text = " " + translate(root[i][j][element].text, OUTPUTLANGUAGE, INPUTLANGUAGE).replace('\\ ', '\\').replace('\\ n ', '\\n').replace('\\n ', '\\n').replace('/ ', '/')
+                            root[i][j][element].tail = " " + translate(root[i][j][element].tail, OUTPUTLANGUAGE, INPUTLANGUAGE).replace('\\ ', '\\').replace('\\ n ', '\\n').replace('\\n ', '\\n').replace('/ ', '/')
+
+    # write new xml file
+    tree.write(OUTFILE, encoding='utf-8')
+END
+}
+
+
+
 wrapupDevEnv(){
 cd ${origindir}
-rm -rf *rootfs* ${origindir}/installCache
+rm -rf *fakeroot* ${origindir}/installCache
 cd ../..
 tar -cvzf RaiseTheEmpiresPort_native.tar.gz RaiseTheEmpiresPort_native
 exit
 }
 
 cleanup(){
-rm -rf RaiseTheEmpires
+rm -rf ${origindir}/RaiseTheEmpires ${origindir}/fakeroot
+#rm -rf ${origindir}/fakeroot
+#echo "cleanup() ignored"
 }
 
 reposync_rteMain(){
   if [ ! -d raisetheempires-dev ]; then
     echo newly imported Repostitory
     git clone https://github.com/AcidCaos/raisetheempires raisetheempires-dev
+    cd raisetheempires-dev
+    git fetch
+    cd ${origindir}
   fi
   if [ ! -d raisetheempires-dev ]; then
     echo FATAL ERROR EMPIRES ALLIES SRC STILL NOT FOUND
     exit
   fi
 
+}
+
+repopush_mainBranch(){
+git add -v .
+git commit -m "QuestandachievementBuild $(cat ${origindir}/buildnumber)_AcidCaos src ver ${updateVer}_Transmission $(date)"
+git remote add origin https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native.git
+git push --force
+exit
+}
+
+timelock_timetravel(){
+  echo "Locking time history!"
+  if [ ! -f ${origindir}/devTool/timelock.devflag ]; then
+    echo 11 > ${origindir}/devTool/timelock.devflag
+  fi
+  timelockcntread=$(cat ${origindir}/devTool/timelock.devflag)
+  timelockcount=$(( $timelockcntread + 1 ))
+  echo ${timelockcount} > ${origindir}/devTool/timelock.devflag
+  if [ ${timelockcount} -gt 5 ]; then
+  cd ${origindir}/..
+  rm -rf ${origindir}/devTool/timelock/time_chunk_*
+  XZ_OPT=-9 tar czf ${origindir}/devTool/timelock/timechunkBIG .git
+  split --bytes=90m ${origindir}/devTool/timelock/timechunkBIG ${origindir}/devTool/timelock/time_chunk_
+  rm -rf ${origindir}/devTool/timelock/timechunkBIG
+  cd ${origindir}
+  echo 0 > ${origindir}/devTool/timelock.devflag
+fi
 }
 
 reposync_mainBranch(){
   clear
   #set -e
   echo Are you the developer of RaiseTheEmpires?
-  if [ ! -d raisetheempires-dev ]; then
-    echo newly imported Repostitory
     git clone https://github.com/AcidCaos/raisetheempires raisetheempires-dev
-  fi
-  if [ ! -d raisetheempires-dev ]; then
-    echo FATAL ERROR EMPIRES ALLIES SRC STILL NOT FOUND
-    exit
-  fi
   cd raisetheempires-dev
-  git status
-  git commit -a
   git pull
+  git fetch
   export updateVer=$(git log -1 --format=%cd)
   #updateVer="stub"
   echo "Version ${updateVer}"
   cd ${origindir}
-  echo Verified
-sleep 4
-  set +e
 cd ${origindir}/..
-clear
+
 echo Please wait we are updating local repository
-git add -v .
-git commit -m "QuestandachievementBuild $(cat ${origindir}/buildnumber)_AcidCaos src ver ${updateVer}_Transmission $(date)"
-git remote add origin https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native.git
+
+if [ ! -d .git ]; then
+echo Restoring git
+#${origindir}/devTool/timelock/time_chunk_
+cat ${origindir}/devTool/timelock/time_chunk_* > timeline.quantum
+tar -xf timeline.quantum
+rm -rf timeline.quantum
+fi
+if [ ! -d .git ]; then
+echo "sh*t there werent any git folder pointer"
+red
+echo "Emergency Stop has been executed"
+exit
+fi
+echo Pulling new changes from the remote
+git fetch
+git pull
 #git pull https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native
 git add -v .
-git commit -m "QuestandachievementBuild $(cat ${origindir}/buildnumber)_AcidCaos src ver ${updateVer}_Transmission $(date)"
+echo "QuestandachievementBuild $(cat ${origindir}/buildnumber)_AcidCaos src ver ${updateVer}_Transmission $(date)" > commitcache
+nano commitcache
+git commit -m "$(cat commitcache)"
+rm -rf commitcache
 #git config --global user.name "Questandachievement7Developer"
 #git config --global user.email "questandachievement"
 git status
 echo "================================================"
-echo Saving Savepoint
-git stash
 echo Retrieving new changes from remote
 git fetch
-echo Restoring savepoint
-git stash pop
 echo Pushing local changes to the remote
 git push --set-upstream origin master --force
 cd ${origindir}
 echo Repo Sync Done
+#backupgit
+
+timelock_timetravel >> ${origindir}/timelock.log 2>&1 &
 read -n 1 -s -r -p "Press any key to continue"
 }
 
 
-sanitizeMountrootfs(){
- mount --bind /dev ${rootfs}/dev
- mount --bind /proc ${rootfs}/proc
- mount --bind /sys ${rootfs}/sys
- mount --bidn /mnt ${rootfs}/mnt
+sanitizeMountfakeroot(){
+echo "function is not implemented()"
+echo "This function is deprecated due to the report of crashes in linux systems"
 }
 
-deSanitizeMountrootfs(){
-   umount -lf ${rootfs}/dev
-   umount -lf ${rootfs}/proc
-   umount -lf ${rootfs}/sys
-   umount -lf ${rootfs}/mnt
-  if [ -d ${rootfs}/mnt/c ]; then
-    echo BAIL ERROR OUT
-    echo COMPILER HAVE STOPPED FROM WORKING TO PREVENT DATALOSS
-    exit
-  fi
+deSanitizeMountfakeroot(){
+echo "function is not implemented()"
+echo "This function is deprecated due to the report of crashes in linux systems"
+}
+
+
+distroDetection(){
+# DISTRO MANAGER DETECTION IS ALSO USED TO DETERMINE WHERE DOES THE SCRIPT RUN
+export ptracecompat='1' #flag ptrace compatibility based on the distro or kernel that its running
+export linktosymlinkActivated=0
+export foreignenvironment="0" # flag foreign environment such as freebsd darwin or other nix system
+export arch=$(uname -m)
+if [ ! -z $(which apk) ]; then
+  echo "Alpine Distro"
+  export packmanager=apk
+  export installParameter="add"
+  export ptracecompat='1'
+  export distro="alpine"
+fi
+
+if [ ! -z $(which apt) ]; then
+export packmanager="apt"
+export installParameter="install -y"
+export distro="debianGNU"
+fi
+    if [ ! -z $(which pkg) ]; then
+    export packmanager=pkg
+    export installParameter="install -y"
+    export linktosymlinkActivated=1
+    echo Termux Detected
+    export distro="termux"
+
+    fi
+
+
+    if [ ! -z $(which yum) ]; then
+    export packmanager="yum"
+    export installParameter="install -y"
+    export distro="centOSGNU"
+    fi
+
+    if [[ $(grep Microsoft /proc/version) ]]; then
+      export ptracecompat='0'
+      export WSLenv="1"
+    fi
+
+    if [[ $( uname -a | grep darwin ) ]]; then
+      echo "Bash is running on Darwin Kernel"
+      echo "Running Experimental mode"
+      yellow
+      echo "${pbadge} Running environment setup" > /dev/tty
+      if [ -z $(which brew) ]; then
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+      fi
+      export distro="darwinkrnl"
+      export packmanager="brew"
+      export foreignenvironment="1"
+      export installParameter="install -y"
+      export ptracecompat='0'
+      export WSLenv="0"
+    fi
+
+    if [[ $(grep iSH /proc/version) ]]; then
+      echo "Bash is running on iSH"
+      echo "PTRACE ON iSH IS NOT SUPPORTED"
+      export ptracecompat='0'
+      export WSLenv="0"
+    fi
+
+    if [ ! -z $(which pacman) ]; then
+    export packmanager="pacman"
+    export installParameter="-Sy --noconfirm"
+    export distro="archlinux"
+    echo Redownloading Databases
+    pacman -Syy
+    fi
+
+    if [ ! -z $(which easy_install) ]; then
+    export pyPacman="easy_install"
+    export pyInstallParam=""
+    fi
+
+    if [ ! -z $(which add-apt-repository) ]; then
+    export packmanager="apt-get"
+    export installParameter="install -y"
+    fi
+
+    if [ ! -z $(which pip) ]; then
+    export pyPacman="pip"
+    export pyInstallParam="install"
+    fi
+
+# Sourced from unifyServer technology
+}
+
+pkginstall(){
+distroDetection
+export installerprefix="[ModularInstaller]"
+for a in ${1}; do
+  echo "${installerprefix} Checking ${a}"
+  ${packmanager} ${installParameter} ${a} >> ${origindir}/packageManager.log < /dev/null 2>&1
+  ${pyPacman} ${pyInstallParam} ${a} >> ${origindir}/packageManager.log < /dev/null 2>&1
+done
+
+}
+
+dependenciesCompilerInstall(){
+if [ ! -f ${origindir}/depinstalled.devflag ]; then
+echo "Installing dependencies"
+pkginstall "python3 dialog build-essential git cmake jdk-openjdk npm patchelf dialog python python3 python3-setuptools python-setuptools nano wget busybox python python-setuptools upx binutils fish wine-staging build-essential base-devel git pip git+git://github.com/christhechris/libscrc"
+else
+echo "dependencies installed"
+fi
 }
 
 
 compileUniversal(){
   export containerTemplate=${origindir}/containerdist/${Arch}
-  export rootfs=${origindir}/rootfs
-  export CurrentArchRootfsCache=${origindir}/${Arch}_rootfs
+  export fakeroot=${origindir}/fakeroot
+  export CurrentArchfakerootCache=${origindir}/${Arch}_fakeroot
   export containerConfiguration=${origindir}/containerdist/masterconf/${Arch}
-  export rootfsPacked=${origindir}/rootfs/${Arch}
+  export fakerootPacked=${origindir}/fakeroot/${Arch}
   export installCache=${origindir}/installCache
   export lastArch=$(cat ${origindir}/lastCompileArch)
-  export lastArchCache=${origindir}/${lastArch}_rootfsCache
+  export lastArchCache=${origindir}/${lastArch}_fakerootCache
 
 
-  BL=" chroot"
-  BL+=" ${rootfs}"
-  BL+=" /bin/su -c "
+  BL=""
 
 
 
@@ -130,143 +586,42 @@ exit
 fi
 
 echo "${compileprefix} Initiating Compile"
-echo "${compileprefix} Preparing Proot"
-export prootsrc=${origindir}/proot/src
-if [ -z $(which proot) ]; then
-cd ${prootsrc}
-make
- make install
-fi
 cd ${origindir}
-
-#if android always use x86_64 container because tools for android compiled only for x86_64
-
-if [ ${instTarget} == 'android' ] || [ ${instTarget} == 'windows' ]  || [ ${instTarget} == 'termux' ]; then
-export Arch=x86_64
-fi
-
-
-deSanitizeMountrootfs
-echo "${compileprefix} Checking rootfs Compatibility"
-if [ $(cat ${origindir}/lastCompileArch) == ${Arch} ]; then
-echo "${compileprefix} Compatible Rootfs from previous build"
-export reinstallContainer=0
-else
-  echo "${compileprefix} Incompatible rootfs rebuilding"
-  echo "${compileprefix} Saving Rootfs"
-  mv ${rootfs} ${lastArchCache}
-  echo "${compileprefix} Checking Container Cache to speedup migration"
-    if [ -d ${CurrentArchRootfsCache} ]; then
-      export reinstallContainer=0
-      echo "${compileprefix} Compatible Rootfs found"
-       rm -rf ${rootfs}
-      mv ${CurrentArchRootfsCache} ${rootfs}
-   else
-    export reinstallContainer=1
-     rm -rf ${rootfs}
-    mkdir ${rootfs}
-    echo "${compileprefix} Copying target container to rootfs"
-    cat ${containerTemplate}/* > ${rootfs}/seed.tar.gz
-    cd ${rootfs}
-    echo "${compileprefix} Extracting Container Template"
-     tar -xf seed.tar.gz
-     rm -f seed.tar.gz
-    #due to the diffrent naming of the folder we need to rename it to the apropriate names
-    if [ ${Arch} == 'armv8' ]; then
-    mv ${origindir}/rootfs/aarch64 ${origindir}/rootfs/armv8
-    rm -f ${origindir}/rootfs/armv8/etc/resolv.conf
-    fi
-    if [ ${Arch} == 'armv7' ]; then
-    mv ${origindir}/rootfs/armv7l ${origindir}/rootfs/armv7
-    rm -f ${origindir}/rootfs/armv7/etc/resolv.conf
-    fi
-     mv ${rootfsPacked}/* ${rootfs}
-    echo "${compileprefix} Configuring Container"
-     cp -r ${containerConfiguration}/* ${rootfs}
-  fi
-fi
-
-
-sanitizeMountrootfs
-
-
-if [ $Arch == 'armv8' ]; then export staticQemu=aarch64; fi
-if [ $Arch == 'armv7' ]; then export staticQemu=arm; fi
-if [ $Arch == 'x86_64' ]; then export staticQemu=x86_64; fi
-
 cd ${origindir}
 
 
-${BL} echo "${compileprefix} if you see this thats mean you are currently seeing emulated environment"
-echo "${compileprefix} Preparing Cached Install"
-mkdir ${installCache}
-mkdir ${installCache}/${Arch}
-export PROOT_NO_SECCOMP=1
 #Copying raisetheempires to prepare compilation on that platform
 echo "${compileprefix} Preparing empires-server Master sourcefile"
- cp -r ${origindir}/raisetheempires-dev ${rootfs}
+mkdir -p "${fakeroot}"
+mkdir -p "${fakeroot}/raisetheempires-dev"
+sudo cp -r ${origindir}/raisetheempires-dev ${fakeroot}
 echo "${compileprefix} Installing Language Files"
- cp -r ${origindir}/language/* ${rootfs}/raisetheempires-dev/assets/32995
- cp -r ${origindir}/language/* ${rootfs}/raisetheempires-dev/assets/29oct2012
-echo "${compileprefix} Injecting Custom Mods source"
- cp -r ${origindir}/raisetheempiresMod-dev/* ${rootfs}/raisetheempires-dev
-echo Merging empires-server.py
-diff -D RepoMergeTool raisetheempires-dev/empires-server.py  raisetheempiresMod-dev/empires-server.py > ${rootfs}/raisetheempires-dev/empires-server.py
+sudo cp -r ${origindir}/language/* ${fakeroot}/raisetheempires-dev/assets/32995
+sudo cp -r ${origindir}/language/* ${fakeroot}/raisetheempires-dev/assets/29oct2012
+echo "${compileprefix} Injecting Staging source"
+sudo cp -r ${origindir}/rte_staging_assets/* ${fakeroot}/raisetheempires-dev
+echo "${compileprefix} Patching with staging fixes"
+bash ${origindir}/staging_enginepatch/patchingroutines
 echo "${compileprefix} Installing Dependencies"
-pacmankeyinit=$(${BL} "pacman-key" --init) & # There is a strange bug where when pacman initialize it wont continue except to redo the pacman-key
-sleep 4
-procid=$!
-kill -9 ${procid}
-echo "${compileprefix} Compensating Proot bug in pacman-key init"
-pacmankeyinit=$(${BL} "pacman-key --init") & # There is a strange bug where when pacman initialize it wont continue except to redo the pacman-key
-sleep 5
-procid=$!
-kill -9 ${procid}
-export PROOT_NO_SECCOMP=1
-
-if [ $Arch == 'x86_64' ]; then
-pacmankeyinit=$(${BL} "pacman-key --populate archlinux" > /dev/tty)
-#sleep 60
-#procid=$!
-#kill -9 ${procid}
-else
-pacmankeyinit=$(${BL} "pacman-key --populate archlinuxarm" > /dev/tty)
-#sleep 40
-#procid=$!
-#kill -9 ${procid}
-fi
-
-#copyinstallCache
-echo "${compileprefix} Copying Installcache"
-cp -r ${installCache} ${rootfs}
-if [ ${reinstallContainer} == '1' ]; then
-pacmanRuntime=$( ${BL} "pacman -Syuwq --cachedir /installCache/${Arch} --needed --noconfirm" > /dev/tty)
-pacmanRuntime=$( ${BL} "pacman -Syu --cachedir /installCache/${Arch} --needed --noconfirm" > /dev/tty)
-if [ ${Arch} == 'x86_64' ]; then
-sleep 3
-else
-sleep 14
-fi
-fi
-procid=$!
-kill -9 ${procid}
-echo "${compileprefix} Setup Container"
-pacmanRuntime=$(${BL} "pacman -Sy cmake jdk-openjdk npm patchelf python python-setuptools nano wget busybox python python-setuptools upx binutils fish wine-staging base-devel git --cachedir /installCache/${Arch} --needed --noconfirm" > /dev/tty )
-${BL} "git clone http://github.com/christhechris/libscrc"
-${BL} "cd libscrc ;python setup.py install"
-#npmRuntime=$(${BL} npm install -g grunt > /dev/tty ) #compile tool swf to html5
-easyInstallRuntime=$(${BL} "easy_install pip" > /dev/tty )
-
-cp -r ${rootfs}/installCache/* ${installCache}
+sleep 2
+distroDetection
+#list="cmake jdk-openjdk npm patchelf dialog python python3 python3-setuptools python-setuptools nano wget busybox python python-setuptools upx binutils fish wine-staging build-essential base-devel git "
+#for a in ${list} ;do
+#${packmanager} ${installParameter} ${a}
+#done
+#Superseeded by dependenciesCompilerInstall
+#pkginstall "cmake jdk-openjdk npm patchelf dialog python python3 python3-setuptools python-setuptools nano wget busybox python python-setuptools upx binutils fish wine-staging build-essential base-devel git pip git+git://github.com/christhechris/libscrc"
+#pip install git+git://github.com/christhechris/libscrc
+#npmRuntime=$( npm install -g grunt > /dev/tty ) #compile tool swf to html5
+#easy_install pip
 echo "${compileprefix} Building EAL"
- cp -r ${origindir}/Python37src ${rootfs}
 
 
 if [ ${instTarget} == 'windows' ]; then
 export backDir=$(pwd)
 
 if [[ $(grep Microsoft /proc/version) ]]; then
-  cd ${rootfs}
+  cd ${fakeroot}
 echo ${compileprefix} Unfortunately compiling windows binary is unsupported on WSL 32BitELF is unsupported
 echo ${compileprefix} However we could try some tricks but its not guranteed it will work if you dont have admin rights
 echo ${compileprefix} Attempting to use Bare metal NT Kernel mode
@@ -276,7 +631,6 @@ winver.exe
 rm -rf python-3.8* get-pip.p*
 wget "https://www.python.org/ftp/python/3.8.2/python-3.8.2.exe"
 wget "https://bootstrap.pypa.io/get-pip.py"
-export PATH="${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files/AMD/AMDuProf/bin:/mnt/c/Program Files/Intel/WiFi/bin/:/mnt/c/Program Files/Common Files/Intel/WirelessCommon/:/mnt/c/tools/php74:/mnt/c/ProgramData/ComposerSetup/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/OpenJDK/jdk-13.0.2/bin:/mnt/c/Users/masam/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/masam/AppData/Local/atom/bin:/mnt/c/Users/masam/AppData/Roaming/Composer/vendor/bin:/mnt/c/Users/masam/AppData/Local/GitHubDesktop/bin"
 echo ${PATH}
 pwd
 cmd.exe /C "python-3.8.2.exe /quiet"
@@ -294,96 +648,94 @@ cp build-tools/empires-server.spec .
 mkdir RNT
 
 cmd.exe /C "python -m pyinstaller empires-server.spec --distpath /RaiseTheEmpires"
-echo 'echo Compilation Skipped' > ${rootfs}/compilescript.sh
-echo 'sh' > ${rootfs}/compilescript.sh
+echo 'echo Compilation Skipped' > ${fakeroot}/compilescript.sh
+echo 'sh' > ${fakeroot}/compilescript.sh
 else
-    echo 'wget https://www.python.org/ftp/python/3.8.2/python-3.8.2.exe' > ${rootfs}/compilescript.sh
-echo 'wget https://bootstrap.pypa.io/get-pip.py' >> ${rootfs}/compilescript.sh
-echo 'wine python-3.8.2.exe /quiet' >> ${rootfs}/compilescript.sh
-echo 'wine python get-pip.py --install --user' >> ${rootfs}/compilescript.sh
-echo 'fi' >> ${rootfs}/compilescript.sh
-echo 'cd /raisetheempires-dev' >> ${rootfs}/compilescript.sh
-echo 'wine python -m pip install -r requirements.txt' >> ${rootfs}/compilescript.sh
-echo 'wine python -m pip install pyinstaller' >> ${rootfs}/compilescript.sh
-echo 'sh' >> ${rootfs}/compilescript.sh
+    echo 'wget https://www.python.org/ftp/python/3.8.2/python-3.8.2.exe' > ${fakeroot}/compilescript.sh
+echo 'wget https://bootstrap.pypa.io/get-pip.py' >> ${fakeroot}/compilescript.sh
+echo 'wine python-3.8.2.exe /quiet' >> ${fakeroot}/compilescript.sh
+echo 'wine python get-pip.py --install --user' >> ${fakeroot}/compilescript.sh
+echo 'fi' >> ${fakeroot}/compilescript.sh
+echo 'cd /raisetheempires-dev' >> ${fakeroot}/compilescript.sh
+echo 'wine python -m pip install -r requirements.txt' >> ${fakeroot}/compilescript.sh
+echo 'wine python -m pip install pyinstaller' >> ${fakeroot}/compilescript.sh
+echo 'sh' >> ${fakeroot}/compilescript.sh
 fi
 fi
 
 if [ ${instTarget} == 'termux' ]; then
   echo "${compileprefix} Termux mode"
-  echo '#!/bin/bash' > ${rootfs}/compilescript.sh
-  echo 'python3 -m pip install --upgrade pip' >> ${rootfs}/compilescript.sh
-  echo 'python3 -m pip install pyminifier' >> ${rootfs}/compilescript.sh
-  echo 'mkdir /RaiseTheEmpires' >> ${rootfs}/compilescript.sh
-  echo 'cp -r /raisetheempires-dev/*.py /RaiseTheEmpires' >> ${rootfs}/compilescript.sh
+  echo '#!/bin/bash' > ${fakeroot}/compilescript.sh
+  echo 'python3 -m pip install --upgrade pip' >> ${fakeroot}/compilescript.sh
+  echo 'python3 -m pip install pyminifier' >> ${fakeroot}/compilescript.sh
+  echo 'mkdir /RaiseTheEmpires' >> ${fakeroot}/compilescript.sh
+  echo 'cp -r /raisetheempires-dev/*.py /RaiseTheEmpires' >> ${fakeroot}/compilescript.sh
 fi
 
 if [ ${instTarget} == 'gnulinux' ]; then
   echo "${compileprefix} gnulinux mode"
-  echo '#!/bin/bash' > ${rootfs}/compilescript.sh
-  echo 'python3 -m pip install --upgrade pip' >> ${rootfs}/compilescript.sh
-  echo 'python3 -m pip install pyminifier' >> ${rootfs}/compilescript.sh
-  echo 'mkdir /RaiseTheEmpires' >> ${rootfs}/compilescript.sh
-  echo 'cp -r /raisetheempires-dev/*.py /RaiseTheEmpires' >> ${rootfs}/compilescript.sh
+  echo '#!/bin/bash' > ${fakeroot}/compilescript.sh
+  echo 'python3 -m pip install --upgrade pip' >> ${fakeroot}/compilescript.sh
+  echo 'python3 -m pip install pyminifier' >> ${fakeroot}/compilescript.sh
+  echo 'mkdir /RaiseTheEmpires' >> ${fakeroot}/compilescript.sh
+  echo 'cp -r /raisetheempires-dev/*.py /RaiseTheEmpires' >> ${fakeroot}/compilescript.sh
+fi
+
+if [ ${instTarget} == 'macOS' ]; then
+  echo "${compileprefix} gnulinux mode"
+  echo '#!/bin/bash' > ${fakeroot}/compilescript.sh
+  echo 'python3 -m pip install --upgrade pip' >> ${fakeroot}/compilescript.sh
+  echo 'python3 -m pip install pyminifier' >> ${fakeroot}/compilescript.sh
+  echo 'mkdir /RaiseTheEmpires' >> ${fakeroot}/compilescript.sh
+  echo 'cp -r /raisetheempires-dev/*.py /RaiseTheEmpires' >> ${fakeroot}/compilescript.sh
 fi
 
 if [ ${instTarget} == 'android' ]; then
-  echo 'if [ -z $(which python3) ]; then' > ${rootfs}/compilescript.sh
-  echo 'cd /Python37src' >> ${rootfs}/compilescript.sh
-  echo './configure --enable-shared' >> ${rootfs}/compilescript.sh
-  echo 'make -j 8' >> ${rootfs}/compilescript.sh
-  echo 'make install' >> ${rootfs}/compilescript.sh
-  echo 'fi' >> ${rootfs}/compilescript.sh
-  echo 'python3 -m pip install --upgrade pip' >> ${rootfs}/compilescript.sh
-  echo 'cd /raisetheempires-dev' >> ${rootfs}/compilescript.sh
-  echo 'python3 -m pip install -r requirements.txt' >> ${rootfs}/compilescript.sh
-  echo 'python3 -m pip install python-for-android ' >> ${rootfs}/compilescript.sh
-  echo 'wget https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip' >> ${rootfs}/compilescript.sh
-  echo 'unzip sdk-tools-linux-3859397.zip' >> ${rootfs}/compilescript.sh
-  echo 'echo Unfinished Code Transitioning to Debug mode' >> ${rootfs}/compilescript.sh
-  echo 'sh' >> ${rootfs}/compilescript.sh
+  echo 'if [ -z $(which python3) ]; then' > ${fakeroot}/compilescript.sh
+  echo 'cd /Python37src' >> ${fakeroot}/compilescript.sh
+  echo './configure --enable-shared' >> ${fakeroot}/compilescript.sh
+  echo 'make -j 8' >> ${fakeroot}/compilescript.sh
+  echo 'make install' >> ${fakeroot}/compilescript.sh
+  echo 'fi' >> ${fakeroot}/compilescript.sh
+  echo 'python3 -m pip install --upgrade pip' >> ${fakeroot}/compilescript.sh
+  echo 'cd /raisetheempires-dev' >> ${fakeroot}/compilescript.sh
+  echo 'python3 -m pip install -r requirements.txt' >> ${fakeroot}/compilescript.sh
+  echo 'python3 -m pip install python-for-android ' >> ${fakeroot}/compilescript.sh
+  echo 'wget https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip' >> ${fakeroot}/compilescript.sh
+  echo 'unzip sdk-tools-linux-3859397.zip' >> ${fakeroot}/compilescript.sh
+  echo 'echo Unfinished Code Transitioning to Debug mode' >> ${fakeroot}/compilescript.sh
+  echo 'sh' >> ${fakeroot}/compilescript.sh
 fi
 
 
 if [ ${instTarget} == 'gnulinuxOLD' ] ; then
-echo 'if [ -z $(which python3) ]; then' > ${rootfs}/compilescript.sh
-echo 'cd /Python37src' >> ${rootfs}/compilescript.sh
-echo './configure --enable-shared' >> ${rootfs}/compilescript.sh
-echo 'make -j 8' >> ${rootfs}/compilescript.sh
-echo 'make install' >> ${rootfs}/compilescript.sh
-echo 'fi' >> ${rootfs}/compilescript.sh
-echo 'ldconfig /usr/local/lib'  >> ${rootfs}/compilescript.sh
-echo 'cd /raisetheempires-dev' >> ${rootfs}/compilescript.sh
-echo 'python3 -m pip install --upgrade pip' >> ${rootfs}/compilescript.sh
-echo 'python3 -m pip install git+git://github.com/christhechris/libscrc' >> ${rootfs}/compilescript.sh
-echo 'python3 -m pip install staticx pycrypto pep517' >> ${rootfs}/compilescript.sh
-echo 'python3 -m pip install git+git://github.com/pypa/pep517' >> ${rootfs}/compilescript.sh
-#echo 'wget https://github.com/pyinstaller/pyinstaller/releases/download/v3.6/PyInstaller-3.6.tar.gz ; tar -xf PyInstaller-3.6.tar.gz; cd PyInstaller-3.6' >> ${rootfs}/compilescript.sh
-echo 'git clone http://github.com/pyinstaller/pyinstaller' >> ${rootfs}/compilescript.sh
-echo 'cd pyinstaller; pip install -r tests/requirements-tools.txt ; cd bootloader; python3 ./waf -j4 -v distclean all; cd .. ; python3 setup.py -v install ; cd /raisetheempires-dev' >> ${rootfs}/compilescript.sh
-#echo 'python3 -m pip install git+git://github.com/pyinstaller/pyinstaller' >> ${rootfs}/compilescript.sh #Installing directly won't work since other arch like aarch64 armv7x bootlaoder doesn't compile automatically
-echo 'python3 -m pip install -r requirements.txt' >> ${rootfs}/compilescript.sh
-echo 'cp build-tools/empires-server.spec .' >> ${rootfs}/compilescript.sh
-echo 'mkdir RNT;pyinstaller empires-server.spec --distpath /RaiseTheEmpires' >> ${rootfs}/compilescript.sh #https://stackoverflow.com/questions/18841334/using-an-alternate-tmp-location-with-pyinstaller/18848945
-fi
-${BL} "/bin/busybox ls /"
-${BL} "/bin/sh /compilescript.sh"
-
-if [ ! -f ${rootfs}/RaiseTheEmpires/empires-server ] && [ ${instTarget} != 'windows' ] && [ ${instTarget} != 'android' ] && [ ${instTarget} != 'termux' ] && [ ${instTarget} != 'gnulinux' ]; then
-echo "${compileprefix} Compile Failed!"
-echo "${compileprefix} Entering Diagnostic Mode"
-${BL} sh > /dev/tty
-echo "${compileprefix} Exiting Diagnostic mode"
-echo ${Arch} > ${origindir}/lastCompileArch
-exit
+echo 'if [ -z $(which python3) ]; then' > ${fakeroot}/compilescript.sh
+echo 'cd /Python37src' >> ${fakeroot}/compilescript.sh
+echo './configure --enable-shared' >> ${fakeroot}/compilescript.sh
+echo 'make -j 8' >> ${fakeroot}/compilescript.sh
+echo 'make install' >> ${fakeroot}/compilescript.sh
+echo 'fi' >> ${fakeroot}/compilescript.sh
+echo 'ldconfig /usr/local/lib'  >> ${fakeroot}/compilescript.sh
+echo 'cd /raisetheempires-dev' >> ${fakeroot}/compilescript.sh
+echo 'python3 -m pip install --upgrade pip' >> ${fakeroot}/compilescript.sh
+echo 'python3 -m pip install git+git://github.com/christhechris/libscrc' >> ${fakeroot}/compilescript.sh
+echo 'python3 -m pip install staticx pycrypto pep517' >> ${fakeroot}/compilescript.sh
+echo 'python3 -m pip install git+git://github.com/pypa/pep517' >> ${fakeroot}/compilescript.sh
+#echo 'wget https://github.com/pyinstaller/pyinstaller/releases/download/v3.6/PyInstaller-3.6.tar.gz ; tar -xf PyInstaller-3.6.tar.gz; cd PyInstaller-3.6' >> ${fakeroot}/compilescript.sh
+echo 'git clone http://github.com/pyinstaller/pyinstaller' >> ${fakeroot}/compilescript.sh
+echo 'cd pyinstaller; pip install -r tests/requirements-tools.txt ; cd bootloader; python3 ./waf -j4 -v distclean all; cd .. ; python3 setup.py -v install ; cd /raisetheempires-dev' >> ${fakeroot}/compilescript.sh
+#echo 'python3 -m pip install git+git://github.com/pyinstaller/pyinstaller' >> ${fakeroot}/compilescript.sh #Installing directly won't work since other arch like aarch64 armv7x bootlaoder doesn't compile automatically
+echo 'python3 -m pip install -r requirements.txt' >> ${fakeroot}/compilescript.sh
+echo 'cp build-tools/empires-server.spec .' >> ${fakeroot}/compilescript.sh
+echo 'mkdir RNT;pyinstaller empires-server.spec --distpath /RaiseTheEmpires' >> ${fakeroot}/compilescript.sh #https://stackoverflow.com/questions/18841334/using-an-alternate-tmp-location-with-pyinstaller/18848945
 fi
 
-deSanitizeMountrootfs
+deSanitizeMountfakeroot
 echo "${compileprefix} Universal Binary Compile finished"
 }
 
 bindistTrimming(){
-  if [ ${packmode} == 'rootfs' ]; then
+  if [ ${packmode} == 'fakeroot' ]; then
     echo "${compileprefix} no massive cleanup needed"
     echo "${compileprefix} skipping straight into Packing"
     cat ${origindir}/staticTemplate/empires-server-routines_template.sh > ${origindir}
@@ -391,59 +743,61 @@ bindistTrimming(){
 
   if [ ${packmode} == 'staticbin' ]; then
     echo "${compileprefix} Cleaning up"
-        rm -rf ${origindir}/RaiseTheEmpires ${origindir}/tmp
-    mkdir ${origindir}/tmp
-    cp -r ${rootfs}/RaiseTheEmpires ${origindir}/tmp
-    echo "Static Bin"
+        rm -rf ${origindir}/tmp
     #exit
-    mv ${origindir}/tmp/RaiseTheEmpires ${origindir}
     echo "${compileprefix} Writing server-routines"
     echo "${compileprefix} Writing .ini generator"
-    echo ' apt-get install python3 python3-setuptools python3-dev git dialog ssh -y' > ${origindir}/empires-server-routines.sh
-    echo ' pacman -S python git dialog python-setuptools openssh --noconfirm' >> ${origindir}/empires-server-routines.sh
-    echo 'python3 -m pip install tendo py3amf flask flask_session flask_sqlalchemy flask_compress flask_socketio daiquiri git+git://github.com/christhechris/libscrc python-editor' >> ${origindir}/empires-server-routines.sh
+    echo 'export origindir=$(pwd)' > ${origindir}/empires-server-routines.sh
+    echo 'export RUNTIMEDIR=${origindir}/._MEI202028' >> ${origindir}/empires-server-routines.sh
+    echo "python3 -m pip install virtualenv pipenv" >> ${origindir}/empires-server-routines.sh
     cat ${origindir}/staticTemplate/defaultFlaskConfig >> ${origindir}/empires-server-routines.sh
     echo 'export TMPDIR=$(pwd)/RaiseTheEmpires/RNT' >> ${origindir}/empires-server-routines.sh
     echo 'export origindir=$(pwd)' >> ${origindir}/empires-server-routines.sh
-    #echo 'python3 executionRoutines_universal.py' >> ${origindir}/empires-server-routines.sh
     cat ${origindir}/staticTemplate/empires-server-routine-menu >> ${origindir}/empires-server-routines.sh
   fi
 
   if [ ${instTarget} == 'termux' ]; then
     echo "${compileprefix} Cleaning up"
-    rm -rf ${origindir}/RaiseTheEmpires ${origindir}/tmp
+    rm -rf ${origindir}/tmp
     mkdir ${origindir}/tmp
-    cp -r ${rootfs}/RaiseTheEmpires ${origindir}/tmp
-    echo "BreakPoint"
     #exit
-    mv ${origindir}/tmp/RaiseTheEmpires ${origindir}
     echo "${compileprefix} Writing server-routines"
     echo "${compileprefix} Writing .ini generator"
     echo 'export origindir=$(pwd)' > ${origindir}/empires-server-routines.sh
     echo 'export RUNTIMEDIR=${origindir}/._MEI202028' >> ${origindir}/empires-server-routines.sh
-    echo 'pkg install python git dialog openssh -y' >> ${origindir}/empires-server-routines.sh
-    echo 'python -m pip install tendo py3amf flask flask_session flask_sqlalchemy flask_compress flask_socketio daiquiri git+git://github.com/christhechris/libscrc python-editor' >> ${origindir}/empires-server-routines.sh
+    echo 'pkg install python git clang dialog openssh -y' >> ${origindir}/empires-server-routines.sh
+    echo "python3 -m pip install virtualenv pipenv" >> ${origindir}/empires-server-routines.sh
     cat ${origindir}/staticTemplate/defaultFlaskConfig_termux >> ${origindir}/empires-server-routines.sh
     echo 'export origindir=$(pwd)' >> ${origindir}/empires-server-routines.sh
-    #echo 'python3 executionRoutines_universal.py' >> ${origindir}/empires-server-routines.sh
     cat ${origindir}/staticTemplate/empires-server-routine-menu >> ${origindir}/empires-server-routines.sh
   fi
 
-
-  if [ ${instTarget} == 'androidWrap' ]; then
+  if [ ${instTarget} == 'macOS' ]; then
     echo "${compileprefix} Cleaning up"
-    rm -rf ${origindir}/RaiseTheEmpires ${origindir}/tmp
+    rm -rf ${origindir}/tmp
     mkdir ${origindir}/tmp
-    cp -r ${rootfs}/RaiseTheEmpires ${origindir}/tmp
-    echo "BreakPoint"
     #exit
-    mv ${origindir}/tmp/RaiseTheEmpires ${origindir}
     echo "${compileprefix} Writing server-routines"
     echo "${compileprefix} Writing .ini generator"
     echo 'export origindir=$(pwd)' > ${origindir}/empires-server-routines.sh
     echo 'export RUNTIMEDIR=${origindir}/._MEI202028' >> ${origindir}/empires-server-routines.sh
-    echo 'apt-get install python git dialog openssh -y' >> ${origindir}/empires-server-routines.sh
-    echo 'python3 -m pip install tendo py3amf flask flask_session flask_sqlalchemy flask_compress flask_socketio daiquiri git+git://github.com/christhechris/libscrc python-editor' >> ${origindir}/empires-server-routines.sh
+    echo 'pkg install python git clang dialog openssh -y' >> ${origindir}/empires-server-routines.sh
+    echo "python3 -m pip install virtualenv pipenv" >> ${origindir}/empires-server-routines.sh
+    cat ${origindir}/staticTemplate/defaultFlaskConfig >> ${origindir}/empires-server-routines.sh
+    echo 'export origindir=$(pwd)' >> ${origindir}/empires-server-routines.sh
+    cat ${origindir}/staticTemplate/empires-server-routine-menu >> ${origindir}/empires-server-routines.sh
+  fi
+
+  if [ ${instTarget} == 'androidWrap' ]; then
+    echo "${compileprefix} Cleaning up"
+    rm -rf ${origindir}/tmp
+    mkdir ${origindir}/tmp
+    #exit
+    echo "${compileprefix} Writing server-routines"
+    echo "${compileprefix} Writing .ini generator"
+    echo 'export origindir=$(pwd)' > ${origindir}/empires-server-routines.sh
+    echo 'export RUNTIMEDIR=${origindir}/._MEI202028' >> ${origindir}/empires-server-routines.sh
+    echo "python3 -m pip install virtualenv pipenv" >> ${origindir}/empires-server-routines.sh
     cat ${origindir}/staticTemplate/defaultFlaskConfig_termux >> ${origindir}/empires-server-routines.sh
     echo 'export origindir=$(pwd)' >> ${origindir}/empires-server-routines.sh
     cat ${origindir}/staticTemplate/empires-server-routine-menu >> ${origindir}/empires-server-routines.sh
@@ -458,42 +812,59 @@ bindistTrimming(){
 
 packallupfordist(){
   if [ ${packmode} == 'staticbin' ]; then
-    export exclusion=rootfs
+    export exclusion=fakeroot
   else
     export exclusion=a9as08dnzxg
   fi
   ### Whole Packing Compile
   echo "${compileprefix} Cleaning Setup"
-  printf '\e[38;5;221m ' yellow
+  yellow
   sleep 1
   rm -rf ${origindir}/tmp
   echo "${compileprefix} Changing permission"
-   chmod -R 777 RaiseTheEmpires
+  sudo chmod -R 777 RaiseTheEmpires
   echo "${compileprefix} Packing Empires-server"
-  printf '\e[38;5;221m ' yellow
+  green
   cd ${origindir}/..
-  XZ_OPT=-9 tar cvzf empires-RNT --exclude experiments --exclude "*rootfs*" --exclude frontEnd --exclude shumway --exclude raisetheempiresMod-dev --exclude ${exclusion} --exclude Python37src --exclude installCache --exclude devTool --exclude devnote.txt --exclude containerdist --exclude proot --exclude x64EMU --exclude x86_64 --exclude raisetheempires-dev --exclude proot --exclude containerdist --exclude x86_64_prepared --exclude compile.sh --exclude x86_64kernel --exclude empires-setup.exe --exclude io --exclude installcache --exclude commandergenius --exclude firmware --exclude "bochsEngine" --exclude "*empiresTest*" --exclude staticTemplate --exclude RaiseTheEmpire empiresservercontainer
+  XZ_OPT=-9 tar czf empires-RNT --exclude experiments --exclude "*fakeroot*" --exclude "*.log*" --exclude frontEnd --exclude shumway --exclude rte_staging_assets --exclude ${exclusion} --exclude Python37src --exclude installCache --exclude devTool --exclude devnote.txt --exclude containerdist --exclude proot --exclude x64EMU --exclude x86_64 --exclude raisetheempires-dev --exclude proot --exclude containerdist --exclude x86_64_prepared --exclude compile.sh --exclude x86_64kernel --exclude empires-setup.exe --exclude io --exclude installcache --exclude commandergenius --exclude staging_enginepatch --exclude firmware --exclude "bochsEngine" --exclude "*empiresTest*" --exclude staticTemplate --exclude RaiseTheEmpire empiresservercontainer
   if [ ${instTarget} == 'termux' ]; then
     echo '#!/data/data/com.termux/files/usr/bin/bash' > empires-server
-    cat ${origindir}/staticTemplate/Starttemplate >> empires-server
+    echo "termux" > ${origindir}/dist
+    cat ${origindir}/staticTemplate/Starttemplate_termux >> empires-server
   fi
 
   if [ ${instTarget} == 'gnulinux' ]; then
     echo '#!/bin/bash' > empires-server
-    cat ${origindir}/staticTemplate/Starttemplate >> empires-server
+    echo "gnulinux" > ${origindir}/dist
+    cat ${origindir}/staticTemplate/Starttemplate_gnulinux >> empires-server
   fi
 
+    if [ ${instTarget} == 'macOS' ]; then
+    echo '#!/bin/bash' > empires-server
+    echo "gnulinux" > ${origindir}/dist
+    cat ${origindir}/staticTemplate/Starttemplate_macOS >> empires-server
+  fi
 
   md5sum empires-RNT >> empires-server
-  cat empires-RNT >> empires-server
+ #the reason why in macOS using base64 because on the toolset there only base64 tool and doesnt include with base32
+cat empires-RNT >> empires-server
   chmod 777 empires-server
-  rm -rf empires-RNT ${emu64rootfs}
-  echo $compileprefix compiled successfully became empires-server
-  echo "Version ${updateVer}"
+  rm -rf empires-RNT ${emu64fakeroot}
+  if [ ! -d compiledbin ]; then
+  mkdir compiledbin
+  fi
+  mv empires-server compiledbin/empires-server-${instTarget}-${buildnum}
+  echo $compileprefix compiled successfully became empires-server-${instTarget}-${buildnum}
+  echo You can check it on compiledbin folder
+  echo "Version ${buildnum}"
 
   if [ ${instTarget} == 'androidWrap' ]; then
     echo Compiling Export to the Wrapper
     echo Compiling commandergenius
+    clear
+    echo "function is not implemented therefore compilation are aborted"
+    echo "This is not an error but rather the installation instruction are not available"
+    exit
 fi
 }
 
@@ -502,55 +873,88 @@ buildNumberRequest(){
   if [ ! -f ${origindir}/buildnumber ]; then
     echo 0 > ${origindir}/buildnumber
   fi
-  bldnum=$(cat ${origindir}/buildnumber)
-  bldnum=$(( $bldnum + 1 ))
-  echo ${bldnum} > ${origindir}/buildnumber
-  echo empires-server GNULINUX edition build number ${bldnum}
+  bldnum=$( cat ${origindir}/buildnumber )
+  export buildnum=$(echo ${bldnum})
+  export buildnum=$(( ${buildnum} + 1 ))
+  echo ${buildnum} > ${origindir}/buildnumber
+  echo empires-server Port_native edition build number ${buildnum}
 }
 
 
 assembleServer(){
 
-#BL="proot"
-#BL+=" -0"
-#BL+=" -r rootfs"
-#BL+=" -b /dev"
-#BL+=" -b /proc"
-#BL+=" -w /"
-#BL+=" -q qemu-${staticQemu}-static"
-#BL+=" /usr/bin/env -i"
-#BL+=" HOME=/root"
-#BL+=" PATH=/usr/local/sbin:/usr/local/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/games:/usr/local/games"
-#BL+=" TERM=\$TERM"
-#BL+=" LANG=C.UTF-8"
-
-
-
-
-
-
-
-
-
-
-
 
 
 cd ${origindir}
 echo "${compileprefix} Assembling server into a program folder"
-${BL} "mkdir /RaiseTheEmpires"
+echo "${compileprefix} ${origindir}/RaiseTheEmpires"
+mkdir -p "${origindir}/RaiseTheEmpires"
 echo "${compileprefix} Assembling savefiles"
+# for Main execution
+#This is copying what already patched by the rte_staging_assets
+cp -r ${fakeroot}/raisetheempires-dev/*.py ${origindir}/RaiseTheEmpires
 #see devnote.txt for details
-${BL} "mkdir /RaiseTheEmpires/fileSave"
-${BL} "cp -r /raisetheempires-dev/allies /RaiseTheEmpires/fileSave"
-${BL} "cp -r /raisetheempires-dev/gamesettings-converted.json /RaiseTheEmpires/fileSave"
-${BL} "cp -r /raisetheempires-dev/questsettings-converted.json /RaiseTheEmpires/fileSave"
-${BL} "cp -r /raisetheempires-dev/save.db /RaiseTheEmpires/fileSave"
-echo "${compileprefix} Assembling assets"
-${BL} "cp -r /raisetheempires-dev/assets /RaiseTheEmpires/"
-${BL} "cp -r /raisetheempires-dev/templates /RaiseTheEmpires/"
-if [ ${packmode} == "rootfs" ]; then
-echo "${compileprefix} Rootfs mode requested creating .ini files"
+mkdir ${origindir}/RaiseTheEmpires/fileSave
+cp -r ${fakeroot}/raisetheempires-dev/allies ${origindir}/RaiseTheEmpires/fileSave
+cp -r ${fakeroot}/raisetheempires-dev/gamesettings-converted.json ${origindir}/RaiseTheEmpires/fileSave
+cp -r ${fakeroot}/raisetheempires-dev/questsettings-converted.json ${origindir}/RaiseTheEmpires/fileSave
+cp -r ${fakeroot}/raisetheempires-dev/save.db ${origindir}/RaiseTheEmpires/fileSave
+echo ${compileprefix} Assembling assets
+cp -r ${fakeroot}/raisetheempires-dev/assets ${origindir}/RaiseTheEmpires/
+cp -r ${fakeroot}/raisetheempires-dev/templates ${origindir}/RaiseTheEmpires/
+if [ ${packmode} == "fakeroot" ]; then
+echo "${compileprefix} fakeroot mode requested creating .ini files"
 
 fi
+}
+
+sanitybuildcheck(){
+buildTHESERVER
+mkdir ${origindir}/tmp_sanitycheck
+yellow
+echo "============[TESTING MODE INITIATED]============="
+gray
+cp ${origindir}/../compiledbin/empires-server-gnuLinux-${buildnum} ${origindir}/tmp_sanitycheck
+cd ${origindir}/tmp_sanitycheck
+./empires-server-gnuLinux-${buildnum}
+yellow
+echo "============[TESTING MODE FINISHED]=============="
+gray
+echo "Will exit testing mode in 30 seconds"
+sleep 30
+rm -rf ${origindir}/tmp_sanitycheck
+}
+
+bulkBuild(){
+  buildNOW(){
+  export packmode=staticbin
+  export Arch=x86_64
+  buildNumberRequest
+  sleep 3
+  compileUniversal
+  assembleServer
+  bindistTrimming
+  packallupfordist
+  echo ${Arch} > ${origindir}/lastCompileArch
+  cleanup
+}
+  yellow
+  echo "${compileprefix} Building ${instTarget}"
+  buildNOW >> ${origindir}/bulkBuild.log
+  green
+  echo "${compileprefix} Building done"
+}
+
+
+buildTHESERVER(){
+  export packmode=staticbin
+  export Arch=x86_64
+  buildNumberRequest
+  sleep 3
+  compileUniversal
+  assembleServer
+  bindistTrimming
+  packallupfordist
+  echo ${Arch} > ${origindir}/lastCompileArch
+  cleanup # cleaning previous interupted build
 }

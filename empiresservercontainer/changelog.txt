@@ -1,27 +1,88 @@
 Announcement
-The nightly version of universal build 150
+
+Universal Build 38x
+---- Port_native Addition and bugfixes
++ added warning for android users when trying to start online about their bandwidth usage
++ macOS weird behavior fixes
++ Major compiler overhaul on assets Management and server Patching
++ Rename into more reasonable and logically folder name to assets
++ empires-server Efficiency increased thus performance increases
++ COMPUTERNAME patching implemented
++ Dependencies installed within empiresservercontainer thus become sort of a sandbox using virtualenv
++ Added warning to macOS for using ssh and android for data bandwidth
++ renaming from Mod to staging assets for better understanding
++ serverID regenerate in menu if there is some problem on the connection
++ added update button for easy access to updates
++ Autoupdate has been deprecated in favor of manual update in order for the user to have control over and prevent server breaking
++ Server menu has been updated to be categorized by groups to reduce clutter
++ Some menu has been renamed to get better understanding
++ serverID Fixes login issues
+---- Game content updates
++ all powerups are shown
++ new powerups are usable
++ resources gets reduced
++ autopickup drops
+
+
+
+The nightly version of universal build 200>
+++ Simpler installation command with 'curl'
+ + ssh integration to 'curl' command
++ Updated Welcome screen with new logo
++ empires-server now can be start locally to play on PC
++ Compiler fixes
++ Merge with AcidCaos' repo 2020_04_26:
+> fix depleted z-units power-ups out of sync Nat 26/04/2020
+> obelisk fixed oshere1111 26/04/2020
+> xp on hover AcidCaos 25/04/2020
+> fixed resource needed buying oshere1111 24/04/2020
+> resource amount fix Nat 24/04/2020
+> generic buying item, invade basic battle Nat 24/04/2020
+> fixed unit buying oshere1111 24/04/2020
+> init custom name. favicon fix. AcidCaos 24/04/2020
+> fixed github repository link Willy030125 24/04/2020
+> fixed silence gap in battle music Willy030125 24/04/2020
+> fixed resources buying in build menu oshere1111 24/04/2020
+> player menu AcidCaos 23/04/2020
+> adding crewInfo when migrate oshere1111 23/04/2020
+> all govt adding crewInfo when migrate oshere1111 23/04/2020
+> crewing buildings Nat 21/04/2020 23:39
+> ability to cancel units, research, produce, ... Nat 21/04/2020 01:05
+> fix quest kill counter oshere1111 20/04/2020 23:46
+> fix build upgrade quests Nat 20/04/2020 19:35
+> progress fix oshere1111 19/04/2020 18:50
+> use general consumable oshere1111 19/04/2020 17:38
+> consumable quest progress oshere1111 18/04/2020 21:05
+> buy consumables oshere1111 17/04/2020 01:34
+> progress harvest consumable. powerup counting oshere1111 16/04/2020 02:10
+> invade neighbors initial Nat 14/04/2020 01:59
+
+The nightly version of universal build 190>
++ Custom ssh address, to prevent the link has been used
++ Merge with AcidCaos' repo 2020_04_05:
+> unlock units (& free unit), LE discounts Nat 05/04/2020 00:47
+
+The nightly version of universal build 170>
 +++ Massive UI Overhaul
   + Welcome screen
   + Play screen
-+++ Massive Launcher Overhaul and rewrite into portable python which is much more reliable
-+ Kivy porting to ( android apk to Windows exe )
-+++ FlashJS implementation
+ ++ Additional Decorations have been added into the game
+  + Bonus area for each decorations are implemented
 + empires and allies Player resource balancing
-
 
 The nightly version of termux Build 120>
 + will have some slight improvement and better UI menu selection
 + Merge with 0.05a update Incl.
-```alpha v0.05a
+*alpha v0.05a*
 multiplayer: tending recipient accept/decline, new session & change ore menu, neighbor ore quests Nat 02/02/2020 23:58
 multiplayer: tending rewards Nat 02/02/2020 18:57
-    multiplayer: tending neighbors Nat 01/02/2020 23:26
-    multiplayer: visiting server friends, unlocked tending Nat 01/02/2020 01:21
-    Added zBar. Style logbox. AcidCaos 22/01/2020 18:58
-    multiplayer: access to other player sessions, session switcher to switch to other player profiles Nat 22/01/2020 00:31
-    battle rewards completing coin quests fixc Nat 27/12/2019 15:08
-    Initial map almost done AcidCaos 19/12/2019 18:07
-```
+multiplayer: tending neighbors Nat 01/02/2020 23:26
+multiplayer: visiting server friends, unlocked tending Nat 01/02/2020 01:21
+Added zBar. Style logbox. AcidCaos 22/01/2020 18:58
+multiplayer: access to other player sessions, session switcher to switch to other player profiles Nat 22/01/2020 00:31
+battle rewards completing coin quests fixc Nat 27/12/2019 15:08
+Initial map almost done AcidCaos 19/12/2019 18:07
+
 + added snapshot Restore menu from the empires-server menu
 + Install Upgrade Migration features
 + Added SaveFile Migration Official Windows Releases Version <--> Nightly Termux Version

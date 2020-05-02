@@ -2,10 +2,15 @@
 rootfs
 **/*rootfs*
 **/*cache*
+**/*packageManager.log*
 **/*Cache*
 **/*proot*
 **/*experiment*
 **/*raisetheempires-dev*
 **/*lastCompileArch*
 **/*saveSnapshot*
+**/*compiledbin*
+**/*packageManager.log*
+**/*.devflag*
+**/*.log*
 empires-server
