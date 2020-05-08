@@ -388,6 +388,12 @@ timelock_timetravel(){
 fi
 }
 
+repobackup_branch(){
+  echo "Backup Executed!"
+  git checkout -b "Backup_$(cat ${origindir}/buildnumber)"
+  git checkout "master"
+}
+
 reposync_mainBranch(){
   clear
   #set -e
@@ -402,7 +408,7 @@ reposync_mainBranch(){
   echo "Version ${updateVer}"
   cd ${origindir}
 cd ${origindir}/..
-
+repobackup_branch
 echo Please wait we are updating local repository
 
 if [ ! -d .git ]; then
