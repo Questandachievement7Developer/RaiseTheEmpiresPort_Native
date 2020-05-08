@@ -375,7 +375,7 @@ timelock_timetravel(){
   cd ${origindir}/..
   rm -rf ${origindir}/devTool/timelock/time_chunk_*
   XZ_OPT=-9 tar czf ${origindir}/devTool/timelock/timechunkBIG .git
-  split --bytes=90m ${origindir}/devTool/timelock/timechunkBIG ${origindir}/devTool/timelock/time_chunk_
+  split --bytes=69m ${origindir}/devTool/timelock/timechunkBIG ${origindir}/devTool/timelock/time_chunk_
   rm -rf ${origindir}/devTool/timelock/timechunkBIG
   cd ${origindir}
   echo "Branching Backup"
