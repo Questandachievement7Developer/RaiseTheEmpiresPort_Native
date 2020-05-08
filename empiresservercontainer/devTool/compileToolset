@@ -464,6 +464,7 @@ echo Repo Sync Done
 #backupgit
 
 timelock_timetravel >> ${origindir}/timelock.log 2>&1 &
+green
 read -n 1 -s -r -p "Press any key to continue"
 }
 
