@@ -1,0 +1,15 @@
+const int flash_ui_Mouse_supportsCursor_get = 1;
+const int flash_ui_Mouse_cursor_get = 2;
+const int flash_ui_Mouse_cursor_set = 3;
+const int flash_ui_Mouse_supportsNativeCursor_get = 4;
+const int flash_ui_Mouse_hide = 5;
+const int flash_ui_Mouse_show = 6;
+const int flash_ui_Mouse_registerCursor = 7;
+const int flash_ui_Mouse_unregisterCursor = 8;
+const int flash_ui_Mouse_Mouse = 9;
+const int abcclass_flash_ui_Mouse = 0;
+extern const int Mouse_abc_length;
+extern const int Mouse_abc_method_count;
+extern const int Mouse_abc_class_count;
+extern const int Mouse_abc_script_count;
+extern const unsigned char Mouse_abc_data[];

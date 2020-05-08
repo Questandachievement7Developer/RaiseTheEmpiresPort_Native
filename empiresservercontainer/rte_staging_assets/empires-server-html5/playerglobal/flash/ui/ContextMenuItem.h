@@ -1,0 +1,13 @@
+const int flash_ui_ContextMenuItem_ContextMenuItem = 1;
+const int flash_ui_ContextMenuItem_caption_get = 2;
+const int flash_ui_ContextMenuItem_caption_set = 3;
+const int flash_ui_ContextMenuItem_separatorBefore_get = 4;
+const int flash_ui_ContextMenuItem_separatorBefore_set = 5;
+const int flash_ui_ContextMenuItem_visible_get = 6;
+const int flash_ui_ContextMenuItem_visible_set = 7;
+const int abcclass_flash_ui_ContextMenuItem = 0;
+extern const int ContextMenuItem_abc_length;
+extern const int ContextMenuItem_abc_method_count;
+extern const int ContextMenuItem_abc_class_count;
+extern const int ContextMenuItem_abc_script_count;
+extern const unsigned char ContextMenuItem_abc_data[];

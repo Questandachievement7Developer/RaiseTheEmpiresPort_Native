@@ -1,0 +1,10 @@
+const int flash_system_ApplicationInstaller_stringsDigest = 1;
+const int flash_system_ApplicationInstaller_iconDigest = 2;
+const int flash_system_ApplicationInstaller_isInstalled_get = 4;
+const int flash_system_ApplicationInstaller_install = 5;
+const int abcclass_flash_system_ApplicationInstaller = 0;
+extern const int ApplicationInstaller_abc_length;
+extern const int ApplicationInstaller_abc_method_count;
+extern const int ApplicationInstaller_abc_class_count;
+extern const int ApplicationInstaller_abc_script_count;
+extern const unsigned char ApplicationInstaller_abc_data[];

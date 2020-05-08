@@ -1,0 +1,14 @@
+const int flash_text_engine_SpaceJustifier_letterSpacing_get = 2;
+const int flash_text_engine_SpaceJustifier_letterSpacing_set = 3;
+const int flash_text_engine_SpaceJustifier_minimumSpacing_get = 4;
+const int flash_text_engine_SpaceJustifier_minimumSpacing_set = 5;
+const int flash_text_engine_SpaceJustifier_optimumSpacing_get = 6;
+const int flash_text_engine_SpaceJustifier_optimumSpacing_set = 7;
+const int flash_text_engine_SpaceJustifier_maximumSpacing_get = 8;
+const int flash_text_engine_SpaceJustifier_maximumSpacing_set = 9;
+const int abcclass_flash_text_engine_SpaceJustifier = 0;
+extern const int SpaceJustifier_abc_length;
+extern const int SpaceJustifier_abc_method_count;
+extern const int SpaceJustifier_abc_class_count;
+extern const int SpaceJustifier_abc_script_count;
+extern const unsigned char SpaceJustifier_abc_data[];

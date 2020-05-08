@@ -1,0 +1,15 @@
+const int flash_system_IME_enabled_get = 1;
+const int flash_system_IME_enabled_set = 2;
+const int flash_system_IME_conversionMode_get = 3;
+const int flash_system_IME_conversionMode_set = 4;
+const int flash_system_IME_isSupported_get = 5;
+const int flash_system_IME_setCompositionString = 6;
+const int flash_system_IME_doConversion = 7;
+const int flash_system_IME_compositionSelectionChanged = 8;
+const int flash_system_IME_compositionAbandoned = 9;
+const int abcclass_flash_system_IME = 0;
+extern const int IME_abc_length;
+extern const int IME_abc_method_count;
+extern const int IME_abc_class_count;
+extern const int IME_abc_script_count;
+extern const unsigned char IME_abc_data[];

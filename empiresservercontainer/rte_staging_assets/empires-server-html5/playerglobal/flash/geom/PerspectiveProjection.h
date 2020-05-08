@@ -1,0 +1,14 @@
+const int flash_geom_PerspectiveProjection_PerspectiveProjection = 1;
+const int flash_geom_PerspectiveProjection_fieldOfView_get = 2;
+const int flash_geom_PerspectiveProjection_fieldOfView_set = 3;
+const int flash_geom_PerspectiveProjection_projectionCenter_get = 4;
+const int flash_geom_PerspectiveProjection_projectionCenter_set = 5;
+const int flash_geom_PerspectiveProjection_focalLength_get = 6;
+const int flash_geom_PerspectiveProjection_focalLength_set = 7;
+const int flash_geom_PerspectiveProjection_toMatrix3D = 8;
+const int abcclass_flash_geom_PerspectiveProjection = 0;
+extern const int PerspectiveProjection_abc_length;
+extern const int PerspectiveProjection_abc_method_count;
+extern const int PerspectiveProjection_abc_class_count;
+extern const int PerspectiveProjection_abc_script_count;
+extern const unsigned char PerspectiveProjection_abc_data[];

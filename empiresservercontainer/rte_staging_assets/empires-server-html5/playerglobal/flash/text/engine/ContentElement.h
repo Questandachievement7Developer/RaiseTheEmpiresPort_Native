@@ -1,0 +1,17 @@
+const int flash_text_engine_ContentElement_textBlock_get = 2;
+const int flash_text_engine_ContentElement_textBlockBeginIndex_get = 3;
+const int flash_text_engine_ContentElement_elementFormat_get = 4;
+const int flash_text_engine_ContentElement_elementFormat_set = 5;
+const int flash_text_engine_ContentElement_eventMirror_get = 6;
+const int flash_text_engine_ContentElement_eventMirror_set = 7;
+const int flash_text_engine_ContentElement_groupElement_get = 8;
+const int flash_text_engine_ContentElement_rawText_get = 9;
+const int flash_text_engine_ContentElement_text_get = 10;
+const int flash_text_engine_ContentElement_textRotation_get = 11;
+const int flash_text_engine_ContentElement_textRotation_set = 12;
+const int abcclass_flash_text_engine_ContentElement = 0;
+extern const int ContentElement_abc_length;
+extern const int ContentElement_abc_method_count;
+extern const int ContentElement_abc_class_count;
+extern const int ContentElement_abc_script_count;
+extern const unsigned char ContentElement_abc_data[];

@@ -1,0 +1,13 @@
+const int flash_security_X500DistinguishedName_commonName_get = 2;
+const int flash_security_X500DistinguishedName_organizationName_get = 3;
+const int flash_security_X500DistinguishedName_organizationalUnitName_get = 4;
+const int flash_security_X500DistinguishedName_localityName_get = 5;
+const int flash_security_X500DistinguishedName_stateOrProvinceName_get = 6;
+const int flash_security_X500DistinguishedName_countryName_get = 7;
+const int flash_security_X500DistinguishedName_toString = 8;
+const int abcclass_flash_security_X500DistinguishedName = 0;
+extern const int X500DistinguishedName_abc_length;
+extern const int X500DistinguishedName_abc_method_count;
+extern const int X500DistinguishedName_abc_class_count;
+extern const int X500DistinguishedName_abc_script_count;
+extern const unsigned char X500DistinguishedName_abc_data[];
