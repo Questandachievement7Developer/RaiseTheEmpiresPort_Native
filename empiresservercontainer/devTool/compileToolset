@@ -420,6 +420,7 @@ exit
 fi
 echo Pulling new changes from the remote
 git fetch
+git fetch --unshallow
 git pull
 #git pull https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native
 git add -v .
