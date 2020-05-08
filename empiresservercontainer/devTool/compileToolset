@@ -442,9 +442,20 @@ git status
 echo "================================================"
 echo Retrieving new changes from remote
 git fetch
+yellow
+echo "====================================="
+red
 echo Pushing local changes to the remote
+yellow
+echo "====================================="
+
 git push --set-upstream origin master --force
+yellow
+echo "====================================="
+red
 echo Pushing Backup Branch
+yellow
+echo "====================================="
 git push --set-upstream origin ${BRANCHBACKUP} --force
 cd ${origindir}
 echo Repo Sync Done
