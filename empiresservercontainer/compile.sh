@@ -52,6 +52,7 @@ OPTIONS=(
 "compileall" "compile all platforms only for termux macOS gnulinux"
 "==========" "===================Repo Action============================="
 "repoSync" "sync all repo Its a must!"
+"dossucks" "dos2unix everything because DOS format sucks"
 "==========" "===================Local Action============================="
 "exit" "exit Compiler toolset")
 
@@ -77,6 +78,11 @@ fi
 
 if [ ${ACTION} == "exit" ]; then
 exit
+fi
+
+if [ ${ACTION} == "dossucks" ]; then
+stopscrewingupwithmyfilewindows
+startupMenu
 fi
 
 if [ ${ACTION} == 'repoSync' ]; then

@@ -390,7 +390,8 @@ fi
 
 repobackup_branch(){
   echo "Backup Executed!"
-  git checkout -b "Backup_$(cat ${origindir}/buildnumber)"
+  export BRANCHBACKUP="Backup_$(cat ${origindir}/buildnumber)"
+  git checkout -b "${BRANCHBACKUP}"
   git checkout "master"
 }
 
@@ -443,6 +444,8 @@ echo Retrieving new changes from remote
 git fetch
 echo Pushing local changes to the remote
 git push --set-upstream origin master --force
+echo Pushing Backup Branch
+git push --set-upstream origin ${BRANCHBACKUP} --force
 cd ${origindir}
 echo Repo Sync Done
 #backupgit
@@ -561,6 +564,19 @@ for a in ${1}; do
   ${pyPacman} ${pyInstallParam} ${a} >> ${origindir}/packageManager.log < /dev/null 2>&1
 done
 
+}
+
+
+stopscrewingupwithmyfilewindows(){
+  clear
+  red
+echo "STOP SCREWING UP WITH THE SOURCE CODE WINDOWS!"
+green
+filelist=$(find ${origindir})
+for a in ${filelist}; do
+echo Fixing ${a}
+dos2unix ${a}
+done
 }
 
 dependenciesCompilerInstall(){
