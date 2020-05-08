@@ -49,7 +49,7 @@ OPTIONS=(
 "==========" "===================Compile Action=========================="
 "Compile" "Compile packages for distribution"
 "buildtest" "check current build stability"
-"compileall" "compile all platforms only for termux macOS gnulinux"
+"compileall" "compile all platforms only for termux macOS gnulinux appleiOS(iSH)"
 "==========" "===================Repo Action============================="
 "repoSync" "sync all repo Its a must!"
 "dossucks" "dos2unix everything because DOS format sucks"
@@ -120,7 +120,7 @@ fi
 
 if [ ${ACTION} == "compileall" ]; then
 export compilealltrigger=1
-listofplatform="termux gnulinux macOS"
+listofplatform="termux gnulinux macOS appleiOS"
 for a in ${listofplatform}; do
 export instTarget="${a}"
 bulkBuild
