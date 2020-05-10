@@ -108,7 +108,7 @@ def home():
                            allies=json.dumps(get_allies_friend(saves),
                                              default=lambda o: '<not serializable>', sort_keys=False, indent=2),
                            app_friends=json.dumps(get_allies_id(saves)),
-                           defaultPlayer=os.environ['defaultPlayerNAME'][:1].upper()+os.environ['defaultPlayerNAME'].lower()[1:],
+                           computername=os.environ['COMPUTERNAME'][:1].upper()+os.environ['COMPUTERNAME'].lower()[1:],
                            picture=random_image(),
                            dropdown_items=get_sessions_dropdown_info(saves)
                            )
@@ -981,7 +981,7 @@ def init_user():
     #     "hp": None
     # }
 
-    worldName_defaultPlayer=os.environ['defaultPlayerNAME'][:1].upper()+os.environ['defaultPlayerNAME'].lower()[1:]+'\'s Empire'
+    worldName_ComputerName=os.environ['COMPUTERNAME'][:1].upper()+os.environ['COMPUTERNAME'].lower()[1:]+'\'s Empire'
 
     user = {
         "userInfo": {
@@ -1108,7 +1108,7 @@ def init_user():
                     "deathMatch": None
                 }
             },
-            "worldName": worldName_defaultPlayer,
+            "worldName": worldName_ComputerName,
             "titanName": "Natalie",
             "isCIP": False,
             "dominanceDefaultFleets": [],
@@ -1501,7 +1501,7 @@ def perform_world_response(step, supplied_id, position, item_name, reference_ite
 
     if step == "setState":
         if lookup_object(id)["referenceItem"] == None and reference_item != None:
-            costs = lookup_item_by_code(reference_item).get("cost")
+            costs = lookup_item_by_code(reference_item.split(":")[0]).get("cost")
             do_costs({k: v for k, v in costs.items() if k != "-cash"})
         lookup_object(id)["referenceItem"] = reference_item
 

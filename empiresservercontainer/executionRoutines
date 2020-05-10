@@ -1,8 +1,6 @@
 #!/bin/bash
 
-rdm=$RANDOM
-#export COMPUTERNAME="RTEPlayer" #default Empires Username
-export defaultPlayerNAME="RTEPlayer"
+export COMPUTERNAME="Player" #default Empires Username
 export WORKON_HOME=${origindir} # virtualenv redirection
 
 
@@ -17,7 +15,7 @@ distrospecificFixes
 registrarServerID(){
 if [ ! -f ${origindir}/serverID ]; then
 red
-echo "WARNING SERVER ID IS NOT FOUND!"
+echo "SERVER ID IS NOT CREATED YET!"
 yellow
 echo "CREATING!"
 export serverID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 12 | head -n 1)
@@ -159,7 +157,7 @@ distrospecificwarning(){
 
 serverLocalWarning(){
   if [ ${distribution} == "termux" ]; then
-    dialog --msgbox "Please Be aware that puffin browser cannot connect locally and only works if you startOnline" 40 40
+    dialog --msgbox "Please Be aware that puffin browser cannot connect locally and only works if you startOnline. Connect to PC with <this device IP>:5005" 40 40
   fi
 }
 
@@ -174,7 +172,7 @@ installEnv(){
   cd ${origindir}
   mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSave RaiseTheEmpires
   cd ${RUNTIMEDIR}
-  pipenv install --skip-lock tendo py3amf pep517 gevent flask flask_session python-editor gevent-websocket flask_sqlalchemy flask_compress flask_socketio daiquiri python-editor
+  pipenv install --skip-lock tendo py3amf pep517 flask flask_session python-editor flask_sqlalchemy flask_compress flask_socketio daiquiri python-editor
   pipenv install --skip-lock "git+git://github.com/christhechris/libscrc.git#egg=libscrc"
   cd ${origindir}
   echo 1 > ${origindir}/installed.flag
@@ -196,7 +194,7 @@ distrospecificwarning
 sh periodicSaveSnapshot > ${origindir}/periodicSaveSnapshotDaemon.log 2>&1  &
 registerPID periodicSaveSnapshot
 coreRun
-clear ;echo Server is running!;echo Copy paste the link below on Puffin Browser;ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "RaiseTheEmpires-${serverID}" -T -R 80:localhost:5005 ssh.localhost.run
+clear ;echo Server is running!;echo Copy paste the link below on Puffin Browser;ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "RaiseTheEmpires-$RANDOM-${serverID}" -T -R 80:localhost:5005 ssh.localhost.run
 dialog --msgbox "Server is Terminated" 40 40
 reqStopProc periodicSaveSnapshot
 reqStopProc empiresserver
@@ -208,7 +206,6 @@ cd ${origindir}
 serverLocalWarning
 sh periodicSaveSnapshot > ${origindir}/periodicSaveSnapshotDaemon.log 2>&1 &
 registerPID periodicSaveSnapshot
-dialog --msgbox "To terminate the server you can press any key after this dialog" 40 40
 coreRun
 registerPID empiresserver
 clear

@@ -375,7 +375,7 @@ timelock_timetravel(){
   cd ${origindir}/..
   rm -rf ${origindir}/devTool/timelock/time_chunk_*
   XZ_OPT=-9 tar czf ${origindir}/devTool/timelock/timechunkBIG .git
-  split --bytes=90m ${origindir}/devTool/timelock/timechunkBIG ${origindir}/devTool/timelock/time_chunk_
+  split --bytes=69m ${origindir}/devTool/timelock/timechunkBIG ${origindir}/devTool/timelock/time_chunk_
   rm -rf ${origindir}/devTool/timelock/timechunkBIG
   cd ${origindir}
   echo "Branching Backup"
@@ -386,6 +386,14 @@ timelock_timetravel(){
   git checkout "master"
   echo 0 > ${origindir}/devTool/timelock.devflag
 fi
+}
+
+repobackup_branch(){
+  echo "Backup Executed!"
+  buildNumberRequest
+  export BRANCHBACKUP="Backup_$(cat ${origindir}/buildnumber)"
+  git checkout -b "${BRANCHBACKUP}"
+  git checkout "master"
 }
 
 reposync_mainBranch(){
@@ -402,7 +410,7 @@ reposync_mainBranch(){
   echo "Version ${updateVer}"
   cd ${origindir}
 cd ${origindir}/..
-
+repobackup_branch
 echo Please wait we are updating local repository
 
 if [ ! -d .git ]; then
@@ -419,8 +427,10 @@ echo "Emergency Stop has been executed"
 exit
 fi
 echo Pulling new changes from the remote
-git fetch
+#git fetch
 git pull --depth 1
+git fetch --unshallow
+
 #git pull https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native
 git add -v .
 echo "QuestandachievementBuild $(cat ${origindir}/buildnumber)_AcidCaos src ver ${updateVer}_Transmission $(date)" > commitcache
@@ -434,13 +444,27 @@ git status
 echo "================================================"
 echo Retrieving new changes from remote
 git fetch
+yellow
+echo "====================================="
+red
 echo Pushing local changes to the remote
+yellow
+echo "====================================="
+
 git push --set-upstream origin master --force
+yellow
+echo "====================================="
+red
+echo Pushing Backup Branch
+yellow
+echo "====================================="
+git push --set-upstream origin ${BRANCHBACKUP} --force
 cd ${origindir}
 echo Repo Sync Done
 #backupgit
 
 timelock_timetravel >> ${origindir}/timelock.log 2>&1 &
+green
 read -n 1 -s -r -p "Press any key to continue"
 }
 
@@ -556,10 +580,24 @@ done
 
 }
 
+
+stopscrewingupwithmyfilewindows(){
+  clear
+  red
+echo "STOP SCREWING UP WITH THE SOURCE CODE WINDOWS!"
+green
+filelist=$(find ${origindir})
+for a in ${filelist}; do
+echo Fixing ${a}
+dos2unix ${a}
+done
+}
+
 dependenciesCompilerInstall(){
 if [ ! -f ${origindir}/depinstalled.devflag ]; then
 echo "Installing dependencies"
 pkginstall "python3 dialog build-essential git cmake jdk-openjdk npm patchelf dialog python python3 python3-setuptools python-setuptools nano wget busybox python python-setuptools upx binutils fish wine-staging build-essential base-devel git pip git+git://github.com/christhechris/libscrc"
+echo 1 > ${origindir}/depinstalled.devflag
 else
 echo "dependencies installed"
 fi
@@ -698,6 +736,15 @@ if [ ${instTarget} == 'macOS' ]; then
   echo 'cp -r /raisetheempires-dev/*.py /RaiseTheEmpires' >> ${fakeroot}/compilescript.sh
 fi
 
+if [ ${instTarget} == 'appleiOS' ]; then
+  echo "${compileprefix} gnulinux mode"
+  echo '#!/bin/bash' > ${fakeroot}/compilescript.sh
+  echo 'python3 -m pip install --upgrade pip' >> ${fakeroot}/compilescript.sh
+  echo 'python3 -m pip install pyminifier' >> ${fakeroot}/compilescript.sh
+  echo 'mkdir /RaiseTheEmpires' >> ${fakeroot}/compilescript.sh
+  echo 'cp -r /raisetheempires-dev/*.py /RaiseTheEmpires' >> ${fakeroot}/compilescript.sh
+fi
+
 if [ ${instTarget} == 'android' ]; then
   echo 'if [ -z $(which python3) ]; then' > ${fakeroot}/compilescript.sh
   echo 'cd /Python37src' >> ${fakeroot}/compilescript.sh
@@ -750,6 +797,21 @@ bindistTrimming(){
   fi
 
   if [ ${packmode} == 'staticbin' ]; then
+    echo "${compileprefix} Cleaning up"
+        rm -rf ${origindir}/tmp
+    #exit
+    echo "${compileprefix} Writing server-routines"
+    echo "${compileprefix} Writing .ini generator"
+    echo 'export origindir=$(pwd)' > ${origindir}/empires-server-routines.sh
+    echo 'export RUNTIMEDIR=${origindir}/._MEI202028' >> ${origindir}/empires-server-routines.sh
+    echo "python3 -m pip install virtualenv pipenv" >> ${origindir}/empires-server-routines.sh
+    cat ${origindir}/staticTemplate/defaultFlaskConfig >> ${origindir}/empires-server-routines.sh
+    echo 'export TMPDIR=$(pwd)/RaiseTheEmpires/RNT' >> ${origindir}/empires-server-routines.sh
+    echo 'export origindir=$(pwd)' >> ${origindir}/empires-server-routines.sh
+    cat ${origindir}/staticTemplate/empires-server-routine-menu >> ${origindir}/empires-server-routines.sh
+  fi
+
+  if [ ${packmode} == 'appleiOS' ]; then
     echo "${compileprefix} Cleaning up"
         rm -rf ${origindir}/tmp
     #exit
@@ -852,6 +914,11 @@ packallupfordist(){
     echo "gnulinux" > ${origindir}/dist
     cat ${origindir}/staticTemplate/Starttemplate_macOS >> empires-server
   fi
+  if [ ${instTarget} == 'appleiOS' ]; then
+  echo '#!/bin/bash' > empires-server
+  echo "gnulinux" > ${origindir}/dist
+  cat ${origindir}/staticTemplate/Starttemplate_iOS >> empires-server
+fi
 
   md5sum empires-RNT >> empires-server
  #the reason why in macOS using base64 because on the toolset there only base64 tool and doesnt include with base32
