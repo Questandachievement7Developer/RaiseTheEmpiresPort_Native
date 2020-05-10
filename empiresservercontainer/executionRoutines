@@ -1,7 +1,10 @@
 #!/bin/bash
 
-export COMPUTERNAME="Player" #default Empires Username
+export COMPUTERNAME="RTEPlayer" #default Empires Username
 export WORKON_HOME=${origindir} # virtualenv redirection
+
+
+
 
 
 distrospecificFixes(){
@@ -13,9 +16,10 @@ distrospecificFixes(){
 distrospecificFixes
 
 registrarServerID(){
-if [ ! -f ${origindir}/serverID ]; then
+if [ ! -f ${origindir}/serverID ] || [ -f ${origindir}/serverIDbind.flag ]; then
 red
 echo "SERVER ID IS NOT CREATED YET!"
+echo "OR SERVER ABRUPTLY STOPPED"
 yellow
 echo "CREATING!"
 export serverID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 12 | head -n 1)
@@ -59,6 +63,7 @@ red
 echo "YOUR PROGRESS WILL LIKELY TO BE PERSISTENT BUT YOU MAY LOGGED IN TO NEW ACCOUNT"
 confirmation
 rm -rf ${origindir}/serverID
+rm ${origindir}/serverIDbind.flag
 clear
 registrarServerID
 }
@@ -145,6 +150,15 @@ function macOSsshWarning(){
 
 
 
+networkSSHportforward(){
+if [ ! -f ${origindir}/serverIDbind.flag ]; then
+echo 1 > ${origindir}/serverIDbind.flag
+ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "RaiseTheEmpires-$RANDOM-${serverID}" -T -R 80:localhost:5005 ssh.localhost.run
+rm ${origindir}/serverIDbind.flag
+fi
+
+}
+
 
 distrospecificwarning(){
   if [ ${distribution} == "termux" ]; then
@@ -194,7 +208,8 @@ distrospecificwarning
 sh periodicSaveSnapshot > ${origindir}/periodicSaveSnapshotDaemon.log 2>&1  &
 registerPID periodicSaveSnapshot
 coreRun
-clear ;echo Server is running!;echo Copy paste the link below on Puffin Browser;ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "RaiseTheEmpires-$RANDOM-${serverID}" -T -R 80:localhost:5005 ssh.localhost.run
+clear ;echo Server is running!;echo Copy paste the link below on Puffin Browser
+networkSSHportforward
 dialog --msgbox "Server is Terminated" 40 40
 reqStopProc periodicSaveSnapshot
 reqStopProc empiresserver
