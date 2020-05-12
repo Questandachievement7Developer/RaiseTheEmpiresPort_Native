@@ -39,7 +39,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 
 ## How to install ?
 ### Installing on Android using Termux
-1. Install Termux and Puffin Browser from Play Store
+1. Install Termux from Play Store and Puffin Browser Pro from [here](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Puffin_8.2.2.41268/Puffin-Pro-v8.2.2.41268-armeabi-v7a.apk)
 2. Copy paste this command to Termux:
 ```
 curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/TermuxAutoinstaller" | bash -
