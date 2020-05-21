@@ -15,7 +15,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 | Things | Parameter |
 | ------- | ------ |
 | Current Developed Build | ![version](https://img.shields.io/badge/build-418-blue) |
-| Current Stable Releases | ![version](https://img.shields.io/badge/build-319-blue) |
+| Current Stable Releases | ![version](https://img.shields.io/badge/build-418-blue) |
 | Current Built Server Size | [![size](https://img.shields.io/badge/size-298%20MB-brightgreen)](#) |
 | Current Source Size | [![size](https://img.shields.io/badge/size-30%20MB-brightgreen)](#) |
 
@@ -24,6 +24,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 
 | Build | Update | Release date  | Download |
 | ------- | ------ | ------------  | -------- |
+| 416~418 | ServerID implementation, Virtualenv dependencies, etc.. | May, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_416) |
 | 319~325 | Invading feature, Major bug fixes, Stability improvement, etc.. | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_319) |
 | 260 | Invade neighbors initial for Build 319 | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_260/empires-v260) |
 | 239~257 | Base32 and base64 Encoder, Liveupdate | April, 2020 | [Quality Control failed] |
@@ -68,6 +69,7 @@ Copy paste this command to terminal:
 ```
 sudo curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/GNULinuxAutoinstaller" | bash -
 sudo ./empires-server-gnulinux
+bash
 ```
 If you want to run it next time, just type this:
 ```
