@@ -16,8 +16,8 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 | ------- | ------ |
 | Current Developed Build | ![version](https://img.shields.io/badge/build-418-blue) |
 | Current Stable Releases | ![version](https://img.shields.io/badge/build-319-blue) |
-| Current Built Server Size | [![size](https://img.shields.io/badge/size-283%20MB-brightgreen)](#) |
-| Current Source Size | [![size](https://img.shields.io/badge/size-23%20MB-brightgreen)](#) |
+| Current Built Server Size | [![size](https://img.shields.io/badge/size-298%20MB-brightgreen)](#) |
+| Current Source Size | [![size](https://img.shields.io/badge/size-30%20MB-brightgreen)](#) |
 
 
 ## Releases
@@ -45,6 +45,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 ```
 curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/TermuxAutoinstaller" | bash -
 ./empires-server-termux
+bash
 ```
 3. Wait until the installation is completed (and make sure your internet is stable)
 4. After the empires-server is running, copy the link into the Puffin Browser
