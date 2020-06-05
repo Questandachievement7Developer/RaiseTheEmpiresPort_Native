@@ -106,7 +106,7 @@ set MINTTY_OPTIONS=--Title cygwin-portable ^
 
 echo.
 echo ###########################################################
-echo # Installing [Cygwin Portable]...
+echo # Installing [RTE RUNTIME ENVIRONMENT]...
 echo ###########################################################
 echo.
 
@@ -225,7 +225,7 @@ echo Creating updater [%Updater_cmd%]...
     echo.
     echo echo.
     echo echo ###########################################################
-    echo echo # Updating [Cygwin Portable]...
+    echo echo # Updating [RTE ENVIRONMENT RUNTIME]...
     echo echo ###########################################################
     echo.
     echo echo Granting user [%%USERNAME%%] full access to [%%CYGWIN_ROOT%%]...
@@ -247,7 +247,7 @@ echo Creating updater [%Updater_cmd%]...
     echo.
     echo echo.
     echo echo ###########################################################
-    echo echo # Updating [Cygwin Portable] succeeded.
+    echo echo # Updating [RTE ENVIRONMENT RUNTIME] succeeded.
     echo echo ###########################################################
     echo timeout /T 60
     echo goto :eof
@@ -255,7 +255,7 @@ echo Creating updater [%Updater_cmd%]...
     echo :fail
     echo echo.
     echo echo ###########################################################
-    echo echo # Updating [Cygwin Portable] FAILED!
+    echo echo # Updating [RTE ENVIRONMENT RUNTIME] FAILED!
     echo echo ###########################################################
     echo timeout /T 60
     echo exit /1
@@ -682,10 +682,10 @@ if exist "%custom_tasks_file%" (
 
 echo.
 echo ###########################################################
-echo # Installing [Cygwin Portable] succeeded.
+echo # Installing [RTE ENVIRONMENT RUNTIME] succeeded.
 echo ###########################################################
 echo.
-echo Use [%Start_cmd%] to launch Cygwin Portable.
+echo Use [%Start_cmd%] to launch RTE ENVIRONMENT RUNTIME.
 echo.
 timeout /T 60
 goto :eof
@@ -696,7 +696,7 @@ goto :eof
     )
     echo.
     echo ###########################################################
-    echo # Installing [Cygwin Portable] FAILED!
+    echo # Installing [RTE ENVIRONMENT RUNTIME] FAILED!
     echo ###########################################################
     echo.
     timeout /T 60
@@ -770,4 +770,5 @@ goto :eof
 
     cscript //Nologo "%DOWNLOADER%" "%1" "%2" || goto :fail
     del "%DOWNLOADER%"
+    
     exit /b 0

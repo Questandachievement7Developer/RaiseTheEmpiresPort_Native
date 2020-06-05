@@ -2,10 +2,127 @@
 
 export COMPUTERNAME="RTEPlayer" #default Empires Username
 export WORKON_HOME=${origindir} # virtualenv redirection
+#STAY AT HOME PLAY WITH ME
+
+#################PACKAGEMANAGER PROXY#######################################
+
+distroDetection(){
+# DISTRO MANAGER DETECTION IS ALSO USED TO DETERMINE WHERE DOES THE SCRIPT RUN
+export ptracecompat='1' #flag ptrace compatibility based on the distro or kernel that its running
+export linktosymlinkActivated=0
+export foreignenvironment="0" # flag foreign environment such as freebsd darwin or other nix system
+export arch=$(uname -m)
+if [ ! -z $(which apk) ]; then
+  echo "Alpine Distro"
+  export packmanager=apk
+  export installParameter="add"
+  export ptracecompat='1'
+  export distro="alpine"
+fi
+
+if [ ! -z $(which apt) ]; then
+export packmanager="apt"
+export installParameter="install -y"
+export distro="debianGNU"
+fi
+    if [ ! -z $(which pkg) ]; then
+    export packmanager=pkg
+    export installParameter="install -y"
+    export linktosymlinkActivated=1
+    echo Termux Detected
+    export distro="termux"
+
+    fi
+
+
+    if [ ! -z $(which yum) ]; then
+    export packmanager="yum"
+    export installParameter="install -y"
+    export distro="centOSGNU"
+    fi
+
+    if [[ $(grep Microsoft /proc/version) ]]; then
+      export ptracecompat='0'
+      export WSLenv="1"
+    fi
+
+    if [[ $( uname -a | grep darwin ) ]]; then
+      echo "Bash is running on Darwin Kernel"
+      echo "Running Experimental mode"
+      yellow
+      echo "${pbadge} Running environment setup" > /dev/tty
+      if [ -z $(which brew) ]; then
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+      fi
+      export distro="darwinkrnl"
+      export packmanager="brew"
+      export foreignenvironment="1"
+      export installParameter="install -y"
+      export ptracecompat='0'
+      export WSLenv="0"
+    fi
+
+    if [[ $(grep iSH /proc/version) ]]; then
+      echo "Bash is running on iSH"
+      echo "PTRACE ON iSH IS NOT SUPPORTED"
+      export ptracecompat='0'
+      export WSLenv="0"
+    fi
+
+    if [ ! -z $(which pacman) ]; then
+    export packmanager="pacman"
+    export installParameter="-Sy --noconfirm"
+    export distro="archlinux"
+    echo Redownloading Databases
+    pacman -Syy
+    fi
+
+    if [ ! -z $(which easy_install) ]; then
+    export pyPacman="easy_install"
+    export pyInstallParam=""
+    fi
+
+    if [ ! -z $(which add-apt-repository) ]; then
+    export packmanager="apt-get"
+    export installParameter="install -y"
+    fi
+
+    if [ ! -z $(which pip) ]; then
+    export pyPacman="pip"
+    export pyInstallParam="install"
+    fi
+
+# Sourced from unifyServer technology
+}
+
+pkginstall(){
+distroDetection
+export installerprefix="[ModularInstaller]"
+for a in ${1}; do
+  echo "${installerprefix} Checking ${a}"
+  su -c "${packmanager} ${installParameter} ${a}" >> packageManager.log  < /dev/null 2>&1
+  su -c "${pyPacman} ${pyInstallParam} ${a}" >> packageManager.log  < /dev/null 2>&1
+done
+
+}
+
+
+################################################
 
 
 
 
+startupDependenciesCheckFix(){
+if [ -z $(which dialog) ]; then
+echo "Dialog Menu Error detected"
+echo "Mitigating error by doing reinstallation"
+##############################
+# Install dependencies
+pkginstall "python python-setuptools wget proot busybox tar sed python3 subversion python3-setuptools pip"
+##############################
+startupDependenciesCheckFix
+fi
+}
 
 distrospecificFixes(){
   if [ ${distribution} == "macOS" ]; then
@@ -180,6 +297,10 @@ function distributionRead(){
 export distribution=$(cat ${origindir}/dist)
 }
 
+dialogfailureHandler(){
+
+}
+
 
 installEnv(){
   if [ ! -f ${origindir}/installed.flag ]; then
@@ -187,6 +308,8 @@ installEnv(){
   mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSave RaiseTheEmpires
   cd ${RUNTIMEDIR}
   pipenv install --skip-lock tendo py3amf pep517 flask flask_session python-editor flask_sqlalchemy flask_compress flask_socketio daiquiri python-editor
+  pipenv install --skip-lock "git+git://https://github.com/gevent/gevent"
+  #gevent for speedingup the server and support multithreading
   pipenv install --skip-lock "git+git://github.com/christhechris/libscrc.git#egg=libscrc"
   cd ${origindir}
   echo 1 > ${origindir}/installed.flag
@@ -200,6 +323,13 @@ coreRun(){ #run server core
   registerPID empiresserver
   $(tail -f ${origindir}/SERVERTHREAD.log | grep traceback) &
   registerPID traceback
+}
+
+coreRunHighUptime(){ #run server core but always reboot no matter what
+  while true ; do
+  cd ${RUNTIMEDIR}
+  pipenv run python3 empires-server.py --host 0.0.0.0 --port 5005 --no-popup 
+done
 }
 
 function serverRun(){

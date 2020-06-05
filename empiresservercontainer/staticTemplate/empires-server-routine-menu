@@ -179,6 +179,10 @@ if [ ${mission} == 'StartOnline' ]; then
 serverRun
 fi
 
+if [ ${mission} == 'Start_as_dedicatedServer' ]; then
+serverHighUptime
+fi
+
 if [ ${mission} == 'StartOffline' ]; then
 serverLocal
 fi

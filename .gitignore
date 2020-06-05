@@ -13,4 +13,5 @@ rootfs
 **/*packageManager.log*
 **/*.devflag*
 **/*.log*
+**/*tmp_sanitycheck*
 empires-server

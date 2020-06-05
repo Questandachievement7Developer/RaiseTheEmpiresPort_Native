@@ -403,7 +403,8 @@ reposync_mainBranch(){
   echo Are you the developer of RaiseTheEmpires?
     git clone https://github.com/AcidCaos/raisetheempires raisetheempires-dev
   cd raisetheempires-dev
-  git pull --depth 1
+  git pull --depth 1 --strategy=ours
+  #git pull --strategy=ours
   git fetch
   export updateVer=$(git log -1 --format=%cd)
   #updateVer="stub"
@@ -428,7 +429,7 @@ exit
 fi
 echo Pulling new changes from the remote
 #git fetch
-git pull --depth 1
+git pull --depth 1 --strategy=ours
 git fetch --unshallow
 
 #git pull https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native
@@ -896,7 +897,7 @@ packallupfordist(){
   echo "${compileprefix} Packing Empires-server"
   green
   cd ${origindir}/..
-  XZ_OPT=-9 tar czf empires-RNT --exclude experiments --exclude "*fakeroot*" --exclude "*.log*" --exclude frontEnd --exclude shumway --exclude rte_staging_assets --exclude ${exclusion} --exclude Python37src --exclude installCache --exclude devTool --exclude devnote.txt --exclude containerdist --exclude proot --exclude x64EMU --exclude x86_64 --exclude raisetheempires-dev --exclude proot --exclude containerdist --exclude x86_64_prepared --exclude compile.sh --exclude x86_64kernel --exclude empires-setup.exe --exclude io --exclude installcache --exclude commandergenius --exclude staging_enginepatch --exclude firmware --exclude "bochsEngine" --exclude "*empiresTest*" --exclude staticTemplate --exclude RaiseTheEmpire empiresservercontainer
+  XZ_OPT=-9 tar czf empires-RNT --exclude experiments --exclude "*fakeroot*" --exclude "*.log*" --exclude frontEnd --exclude shumway --exclude rte_staging_assets --exclude ${exclusion} --exclude Python37src --exclude installCache --exclude devTool --exclude devnote.txt --exclude containerdist --exclude proot --exclude x64EMU --exclude x86_64 --exclude raisetheempires-dev --exclude proot --exclude containerdist --exclude x86_64_prepared --exclude compile.sh --exclude x86_64kernel --exclude empires-setup.exe --exclude io --exclude installcache --exclude commandergenius --exclude staging_enginepatch --exclude firmware --exclude "bochsEngine" --exclude "*empiresTest*" --exclude staticTemplate --exclude RaiseTheEmpire --exclude "installed.flag" empiresservercontainer
   if [ ${instTarget} == 'termux' ]; then
     echo '#!/data/data/com.termux/files/usr/bin/bash' > empires-server
     echo "termux" > ${origindir}/dist
