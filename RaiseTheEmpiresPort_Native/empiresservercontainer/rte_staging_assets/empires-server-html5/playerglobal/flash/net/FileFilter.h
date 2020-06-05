@@ -1,0 +1,12 @@
+const int flash_net_FileFilter_description_get = 2;
+const int flash_net_FileFilter_description_set = 3;
+const int flash_net_FileFilter_extension_get = 4;
+const int flash_net_FileFilter_extension_set = 5;
+const int flash_net_FileFilter_macType_get = 6;
+const int flash_net_FileFilter_macType_set = 7;
+const int abcclass_flash_net_FileFilter = 0;
+extern const int FileFilter_abc_length;
+extern const int FileFilter_abc_method_count;
+extern const int FileFilter_abc_class_count;
+extern const int FileFilter_abc_script_count;
+extern const unsigned char FileFilter_abc_data[];

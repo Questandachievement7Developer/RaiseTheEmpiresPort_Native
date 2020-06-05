@@ -1,0 +1,10 @@
+const int flash_events_TextEvent_text_get = 2;
+const int flash_events_TextEvent_text_set = 3;
+const int flash_events_TextEvent_clone = 4;
+const int flash_events_TextEvent_toString = 5;
+const int abcclass_flash_events_TextEvent = 0;
+extern const int TextEvent_abc_length;
+extern const int TextEvent_abc_method_count;
+extern const int TextEvent_abc_class_count;
+extern const int TextEvent_abc_script_count;
+extern const unsigned char TextEvent_abc_data[];

@@ -1,0 +1,10 @@
+const int flash_net_NetGroup_info_get = 15;
+const int flash_net_NetGroup_convertPeerIDToGroupAddress = 16;
+const int flash_net_NetGroup_localCoverageFrom_get = 17;
+const int flash_net_NetGroup_localCoverageTo_get = 18;
+const int abcclass_flash_net_NetGroup = 0;
+extern const int NetGroup_abc_length;
+extern const int NetGroup_abc_method_count;
+extern const int NetGroup_abc_class_count;
+extern const int NetGroup_abc_script_count;
+extern const unsigned char NetGroup_abc_data[];

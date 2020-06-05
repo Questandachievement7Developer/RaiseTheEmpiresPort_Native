@@ -1,0 +1,12 @@
+const int flash_text_Font_enumerateFonts = 1;
+const int flash_text_Font_registerFont = 2;
+const int flash_text_Font_fontName_get = 4;
+const int flash_text_Font_fontStyle_get = 5;
+const int flash_text_Font_fontType_get = 6;
+const int flash_text_Font_hasGlyphs = 7;
+const int abcclass_flash_text_Font = 0;
+extern const int Font_abc_length;
+extern const int Font_abc_method_count;
+extern const int Font_abc_class_count;
+extern const int Font_abc_script_count;
+extern const unsigned char Font_abc_data[];

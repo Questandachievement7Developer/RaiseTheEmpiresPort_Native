@@ -1,0 +1,17 @@
+const int flash_net_FileReference_creationDate_get = 2;
+const int flash_net_FileReference_creator_get = 3;
+const int flash_net_FileReference_modificationDate_get = 4;
+const int flash_net_FileReference_name_get = 5;
+const int flash_net_FileReference_size_get = 6;
+const int flash_net_FileReference_type_get = 7;
+const int flash_net_FileReference_cancel = 8;
+const int flash_net_FileReference_download = 9;
+const int flash_net_FileReference_upload = 10;
+const int flash_net_FileReference_data_get = 11;
+const int flash_net_FileReference_browse = 14;
+const int abcclass_flash_net_FileReference = 0;
+extern const int FileReference_abc_length;
+extern const int FileReference_abc_method_count;
+extern const int FileReference_abc_class_count;
+extern const int FileReference_abc_script_count;
+extern const unsigned char FileReference_abc_data[];

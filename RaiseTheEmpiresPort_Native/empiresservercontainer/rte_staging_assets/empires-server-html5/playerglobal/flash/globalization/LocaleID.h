@@ -1,0 +1,16 @@
+const int flash_globalization_LocaleID_determinePreferredLocales = 1;
+const int flash_globalization_LocaleID_name_get = 3;
+const int flash_globalization_LocaleID_lastOperationStatus_get = 4;
+const int flash_globalization_LocaleID_getLanguage = 5;
+const int flash_globalization_LocaleID_getRegion = 6;
+const int flash_globalization_LocaleID_getScript = 7;
+const int flash_globalization_LocaleID_getVariant = 8;
+const int flash_globalization_LocaleID_getKeysAndValues = 9;
+const int flash_globalization_LocaleID_isRightToLeft = 10;
+const int flash_globalization_LocaleID_private_ctor = 11;
+const int abcclass_flash_globalization_LocaleID = 0;
+extern const int LocaleID_abc_length;
+extern const int LocaleID_abc_method_count;
+extern const int LocaleID_abc_class_count;
+extern const int LocaleID_abc_script_count;
+extern const unsigned char LocaleID_abc_data[];

@@ -1,0 +1,16 @@
+const int abcclass_flash_system_Capabilities = 0;
+const int avmplus_Domain_currentDomain_get = 6;
+const int avmplus_Domain_MIN_DOMAIN_MEMORY_LENGTH_get = 7;
+const int avmplus_Domain_private_init = 8;
+const int avmplus_Domain_loadBytes = 10;
+const int avmplus_Domain_getClass = 11;
+const int avmplus_Domain_domainMemory_get = 13;
+const int avmplus_Domain_domainMemory_set = 14;
+const int abcclass_avmplus_Domain = 1;
+const int abcpackage_Domain_as = 0;
+const int abcpackage_Capabilities_as = 1;
+extern const int ../../../build/libs/shell_abc_length;
+extern const int ../../../build/libs/shell_abc_method_count;
+extern const int ../../../build/libs/shell_abc_class_count;
+extern const int ../../../build/libs/shell_abc_script_count;
+extern const unsigned char ../../../build/libs/shell_abc_data[];

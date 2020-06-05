@@ -1,0 +1,18 @@
+const int flash_net_LocalConnection_isSupported_get = 1;
+const int flash_net_LocalConnection_LocalConnection = 2;
+const int flash_net_LocalConnection_close = 3;
+const int flash_net_LocalConnection_connect = 4;
+const int flash_net_LocalConnection_domain_get = 5;
+const int flash_net_LocalConnection_send = 6;
+const int flash_net_LocalConnection_client_get = 7;
+const int flash_net_LocalConnection_client_set = 8;
+const int flash_net_LocalConnection_isPerUser_get = 9;
+const int flash_net_LocalConnection_isPerUser_set = 10;
+const int flash_net_LocalConnection_allowDomain = 11;
+const int flash_net_LocalConnection_allowInsecureDomain = 12;
+const int abcclass_flash_net_LocalConnection = 0;
+extern const int LocalConnection_abc_length;
+extern const int LocalConnection_abc_method_count;
+extern const int LocalConnection_abc_class_count;
+extern const int LocalConnection_abc_script_count;
+extern const unsigned char LocalConnection_abc_data[];

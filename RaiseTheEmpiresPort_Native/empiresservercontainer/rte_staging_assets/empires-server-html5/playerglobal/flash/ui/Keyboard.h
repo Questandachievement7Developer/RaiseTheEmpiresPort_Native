@@ -1,0 +1,11 @@
+const int flash_ui_Keyboard_capsLock_get = 1;
+const int flash_ui_Keyboard_numLock_get = 2;
+const int flash_ui_Keyboard_hasVirtualKeyboard_get = 3;
+const int flash_ui_Keyboard_physicalKeyboardType_get = 4;
+const int flash_ui_Keyboard_isAccessible = 5;
+const int abcclass_flash_ui_Keyboard = 0;
+extern const int Keyboard_abc_length;
+extern const int Keyboard_abc_method_count;
+extern const int Keyboard_abc_class_count;
+extern const int Keyboard_abc_script_count;
+extern const unsigned char Keyboard_abc_data[];

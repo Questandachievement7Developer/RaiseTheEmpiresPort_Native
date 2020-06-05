@@ -1,0 +1,19 @@
+#list to patch
+export patchprefix="[staging_patcher]"
+
+
+#empires-server multithreading capabilities
+echo "${patchprefix} Patching multithreading capabilities"
+
+#patch "${fakeroot}/raisetheempires-dev/empires-server.py" "${origindir}/staging_enginepatch/patch/empires-server-multithreaded.patch"
+echo "${patchprefix} The patch is unecessary thus skipped!"
+
+##############################
+
+#next patching goes here
+
+#echo "${patchprefix} Patching computername variables"
+echo "${patchprefix} Skipping computername patching since there is known random number username bug"
+#patch "${fakeroot}/raisetheempires-dev/empires-server.py" "${origindir}/staging_enginepatch/patch/empires-server-defaultname.patch"
+
+##############################

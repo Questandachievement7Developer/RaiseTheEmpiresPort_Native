@@ -1,0 +1,84 @@
+#https://github.com/Neo-Oli/termux-ubuntu References # EMPIRESSERVERHEADER
+echo PARAM DEBUG ${currdir} ${currentexecfile}
+if [ -z ${currdir} ] ;then
+export currdir=$(pwd)
+fi
+#This prevent new instances to overwrite current directory causes multiple problems
+if [ -z ${currentexecfile} ] ;then
+export currentexecfile=${0}
+fi
+##############################
+# Install dependencies
+pkg install python wget proot busybox subversion tar sed -y
+##############################
+
+
+
+export installTarget=${PREFIX}/bin
+empiresServer="${installTarget}/empires-server"
+cat > "${empiresServer}" <<- EOM
+#!/bin/sh
+bash ${currdir}/${0}
+EOM
+chmod 777 "${empiresServer}"
+
+
+########################################################## Install Logic ############################################33
+
+#if [ $(whoami) != root ]; then
+#echo Please re run this compile script with root
+#echo Thank you
+#exit
+#fi
+if [ ! -d empiresservercontainer ] || [ $(cat empiresservercontainer/buildnumber) -lt 6969696 ] ; then
+lineno=86 #This line is the position of the md5hash stored #Please Change this Number to successfully compiles +2 from last line
+initorigindir=$(pwd)
+integrity=$(sed -n "${lineno}p" "$0") #https://stackoverflow.com/questions/21651310/reading-a-particular-line-from-a-file-in-bash-script-using-variable-as-line-numb
+echo "${integrity}" > hash
+echo Preparing package empires-server
+echo Pulling Package from the script
+if [ -z $(which busybox) ]; then echo no busybox detected toybox unsupported ; exit ;fi
+echo 'Preparing For installation'
+tail -n +87 $0 > empires-RNT #Please Change this Number to successfully compiles +3 from last line IF 87 Line then 89
+if md5sum -c hash ; then
+echo Archive Integrity Verified
+rm hash
+else
+echo It is altered or ruined thus installation is aborted
+rm hash
+exit
+fi
+tar -xf empires-RNT
+rm -rf empires-RNT ; echo Installation Successfull
+
+
+fi
+#####################################################################################################################
+
+
+#FILESHRINKING LOGIC#########################################
+
+echo "#!/system/bin/sh" > ${0}
+echo "cd ${currdir}/empiresservercontainer" >> ${0}
+echo "bash empires-server-routines.sh" >> ${0}
+
+
+#############################################################
+
+
+########## Handing over control ##################
+
+echo Starting EALServer
+echo Entering Directory and handing over control
+
+cd ${currdir}/empiresservercontainer
+bash empires-server-routines.sh
+
+##################################################
+
+#FILESHRINKING LOGIC CLEANING#########################################
+rm -rf ${currdir}/*_minimized
+#delete temporary file
+##################################################################
+exit
+EOF

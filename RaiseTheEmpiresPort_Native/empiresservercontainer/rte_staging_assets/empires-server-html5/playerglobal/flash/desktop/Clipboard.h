@@ -1,0 +1,10 @@
+const int flash_desktop_Clipboard_generalClipboard_get = 1;
+const int flash_desktop_Clipboard_formats_get = 3;
+const int flash_desktop_Clipboard_clear = 4;
+const int flash_desktop_Clipboard_clearData = 5;
+const int abcclass_flash_desktop_Clipboard = 0;
+extern const int Clipboard_abc_length;
+extern const int Clipboard_abc_method_count;
+extern const int Clipboard_abc_class_count;
+extern const int Clipboard_abc_script_count;
+extern const unsigned char Clipboard_abc_data[];

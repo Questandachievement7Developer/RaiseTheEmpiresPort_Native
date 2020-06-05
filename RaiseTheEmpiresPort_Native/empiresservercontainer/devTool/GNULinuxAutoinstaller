@@ -1,0 +1,9 @@
+#!/bin/sh
+ver=417
+pagever=416
+if [ ! -f empires-server-gnulinux-${ver} ]; then
+wget "https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_${pagever}/empires-server-gnulinux-${ver}" -O empires-server-gnulinux
+else
+echo "empires-server has been downloaded"
+fi
+chmod +x empires-server-gnulinux

@@ -1,0 +1,9 @@
+const int flash_system_AuthorizedFeaturesLoader_authorizedFeatures_get = 2;
+const int flash_system_AuthorizedFeaturesLoader_loadAuthorizedFeatures = 3;
+const int flash_system_AuthorizedFeaturesLoader_flash_system_makeGlobal = 4;
+const int abcclass_flash_system_AuthorizedFeaturesLoader = 0;
+extern const int AuthorizedFeaturesLoader_abc_length;
+extern const int AuthorizedFeaturesLoader_abc_method_count;
+extern const int AuthorizedFeaturesLoader_abc_class_count;
+extern const int AuthorizedFeaturesLoader_abc_script_count;
+extern const unsigned char AuthorizedFeaturesLoader_abc_data[];

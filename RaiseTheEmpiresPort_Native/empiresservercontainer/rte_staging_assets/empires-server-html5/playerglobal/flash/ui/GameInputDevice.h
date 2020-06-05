@@ -1,0 +1,17 @@
+const int flash_ui_GameInputDevice_numControls_get = 2;
+const int flash_ui_GameInputDevice_sampleInterval_get = 3;
+const int flash_ui_GameInputDevice_sampleInterval_set = 4;
+const int flash_ui_GameInputDevice_enabled_get = 5;
+const int flash_ui_GameInputDevice_enabled_set = 6;
+const int flash_ui_GameInputDevice_id_get = 7;
+const int flash_ui_GameInputDevice_name_get = 8;
+const int flash_ui_GameInputDevice_getControlAt = 9;
+const int flash_ui_GameInputDevice_startCachingSamples = 10;
+const int flash_ui_GameInputDevice_stopCachingSamples = 11;
+const int flash_ui_GameInputDevice_getCachedSamples = 12;
+const int abcclass_flash_ui_GameInputDevice = 0;
+extern const int GameInputDevice_abc_length;
+extern const int GameInputDevice_abc_method_count;
+extern const int GameInputDevice_abc_class_count;
+extern const int GameInputDevice_abc_script_count;
+extern const unsigned char GameInputDevice_abc_data[];

@@ -1,0 +1,11 @@
+const int flash_system_MessageChannel_messageAvailable_get = 2;
+const int flash_system_MessageChannel_state_get = 3;
+const int flash_system_MessageChannel_send = 7;
+const int flash_system_MessageChannel_receive = 8;
+const int flash_system_MessageChannel_close = 9;
+const int abcclass_flash_system_MessageChannel = 0;
+extern const int MessageChannel_abc_length;
+extern const int MessageChannel_abc_method_count;
+extern const int MessageChannel_abc_class_count;
+extern const int MessageChannel_abc_script_count;
+extern const unsigned char MessageChannel_abc_data[];

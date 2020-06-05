@@ -1,0 +1,543 @@
+#!/bin/bash
+
+export COMPUTERNAME="RTEPlayer" #default Empires Username
+export WORKON_HOME=${origindir} # virtualenv redirection
+#STAY AT HOME PLAY WITH ME
+
+#################PACKAGEMANAGER PROXY#######################################
+
+distroDetection(){
+# DISTRO MANAGER DETECTION IS ALSO USED TO DETERMINE WHERE DOES THE SCRIPT RUN
+export ptracecompat='1' #flag ptrace compatibility based on the distro or kernel that its running
+export linktosymlinkActivated=0
+export foreignenvironment="0" # flag foreign environment such as freebsd darwin or other nix system
+export arch=$(uname -m)
+if [ ! -z $(which apk) ]; then
+  echo "Alpine Distro"
+  export packmanager=apk
+  export installParameter="add"
+  export ptracecompat='1'
+  export distro="alpine"
+fi
+
+if [ ! -z $(which apt) ]; then
+export packmanager="apt"
+export installParameter="install -y"
+export distro="debianGNU"
+fi
+    if [ ! -z $(which pkg) ]; then
+    export packmanager=pkg
+    export installParameter="install -y"
+    export linktosymlinkActivated=1
+    echo Termux Detected
+    export distro="termux"
+
+    fi
+
+
+    if [ ! -z $(which yum) ]; then
+    export packmanager="yum"
+    export installParameter="install -y"
+    export distro="centOSGNU"
+    fi
+
+    if [[ $(grep Microsoft /proc/version) ]]; then
+      export ptracecompat='0'
+      export WSLenv="1"
+    fi
+
+    if [[ $( uname -a | grep darwin ) ]]; then
+      echo "Bash is running on Darwin Kernel"
+      echo "Running Experimental mode"
+      yellow
+      echo "${pbadge} Running environment setup" > /dev/tty
+      if [ -z $(which brew) ]; then
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+      fi
+      export distro="darwinkrnl"
+      export packmanager="brew"
+      export foreignenvironment="1"
+      export installParameter="install -y"
+      export ptracecompat='0'
+      export WSLenv="0"
+    fi
+
+    if [[ $(grep iSH /proc/version) ]]; then
+      echo "Bash is running on iSH"
+      echo "PTRACE ON iSH IS NOT SUPPORTED"
+      export ptracecompat='0'
+      export WSLenv="0"
+    fi
+
+    if [ ! -z $(which pacman) ]; then
+    export packmanager="pacman"
+    export installParameter="-Sy --noconfirm"
+    export distro="archlinux"
+    echo Redownloading Databases
+    pacman -Syy
+    fi
+
+    if [ ! -z $(which easy_install) ]; then
+    export pyPacman="easy_install"
+    export pyInstallParam=""
+    fi
+
+    if [ ! -z $(which add-apt-repository) ]; then
+    export packmanager="apt-get"
+    export installParameter="install -y"
+    fi
+
+    if [ ! -z $(which pip) ]; then
+    export pyPacman="pip"
+    export pyInstallParam="install"
+    fi
+
+# Sourced from unifyServer technology
+}
+
+pkginstall(){
+distroDetection
+export installerprefix="[ModularInstaller]"
+for a in ${1}; do
+  echo "${installerprefix} Checking ${a}"
+  su -c "${packmanager} ${installParameter} ${a}" >> packageManager.log  < /dev/null 2>&1
+  su -c "${pyPacman} ${pyInstallParam} ${a}" >> packageManager.log  < /dev/null 2>&1
+done
+
+}
+
+
+################################################
+
+
+
+
+startupDependenciesCheckFix(){
+if [ -z $(which dialog) ]; then
+echo "Dialog Menu Error detected"
+echo "Mitigating error by doing reinstallation"
+##############################
+# Install dependencies
+pkginstall "python python-setuptools wget proot busybox tar sed python3 subversion python3-setuptools pip"
+##############################
+startupDependenciesCheckFix
+fi
+}
+
+distrospecificFixes(){
+  if [ ${distribution} == "macOS" ]; then
+  export PATH=$PATH:/usr/local/bin:/usr/local/opt:/usr/bin
+  fi
+}
+
+distrospecificFixes
+
+registrarServerID(){
+if [ ! -f ${origindir}/serverID ] || [ -f ${origindir}/serverIDbind.flag ]; then
+red
+echo "SERVER ID IS NOT CREATED YET!"
+echo "OR SERVER ABRUPTLY STOPPED"
+yellow
+echo "CREATING!"
+export serverID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 12 | head -n 1)
+echo ${serverID} > ${origindir}/serverID
+echo ${serverID}
+sleep 1
+else
+echo "${serverID}"
+export serverID=$(cat ${origindir}/serverID)
+fi
+}
+
+
+
+confirmation(){
+  randcode="iwilltaketheresponsibilityofmyaction"
+  yellow
+  if [ -z ${SCRIPTCALL} ]; then
+  echo "${pbadge} ⚠️ Are you sure that you want to do this ?⚠️"
+  echo "${pbadge} if you do please type this token"
+  echo "${randcode}"
+  echo "Your input: "
+  read input
+  echo "debug ${input}"
+  fi
+  if [ $input == $randcode ] || [ ! -z ${SCRIPTCALL} ] ; then #SCRIPTCALL VARIABLE IS FOR WHEN YOU CALL THIS SCRIPT THRROUGH A SCRIPT AND YOU WANTED TO HAVE no CONFIRMATION
+    yellow
+    echo "${pbadge} 🚀 Initiating dangerous code"
+  else
+    red
+    echo "${pbadge} ❌ WRONG CODE CANCELLING ❌"
+  sleep 2
+  menuSel
+fi
+}
+
+requestnewServerID(){
+  yellow
+echo "New id will be requested!"
+red
+echo "YOUR PROGRESS WILL LIKELY TO BE PERSISTENT BUT YOU MAY LOGGED IN TO NEW ACCOUNT"
+confirmation
+rm -rf ${origindir}/serverID
+rm ${origindir}/serverIDbind.flag
+clear
+registrarServerID
+}
+
+
+red(){
+printf '\e[38;5;210m' > /dev/tty
+}
+
+yellow(){
+printf '\e[38;5;221m' > /dev/tty
+}
+green(){
+printf '\e[38;5;042m' > /dev/tty
+}
+blue(){
+printf '\e[38;5;039m' > /dev/tty
+}
+
+gray(){
+printf '\e[38;5;037m' > /dev/tty
+}
+
+function gamecontentUpdate(){
+echo "Automatic gamecontentUpdate has been deprecated since build 384+ due to the concern server breaks due to the untreated and unpatched python server files"
+}
+
+function procManager(){
+export procdir=${origindir}/proc
+if [ ! -d ${procdir} ]; then
+mkdir ${origindir}/proc
+fi
+}
+
+function registerPID(){
+procManager
+if [ -z $1 ]; then
+echo $! >> ${procdir}/proc_$!
+else
+echo $! >> ${procdir}/proc_$1
+fi
+}
+
+function reqStopProc(){
+procManager
+for z in $(ls ${procdir}/*${1}*); do
+PID=$(cat ${procdir}/${z})
+rm -f ${procdir}/${z}
+for i in ${PID}; do
+kill -9 ${i}
+kill -9 --${i}
+done
+done
+}
+
+function procTeardown(){
+procManager
+red
+echo "PROCESS TEARDOWN CALLED!"
+for z in $(ls ${procdir}); do
+PID=$(cat ${procdir}/${z})
+rm -f ${procdir}/${z}
+for i in ${PID}; do
+kill -9 ${i}
+kill -9 --${i}
+done
+done
+green
+echo "TEARDOWN FINISHED!"
+}
+
+
+function databandwidthwarning(){ #if distribution detected as termux then it will spit out this message
+if [ ${distribution} == "termux" ]; then
+dialog --msgbox "Please be aware if you are using your mobile data your data bandwidth might be eaten up using this mode" 40 40
+fi
+}
+
+function macOSsshWarning(){
+  if [ ${distribution} == "macOS" ]; then
+  dialog --msgbox "starting online in macOS are not recomended and you might run into ssh bug" 40 40
+  fi
+}
+
+
+
+networkSSHportforward(){
+if [ ! -f ${origindir}/serverIDbind.flag ]; then
+echo 1 > ${origindir}/serverIDbind.flag
+ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "RaiseTheEmpires-$RANDOM-${serverID}" -T -R 80:localhost:5005 ssh.localhost.run
+rm ${origindir}/serverIDbind.flag
+fi
+
+}
+
+
+distrospecificwarning(){
+  if [ ${distribution} == "termux" ]; then
+    databandwidthwarning
+  fi
+  if [ ${distribution} == "macOS" ]; then
+    macOSsshWarning
+  fi
+}
+
+serverLocalWarning(){
+  if [ ${distribution} == "termux" ]; then
+    dialog --msgbox "Please Be aware that puffin browser cannot connect locally and only works if you startOnline. Connect to PC with <this device IP>:5005" 40 40
+  fi
+}
+
+function distributionRead(){
+  #read the dist file that created by the compiler which will detect the current environment
+export distribution=$(cat ${origindir}/dist)
+}
+
+dialogfailureHandler(){
+
+}
+
+
+installEnv(){
+  if [ ! -f ${origindir}/installed.flag ]; then
+  cd ${origindir}
+  mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSave RaiseTheEmpires
+  cd ${RUNTIMEDIR}
+  pipenv install --skip-lock tendo py3amf pep517 flask flask_session python-editor flask_sqlalchemy flask_compress flask_socketio daiquiri python-editor
+  pipenv install --skip-lock "git+git://https://github.com/gevent/gevent"
+  #gevent for speedingup the server and support multithreading
+  pipenv install --skip-lock "git+git://github.com/christhechris/libscrc.git#egg=libscrc"
+  cd ${origindir}
+  echo 1 > ${origindir}/installed.flag
+fi
+}
+
+
+coreRun(){ #run server core
+  cd ${RUNTIMEDIR}
+  pipenv run python3 empires-server.py --host 0.0.0.0 --port 5005 --no-popup  > ${origindir}/SERVERTHREAD.log 2>&1 & #if there is no --no-popup specified there will be lynx popping up in front of the terminal and mess with everythin
+  registerPID empiresserver
+  $(tail -f ${origindir}/SERVERTHREAD.log | grep traceback) &
+  registerPID traceback
+}
+
+coreRunHighUptime(){ #run server core but always reboot no matter what
+  while true ; do
+  cd ${RUNTIMEDIR}
+  pipenv run python3 empires-server.py --host 0.0.0.0 --port 5005 --no-popup 
+done
+}
+
+function serverRun(){
+cd ${origindir}
+distrospecificwarning
+sh periodicSaveSnapshot > ${origindir}/periodicSaveSnapshotDaemon.log 2>&1  &
+registerPID periodicSaveSnapshot
+coreRun
+clear ;echo Server is running!;echo Copy paste the link below on Puffin Browser
+networkSSHportforward
+dialog --msgbox "Server is Terminated" 40 40
+reqStopProc periodicSaveSnapshot
+reqStopProc empiresserver
+reqStopProc traceback
+}
+
+function serverLocal(){
+cd ${origindir}
+serverLocalWarning
+sh periodicSaveSnapshot > ${origindir}/periodicSaveSnapshotDaemon.log 2>&1 &
+registerPID periodicSaveSnapshot
+coreRun
+registerPID empiresserver
+clear
+sleep 1
+echo "Server is running!"
+sleep 2
+echo "You can connect it to <this device IP>:5005"
+echo "or if locally you can do 127.0.0.1:5005"
+sleep 6
+read -n 1 -s -r -p "Press any key to terminate..."
+dialog --msgbox "Server is Terminated" 40 40
+reqStopProc periodicSaveSnapshot
+reqStopProc empiresserver
+}
+
+function ExportSave(){
+  if [ -d ~/storage/shared ]; then
+rm -rf ~/storage/shared/RaiseTheEmpires
+cp -r ${origindir}/RaiseTheEmpires/fileSave ~/storage/shared/RaiseTheEmpires
+echo " ~/storage/shared/RaiseTheEmpires"
+echo done
+sleep 3
+else
+  rm -rf ~/Documents/RaiseTheEmpires
+  cp -r ${origindir}/RaiseTheEmpires/fileSave ~/Documents/RaiseTheEmpires
+  echo "~/Documents/RaiseTheEmpires"
+  echo done
+  sleep 3
+fi
+}
+
+function seelogs(){
+logsfile=$( ls ${origindir} | grep log )
+if [ ! -z "${logsfile}" ]; then
+logsCombined=$(cat ${origindir}/*.log*)
+echo "${logsCombined}"
+sleep 2
+read -n 1 -s -r -p "Press any key to exit from the log viewer"
+else
+echo "No logs found!"
+sleep 3
+fi
+}
+
+function changelogsee(){
+less ${origindir}/changelog.txt
+}
+
+function ImportSave(){
+if [ -d ~/storage/shared ]; then
+cp -r ~/storage/shared/RaiseTheEmpires/* ${origindir}/RaiseTheEmpires/fileSave
+echo done
+else
+  cp -r ~/Documents/RaiseTheEmpires/* ${origindir}/RaiseTheEmpires/fileSave
+  echo done
+fi
+
+}
+
+function trimSTG(){
+cp -r ~/storage/shared/RaiseTheEmpires/* ${origindir}/RaiseTheEmpires/fileSave
+echo done
+
+}
+
+function UpdateSERVER(){
+#searches for Specific Strings and Pull archives from that
+echo Finding empires-server package
+updatepackage=$(grep -ril / -e '#https://github.com/Neo-Oli/termux-ubuntu References # EMPIRESSERVERHEADER')
+echo "${updatepackage}"
+export rootdir=${origindir}/..
+for a in ${updatepackage}; do
+if [ -f "${a}" ]; then
+  echo Update file detected
+  previousBuild=$(cat ${origindir}/buildnumber)
+  sleep 1
+  echo Comparing Version
+  if [[ ${a} -nt ${rootdir}/empires-server ]]; then
+  echo Update Package is Newer
+  tail -n +89 "${a}" > ${rootdir}/empires-RNT
+  cd ${rootdir}
+  echo "Patching game on the fly..."
+  tar -xf empires-RNT
+  echo "Welp my work is done here"
+  echo "Build Merged ${previousBuild} $(cat ${origindir}/buildnumber)"
+  cd ${origindir}
+else
+  echo Update package is older so we wont do anything
+fi
+fi
+done
+sleep 9
+}
+
+function exitserver(){
+echo "Cleaning up...."
+procTeardown >> ${origindir}/processmanagerTeardownShutdown.log 2>&1
+echo "Bye bye"
+exit
+}
+
+function updateManualServer(){
+cd ${origindir}/..
+clear
+red
+echo "Make sure your save are backed up and do not turn off your device power while updating!"
+confirmation
+curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/TermuxAutoinstaller" | bash -
+chmod +x ./empires-server-termux
+rm -rf ${origindir}/installed.flag
+./empires-server-termux
+exit
+}
+
+
+function snapshotMenu(){
+export snapshotdir=${origindir}/saveSnapshot
+export defaultfilesave=${origindir}/RaiseTheEmpires/fileSave
+#https://stackoverflow.com/questions/3200252/prompt-user-to-select-a-directory-with-a-bash-script-and-read-result
+clear
+snapshotlist=$( ls ${origindir}/saveSnapshot/ )
+clear
+export FolderSelection="cancel"
+if [ ! -z ${snapshotlist} ]; then
+echo "${snapshotlist}"
+echo "You can type cancel to cancel the selection"
+echo '==================================='
+echo 'Please Type the number of the snapshot date below'
+read FolderSelection
+if [ -z ${FolderSelection} ]; then
+clear
+echo Please enter the Date
+snapshotMenu
+fi
+
+if [ ! -d ${origindir}/saveSnapshot/${FolderSelection} ] && [ ${FolderSelection} != "cancel" ] ;then
+clear
+echo uh oh Folder does not exist please enter correctly
+sleep 3
+snapshotMenu
+fi
+
+if [ -d ${origindir}/saveSnapshot/${FolderSelection} ]; then
+clear
+echo Snapshot Found
+echo Restoring Snapshot
+cp -rv ${snapshotdir}/${FolderSelection}/* ${defaultfilesave}
+fi
+else
+echo "No snapshot found"
+sleep 3
+fi
+}
+
+sendlogdev(){
+clear
+red
+echo "Please be aware by continuing this process part of your device information will be uploaded to the internet"
+echo "Those information are:"
+echo "-Empires and allies username"
+echo "-ServerID"
+echo "-ServerLogs"
+echo "-Kernel"
+confirmation
+  sendLog() {
+    if [[ $1 ]]; then
+      curl -F 'sprunge=<-' "http://sprunge.us" < "$1"
+    else
+      curl -F 'sprunge=<-' "http://sprunge.us"
+    fi
+  }
+  logsfile=$( ls ${origindir} | grep log )
+  if [ ! -z "${logsfile}" ]; then
+  uname -a > ${origindir}/diagnostics.txt
+  for a in ${logsfile}; do
+    echo "=======${a}=======" >> ${origindir}/diagnostics.txt
+  cat ${origindir}/${a} >> ${origindir}/diagnostics.txt
+  echo "==================" >> ${origindir}/diagnostics.txt
+done
+  echo "======================="
+  echo "Send this Link to the developer"
+  sendLog ${origindir}/diagnostics.txt
+  echo "======================="
+  read -n 1 -s -r -p "Press any key to continue"
+else
+echo "No logs found"
+echo "Cancelling"
+sleep 3
+fi
+}
