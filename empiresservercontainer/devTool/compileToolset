@@ -403,7 +403,7 @@ reposync_mainBranch(){
   echo Are you the developer of RaiseTheEmpires?
     git clone https://github.com/AcidCaos/raisetheempires raisetheempires-dev
   cd raisetheempires-dev
-  git pull --depth 1 --strategy=ours
+  git pull --depth 1 --force --strategy=ours --allow-unrelated-histories
   #git pull --strategy=ours
   git fetch
   export updateVer=$(git log -1 --format=%cd)
@@ -429,7 +429,7 @@ exit
 fi
 echo Pulling new changes from the remote
 #git fetch
-git pull --depth 1 --strategy=ours
+git pull --depth 1 --force --strategy=ours --allow-unrelated-histories
 git fetch --unshallow
 
 #git pull https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native
