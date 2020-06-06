@@ -92,6 +92,16 @@ fi
     export pyInstallParam="install"
     fi
 
+    if [ ! -z $(which pip3) ]; then
+    export pyPacman="pip3"
+    export pyInstallParam="install"
+    fi
+
+    if [ ! -z ${pyPacman} ] && [ ! -z $(which python3) ]; then
+      echo "strange There is no pip in here?"
+      echo "Attempting fix"
+      curl -s "https://bootstrap.pypa.io/get-pip.py" | python3 -
+    fi
 # Sourced from unifyServer technology
 }
 
@@ -113,12 +123,16 @@ done
 
 
 startupDependenciesCheckFix(){
-if [ -z $(which dialog) ]; then
+if [ -z $(which dialog) ] || [ -z $(which pipenv) ]; then
+red
+#echo "DEBUG dialog $(which dialog) pipenv $(which pipenv) pyPacman ${pyPacman}"
 echo "Dialog Menu Error detected"
+yellow
 echo "Mitigating error by doing reinstallation"
+rm -rf "${origindir}/installed.flag"
 ##############################
 # Install dependencies
-pkginstall "python python-setuptools wget proot busybox tar sed python3 subversion python3-setuptools pip"
+pkginstall "python dialog python-setuptools wget proot busybox tar sed python3 python3.7 python3.8 subversion python3-setuptools pip"
 ##############################
 startupDependenciesCheckFix
 fi
@@ -297,9 +311,6 @@ function distributionRead(){
 export distribution=$(cat ${origindir}/dist)
 }
 
-dialogfailureHandler(){
-
-}
 
 
 installEnv(){
@@ -308,7 +319,8 @@ installEnv(){
   mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSave RaiseTheEmpires
   cd ${RUNTIMEDIR}
   pipenv install --skip-lock tendo py3amf pep517 flask flask_session python-editor flask_sqlalchemy flask_compress flask_socketio daiquiri python-editor
-  pipenv install --skip-lock "git+git://https://github.com/gevent/gevent"
+  pipenv install --skip-lock libscrc
+  pipenv install --skip-lock "git+git://github.com/gevent/gevent.git#egg=gevent"
   #gevent for speedingup the server and support multithreading
   pipenv install --skip-lock "git+git://github.com/christhechris/libscrc.git#egg=libscrc"
   cd ${origindir}
@@ -328,7 +340,7 @@ coreRun(){ #run server core
 coreRunHighUptime(){ #run server core but always reboot no matter what
   while true ; do
   cd ${RUNTIMEDIR}
-  pipenv run python3 empires-server.py --host 0.0.0.0 --port 5005 --no-popup 
+  pipenv run python3 empires-server.py --host 0.0.0.0 --port 5005 --no-popup
 done
 }
 
