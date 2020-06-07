@@ -7,13 +7,13 @@ fi
 if [ -z ${currentexecfile} ] ;then
 export currentexecfile=${0}
 fi
+which(){
+busybox which $1
+}
 ##############################
 # Install dependencies
 pkg update ; pkg install which -y ; pkg install python wget proot busybox subversion tar sed -y
 ##############################
-
-
-
 export installTarget=${PREFIX}/bin
 empiresServer="${installTarget}/empires-server"
 cat > "${empiresServer}" <<- EOM
