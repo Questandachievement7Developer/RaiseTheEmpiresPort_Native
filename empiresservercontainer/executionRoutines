@@ -6,6 +6,11 @@ export WORKON_HOME=${origindir} # virtualenv redirection
 
 #################PACKAGEMANAGER PROXY#######################################
 
+which(){
+  busybox which $1
+}
+
+
 distroDetection(){
 # DISTRO MANAGER DETECTION IS ALSO USED TO DETERMINE WHERE DOES THE SCRIPT RUN
 export ptracecompat='1' #flag ptrace compatibility based on the distro or kernel that its running

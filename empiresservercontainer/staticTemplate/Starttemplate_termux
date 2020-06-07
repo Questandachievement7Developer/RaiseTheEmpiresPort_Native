@@ -12,7 +12,7 @@ busybox which $1
 }
 ##############################
 # Install dependencies
-pkg update ; pkg install which -y ; pkg install python wget proot busybox subversion tar sed -y
+pkg update ; pkg install which -y ; pkg install python wget proot busybox subversion tar sed -y ; ln -s ${PREFIX}/bin/busybox ${PREFIX}/bin/which
 ##############################
 export installTarget=${PREFIX}/bin
 empiresServer="${installTarget}/empires-server"
