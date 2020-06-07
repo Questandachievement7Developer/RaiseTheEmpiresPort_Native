@@ -2,6 +2,10 @@
 #import executionRoutines
 . ${origindir}/executionRoutines
 
+startupDependenciesCheckFix
+
+
+
 registrarServerID
 #load serverID paramater
 installEnv

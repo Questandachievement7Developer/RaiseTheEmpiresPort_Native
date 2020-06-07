@@ -364,7 +364,11 @@ exit
 }
 
 timelock_timetravel(){
+
   echo "Locking time history!"
+  echo "Preparing timelock"
+  gitRepoMinimizer
+  echo "Processing Timelock"
   if [ ! -f ${origindir}/devTool/timelock.devflag ]; then
     echo 11 > ${origindir}/devTool/timelock.devflag
   fi
@@ -374,7 +378,7 @@ timelock_timetravel(){
   if [ ${timelockcount} -gt 5 ]; then
   cd ${origindir}/..
   rm -rf ${origindir}/devTool/timelock/time_chunk_*
-  XZ_OPT=-9 tar czf ${origindir}/devTool/timelock/timechunkBIG .git
+  XZ_OPT=-9 tar czf ${origindir}/devTool/timelock/timechunkBIG ${origindir}/tmpGitTruncation/.git
   split --bytes=1m ${origindir}/devTool/timelock/timechunkBIG ${origindir}/devTool/timelock/time_chunk_
   rm -rf ${origindir}/devTool/timelock/timechunkBIG
   cd ${origindir}
@@ -385,20 +389,38 @@ timelock_timetravel(){
   git commit -m "Backup_yeet"
   git checkout "master"
   echo 0 > ${origindir}/devTool/timelock.devflag
+  gitMinimizerClean
 fi
 }
 
 repobackup_branch(){
   echo "Backup Executed!"
   buildNumberRequest
+
   export BRANCHBACKUP="Backup_$(cat ${origindir}/buildnumber)"
   git checkout -b "${BRANCHBACKUP}"
   git checkout "master"
+}
+#Testing
+gitMinimizerClean(){
+  echo Restoring Git size
+  rm -rf ${origindir}/tmpGitTruncation
+  echo Git size restored
+}
+gitRepoMinimizer(){
+  echo "Minimizing repo size"
+  rm -rf ${origindir}/tmpGitTruncation
+  git clone --depth 1 file://${origindir}/.. ${origindir}/tmpGitTruncation
+  echo "minimizing Repo size done"
 }
 
 reposync_mainBranch(){
   clear
   #set -e
+  #git config --global user.email "Questandachievement7Developer@q7D.com"
+  #git config --global user.name "RTEPORT_native RepoSync Client"
+  git config user.email "Questandachievement7Developer@q7D.com"
+  git config user.name "RTEPORT_native RepoSync Client"
   git checkout master
   echo Are you the developer of RaiseTheEmpires?
     git clone https://github.com/AcidCaos/raisetheempires raisetheempires-dev
@@ -432,12 +454,20 @@ echo Pulling new changes from the remote
 #git fetch
 git pull --depth 1 --force --allow-unrelated-histories
 git fetch --unshallow
-
 #git pull https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native
+echo "Processing Timelock machine Backup"
+gitRepoMinimizer
+timelock_timetravel >> ${origindir}/timelock.log 2>&1
 git add -v .
 echo "QuestandachievementBuild $(cat ${origindir}/buildnumber)_AcidCaos src ver ${updateVer}_Transmission $(date)" > commitcache
 nano commitcache
 git commit -m "$(cat commitcache)"
+#Reapply Commit due to timelock update
+timelock_timetravel >> ${origindir}/timelock.log 2>&1
+git add -v .
+git commit -m "$(cat commitcache)"
+
+
 
 rm -rf commitcache
 #git config --global user.name "Questandachievement7Developer"
@@ -446,8 +476,7 @@ git status
 echo "================================================"
 echo Retrieving new changes from remote
 git fetch
-echo "Processing Timelock machine Backup"
-timelock_timetravel >> ${origindir}/timelock.log 2>&1
+
 yellow
 echo "====================================="
 red
@@ -900,7 +929,7 @@ packallupfordist(){
   echo "${compileprefix} Packing Empires-server"
   green
   cd ${origindir}/..
-  XZ_OPT=-9 tar czf empires-RNT --exclude experiments --exclude "*fakeroot*" --exclude "*.log*" --exclude frontEnd --exclude shumway --exclude rte_staging_assets --exclude ${exclusion} --exclude Python37src --exclude installCache --exclude devTool --exclude devnote.txt --exclude containerdist --exclude proot --exclude x64EMU --exclude x86_64 --exclude raisetheempires-dev --exclude proot --exclude containerdist --exclude x86_64_prepared --exclude compile.sh --exclude x86_64kernel --exclude empires-setup.exe --exclude io --exclude installcache --exclude commandergenius --exclude staging_enginepatch --exclude firmware --exclude "bochsEngine" --exclude "*empiresTest*" --exclude staticTemplate --exclude RaiseTheEmpire --exclude "installed.flag" empiresservercontainer
+  XZ_OPT=-9 tar czf empires-RNT --exclude experiments --exclude "*fakeroot*" --exclude "*.log*" --exclude frontEnd --exclude shumway --exclude rte_staging_assets --exclude ${exclusion} --exclude Python37src --exclude installCache --exclude devTool --exclude devnote.txt --exclude containerdist --exclude proot --exclude x64EMU --exclude x86_64 --exclude raisetheempires-dev --exclude proot --exclude containerdist --exclude x86_64_prepared --exclude compile.sh --exclude x86_64kernel --exclude empires-setup.exe --exclude io --exclude installcache --exclude commandergenius --exclude staging_enginepatch --exclude firmware --exclude "bochsEngine" --exclude "*empiresTest*" --exclude staticTemplate --exclude RaiseTheEmpire --exclude "installed.flag" --exclude "tmpGitTruncation" empiresservercontainer
   if [ ${instTarget} == 'termux' ]; then
     echo '#!/data/data/com.termux/files/usr/bin/bash' > empires-server
     echo "termux" > ${origindir}/dist

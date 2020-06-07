@@ -17,6 +17,10 @@ export origindir=$(pwd)
 #import executionRoutines
 . ${origindir}/executionRoutines
 
+startupDependenciesCheckFix
+
+
+
 registrarServerID
 #load serverID paramater
 installEnv
@@ -192,6 +196,10 @@ mission=$(dialog --clear \
 
 if [ ${mission} == 'StartOnline' ]; then
 serverRun
+fi
+
+if [ ${mission} == 'Start_as_dedicatedServer' ]; then
+serverHighUptime
 fi
 
 if [ ${mission} == 'StartOffline' ]; then
