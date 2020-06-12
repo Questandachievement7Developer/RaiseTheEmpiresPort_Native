@@ -14,9 +14,9 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 ## Current Status
 | Things | Parameter |
 | ------- | ------ |
-| Current Developed Build | ![version](https://img.shields.io/badge/build-418-blue) |
-| Current Stable Releases | ![version](https://img.shields.io/badge/build-418-blue) |
-| Current Built Server Size | [![size](https://img.shields.io/badge/size-298%20MB-brightgreen)](#) |
+| Current Developed Build | ![version](https://img.shields.io/badge/build-450-blue) |
+| Current Stable Releases | ![version](https://img.shields.io/badge/build-450-blue) |
+| Current Built Server Size | [![size](https://img.shields.io/badge/size-302%20MB-brightgreen)](#) |
 | Current Source Size | [![size](https://img.shields.io/badge/size-30%20MB-brightgreen)](#) |
 
 
@@ -24,14 +24,15 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 
 | Build | Update | Release date  | Download |
 | ------- | ------ | ------------  | -------- |
+| 450 | Added support for new termux dependencies | June, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_450) |
 | 416~418 | ServerID implementation, Virtualenv dependencies, etc.. | May, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_416) |
 | 319~325 | Invading feature, Major bug fixes, Stability improvement, etc.. | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_319) |
-| 260 | Invade neighbors initial for Build 319 | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_260/empires-v260) |
+| 260 | Invade neighbors initial for Build 319 | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_260) |
 | 239~257 | Base32 and base64 Encoder, Liveupdate | April, 2020 | [Quality Control failed] |
-| 210 | Added Local mode feature & Stability improvements | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_210/empires-v210) |
-| 201 | New Welcome screen & Simpler installation with 'curl' | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_201/empires-server) |
-| 193 | Custom ssh config & Merge with new main repo | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_193/empires-193) |
-| 185 | UI Overhaul & Additional bonus decorations | March, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_185/empires-server) |
+| 210 | Added Local mode feature & Stability improvements | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_210) |
+| 201 | New Welcome screen & Simpler installation with 'curl' | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_201) |
+| 193 | Custom ssh config & Merge with new main repo | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_193) |
+| 185 | UI Overhaul & Additional bonus decorations | March, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_185) |
 | 171 | Initial for UI Overhaul | March, 2020 | [Quality Control failed] |
 | 129 | Multiplayer Update Merge with version 0.05a   | February, 2020    | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires_129) |
 | 119 | Automatic Host forwarding | January, 2020 | :tickets: [Single Script Archive](http://tiny.cc/EALSERVE119) |
@@ -49,8 +50,10 @@ curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTh
 ./empires-server-termux
 bash
 ```
-3. Wait until the installation is completed (and make sure your internet is stable)
-4. After the empires-server is running, copy the link into the Puffin Browser
+3. If there's confirmation [Y/n]..?, just type Y
+4. If there's second confirmation (Y/I/N/O/D/Z)..?, just type N
+5. Wait until the installation is completed (and make sure your internet is stable)
+6. After the empires-server is running, copy the link into the Puffin Browser
 
 *Done!*
 
