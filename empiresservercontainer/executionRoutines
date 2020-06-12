@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export COMPUTERNAME="RTEPlayer" #default Empires Username
+export COMPUTERNAME="Player" #default Empires Username
 export WORKON_HOME=${origindir} # virtualenv redirection
 #STAY AT HOME PLAY WITH ME
 
@@ -155,9 +155,9 @@ registrarServerID(){
 if [ ! -f ${origindir}/serverID ] || [ -f ${origindir}/serverIDbind.flag ]; then
 red
 echo "SERVER ID IS NOT CREATED YET!"
-echo "OR SERVER ABRUPTLY STOPPED"
+echo "OR SERVER IS NOT YET RUNNING"
 yellow
-echo "CREATING!"
+echo "CREATING SERVER ID..."
 export serverID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 12 | head -n 1)
 echo ${serverID} > ${origindir}/serverID
 echo ${serverID}
@@ -289,7 +289,7 @@ function macOSsshWarning(){
 networkSSHportforward(){
 if [ ! -f ${origindir}/serverIDbind.flag ]; then
 echo 1 > ${origindir}/serverIDbind.flag
-ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "RaiseTheEmpires-$RANDOM-${serverID}" -T -R 80:localhost:5005 ssh.localhost.run
+ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "EmpiresAndAllies-$RANDOM-${serverID}" -T -R 80:localhost:5005 ssh.localhost.run
 rm ${origindir}/serverIDbind.flag
 fi
 
@@ -324,9 +324,6 @@ installEnv(){
   mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSave RaiseTheEmpires
   cd ${RUNTIMEDIR}
   pipenv install --skip-lock tendo py3amf pep517 flask flask_session python-editor flask_sqlalchemy flask_compress flask_socketio daiquiri python-editor
-  pipenv install --skip-lock libscrc
-  pipenv install --skip-lock "git+git://github.com/gevent/gevent.git#egg=gevent"
-  #gevent for speedingup the server and support multithreading
   pipenv install --skip-lock "git+git://github.com/christhechris/libscrc.git#egg=libscrc"
   cd ${origindir}
   echo 1 > ${origindir}/installed.flag
@@ -355,7 +352,7 @@ distrospecificwarning
 sh periodicSaveSnapshot > ${origindir}/periodicSaveSnapshotDaemon.log 2>&1  &
 registerPID periodicSaveSnapshot
 coreRun
-clear ;echo Server is running!;echo Copy paste the link below on Puffin Browser
+clear ;echo Server is running!;echo Copy paste the link below on Puffin Browser;echo To terminate server press CTRL+C;echo
 networkSSHportforward
 dialog --msgbox "Server is Terminated" 40 40
 reqStopProc periodicSaveSnapshot
