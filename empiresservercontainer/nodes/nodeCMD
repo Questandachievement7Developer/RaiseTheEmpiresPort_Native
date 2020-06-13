@@ -1,0 +1,31 @@
+#!/bin/sh
+#cd ${origindir}/nodes
+echo "Loading Configuration..."
+. ./nodes.cfg
+echo "configuration loaded!"
+
+
+
+
+console(){
+printf "\n nodeRTE_portnative console > "
+read a
+}
+
+
+cycle=0
+
+
+while true; do
+if [ -z $1 ]; then
+console
+fi
+if [ $cycle -lt $NodeCount ]; then
+echo ${rootpassword[$cycle]}
+echo ${hostname[$cycle]}
+sshpass -p "$rootpassword_${cycle}" ssh pi@$hostname_${cycle} -p $port_${cycle} "uname -a" "${a}"
+cycle=$(( $cycle + 1 ))
+else
+exit
+fi
+done
