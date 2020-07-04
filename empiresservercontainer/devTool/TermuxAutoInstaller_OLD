@@ -1,11 +1,8 @@
 #!/bin/sh
 termux-setup-storage
 pkg install clang wget -y
-ver=260
-pagever=260
-if [ ! -f empires-v${ver} ]; then
-wget "https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_${pagever}/empires-v${ver}" -O empires-server-termux
+if [ ! -f empires-v260 ]; then
+wget "https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_260/empires-v260" -O empires-v260
 else
 echo "empires-server has been downloaded"
 fi
-chmod +x empires-server-termux
