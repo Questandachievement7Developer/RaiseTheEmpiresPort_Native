@@ -1022,9 +1022,9 @@ mkdir ${origindir}/tmp_sanitycheck
 yellow
 echo "============[TESTING MODE INITIATED]============="
 gray
-cp ${origindir}/../compiledbin/empires-server-gnuLinux-${buildnum} ${origindir}/tmp_sanitycheck
+cp ${origindir}/../compiledbin/empires-server-gnulinux-${buildnum} ${origindir}/tmp_sanitycheck
 cd ${origindir}/tmp_sanitycheck
-./empires-server-gnuLinux-${buildnum}
+./empires-server-gnulinux-${buildnum}
 yellow
 echo "============[TESTING MODE FINISHED]=============="
 gray

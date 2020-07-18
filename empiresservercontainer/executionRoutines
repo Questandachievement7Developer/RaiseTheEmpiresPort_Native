@@ -57,7 +57,7 @@ fi
       yellow
       echo "${pbadge} Running environment setup" > /dev/tty
       if [ -z $(which brew) ]; then
-      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+      /bin/bash -c "$(curl -fsSL http://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
       fi
       export distro="darwinkrnl"
       export packmanager="brew"
@@ -105,7 +105,7 @@ fi
     if [ ! -z ${pyPacman} ] && [ ! -z $(which python3) ]; then
       echo "strange There is no pip in here?"
       echo "Attempting fix"
-      curl -s "https://bootstrap.pypa.io/get-pip.py" | python3 -
+      curl -s "http://bootstrap.pypa.io/get-pip.py" | python3 -
     fi
 # Sourced from unifyServer technology
 }
@@ -323,7 +323,8 @@ installEnv(){
   cd ${origindir}
   mkdir ${RUNTIMEDIR} ;mv RaiseTheEmpires/* ${RUNTIMEDIR}; mv ${RUNTIMEDIR}/fileSave RaiseTheEmpires
   cd ${RUNTIMEDIR}
-  pipenv install --skip-lock tendo py3amf pep517 flask flask_session python-editor flask_sqlalchemy flask_compress flask_socketio daiquiri python-editor
+  pipenv install --skip-lock tendo py3amf pep517 flask flask_session python-editor flask_sqlalchemy flask_compress brotli flask_socketio daiquiri python-editor
+  pipenv install --skip-lock libscrc
   pipenv install --skip-lock "git+git://github.com/christhechris/libscrc.git#egg=libscrc"
   cd ${origindir}
   echo 1 > ${origindir}/installed.flag
@@ -467,12 +468,16 @@ exit
 }
 
 function updateManualServer(){
+echo "Function is disabled! due to the mishaps"
+}
+
+function updateManualServer_disabled(){
 cd ${origindir}/..
 clear
 red
 echo "Make sure your save are backed up and do not turn off your device power while updating!"
 confirmation
-curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/TermuxAutoinstaller" | bash -
+curl -s "http://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/TermuxAutoinstaller" | bash -
 chmod +x ./empires-server-termux
 rm -rf ${origindir}/installed.flag
 ./empires-server-termux

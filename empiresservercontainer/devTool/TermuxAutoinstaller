@@ -4,7 +4,7 @@ pkg install clang openssl wget -y
 ver=450
 pagever=450
 if [ ! -f empires-server-termux-${ver} ]; then
-wget "https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_${pagever}/empires-server-termux-${ver}" -O empires-server-termux
+wget "http://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_${pagever}/empires-server-termux-${ver}" -O empires-server-termux
 else
 echo "empires-server has been downloaded"
 fi
