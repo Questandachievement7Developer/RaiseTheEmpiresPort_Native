@@ -12,10 +12,10 @@ fi
 #/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ##############################
 # Install dependencies
-cat /dev/location > /dev/null & ; export iOSwakelockPID=$!
+cat /dev/location > /dev/null &
+export iOSwakelockPID=$!
 apk add wget busybox tar sed python3 alpine-sdk
 ##############################
-
 
 
 
