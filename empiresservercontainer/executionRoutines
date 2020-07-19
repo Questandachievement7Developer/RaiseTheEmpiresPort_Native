@@ -22,7 +22,7 @@ else
   echo "iOSResumeOp! Binding session"
 mv /etc/profile /etc/profile.restore
 echo "#!/bin/sh" > /etc/profile
-echo "empires-server" >> /etc/profile
+echo "/usr/bin/empires-server" >> /etc/profile
 fi
 fi
 if [ "${1}" == "unbind" ]; then
@@ -236,6 +236,14 @@ distrospecificFixes(){
 distrospecificFixes
 
 registrarServerID(){
+sshkeyreg(){
+  echo "Starting ssh auth service"
+  eval "$(ssh-agent -s)"
+  echo "Writing ssh-agent into proc"
+  echo "$SSH_AGENT_PID" > ${procdir}/proc_SSHAGENT
+  ssh-add ${origindir}/serverID_rsa
+}
+
 if [ ! -f ${origindir}/serverID ] || [ -f ${origindir}/serverIDbind.flag ]; then
 red
 echo "SERVER ID IS NOT CREATED YET!"
@@ -245,10 +253,15 @@ echo "CREATING SERVER ID..."
 export serverID=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 12 | head -n 1)
 echo ${serverID} > ${origindir}/serverID
 echo ${serverID}
+###SSH_KEYAGENT
+ssh-keygen -t rsa -b 4096 -C "EALHost_${serverID}@RaiseTheEmpires.com" -N "" -f ${origindir}/serverID_rsa <<<y
 sleep 1
+sshkeyreg
 else
 echo "${serverID}"
 export serverID=$(cat ${origindir}/serverID)
+else
+sshkeyreg
 fi
 }
 
@@ -327,7 +340,7 @@ function macOSsshWarning(){
 networkSSHportforward(){
 if [ ! -f ${origindir}/serverIDbind.flag ]; then
 echo 1 > ${origindir}/serverIDbind.flag
-ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "EmpiresAndAllies-$RANDOM-${serverID}" -T -R 80:localhost:5005 ssh.localhost.run
+ssh -o "StrictHostKeyChecking=no" -o "ServerAliveInterval=360" -l "EmpiresAndAllies-${serverID}" -T -R 80:localhost:5005 ssh.localhost.run
 rm ${origindir}/serverIDbind.flag
 fi
 
