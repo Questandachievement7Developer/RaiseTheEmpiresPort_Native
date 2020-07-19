@@ -72,21 +72,37 @@ empires-server
 
 
 ### Installing on GNU/Linux/Ubuntu
-Copy paste this command to terminal:
+1. Assuming that you have terminal opened
+2. Copy paste this command to terminal
 ```
 sudo curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/GNULinuxAutoinstaller" | bash -
 sudo ./empires-server-gnulinux
 bash
 ```
-If you want to run it next time, just type this:
+3. If you want to run it next time, just type this:
 ```
 empires-server
 ```
 
 ### Installing on macOS
-Copy paste this command to terminal:
+1. Open the Terminal app
+2. Copy paste these command to terminal
 ```
 /bin/bash -c "$(curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/macOSautoinstaller" | bash -)"
+./empires-server-macOS
+```
+3. If you want to run it next time, just type this:
+```
+empires-server
+```
+
+### Installing on iOS/iPadOS
+1. Install testflight in appstore
+2. Install iSH from this link https://testflight.apple.com/join/97i7KM8O
+3. Install photonX for the flash browser
+4. Copy paste this command in iSH
+```
+/bin/bash -c "$(curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/iOSautoinstaller" | bash -)"
 ./empires-server-macOS
 ```
 If you want to run it next time, just type this:
