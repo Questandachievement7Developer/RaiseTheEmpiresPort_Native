@@ -19,7 +19,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 ## Current Status
 | Things | Parameter |
 | ------- | ------ |
-| Current Developed Build | ![version](https://img.shields.io/badge/build-450-blue) |
+| Current Developed Build | ![version](https://img.shields.io/badge/build-000-blue) |
 | Current Stable Releases | ![version](https://img.shields.io/badge/build-450-blue) |
 | Current Built Server Size | [![size](https://img.shields.io/badge/size-302%20MB-brightgreen)](#) |
 | Current Source Size | [![size](https://img.shields.io/badge/size-30%20MB-brightgreen)](#) |
@@ -29,7 +29,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 
 | Build | Update | Release date  | Download |
 | ------- | ------ | ------------  | -------- |
-| 46x | TBD | July, 2020 | :tickets: [Unknown](https://192.168.1.1:80)
+| 46x | Platform Trial, ssh keyfixes, content update | July, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_46x)
 | 450 | Added support for new termux dependencies | June, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_450) |
 | 416~418 | ServerID implementation, Virtualenv dependencies, etc.. | May, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_416) |
 | 319~325 | Invading feature, Major bug fixes, Stability improvement, etc.. | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_319) |
