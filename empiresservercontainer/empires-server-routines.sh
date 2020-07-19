@@ -1,6 +1,5 @@
 export origindir=$(pwd)
 export RUNTIMEDIR=${origindir}/._MEI202028
-pkg install python git clang dialog openssh -y
 python3 -m pip install virtualenv pipenv
 export RaiseTheEmpiresRNTINI=RaiseTheEmpires/RaiseTheEmpires.ini
 echo "[Info]" > ${RaiseTheEmpiresRNTINI}
@@ -8,10 +7,11 @@ echo "Name=RaiseTheEmpires_GNU_LINUX_EDITION" >> ${RaiseTheEmpiresRNTINI}
 echo "URL=https://github.com/AcidCaos/empires-and-allies" >> ${RaiseTheEmpiresRNTINI}
 echo "Binary=empires-server" >> ${RaiseTheEmpiresRNTINI}
 echo "[InstallFolders]" >> ${RaiseTheEmpiresRNTINI}
-echo "InstallPath=${RUNTIMEDIR}" >> ${RaiseTheEmpiresRNTINI}
+echo "InstallPath=$(pwd)/RaiseTheEmpires" >> ${RaiseTheEmpiresRNTINI}
 echo "MyGamesPath=$(pwd)/RaiseTheEmpires/fileSave" >> ${RaiseTheEmpiresRNTINI}
 echo "[InstallSettings]" >> ${RaiseTheEmpiresRNTINI}
 echo "Arch=$(uname -m)" >> ${RaiseTheEmpiresRNTINI}
+export TMPDIR=$(pwd)/RaiseTheEmpires/RNT
 export origindir=$(pwd)
 
 #import executionRoutines

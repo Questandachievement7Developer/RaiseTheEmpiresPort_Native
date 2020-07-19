@@ -1,0 +1,10 @@
+#!/bin/sh
+apk add clang openssl wget
+ver=450
+pagever=450
+if [ ! -f empires-server-termux-${ver} ]; then
+wget "http://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/download/Build_${pagever}/empires-server-appleiOS-${ver}" -O empires-server-appleiOS
+else
+echo "empires-server has been downloaded"
+fi
+chmod +x empires-server-appleiOS
