@@ -3,7 +3,9 @@
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native)
 
 ## Some Notice
-``` The development on port_native is slowed down immensely due to the migration towards seamless GUI EAL interface the port_native will be migrated to a newer architechture which uses GUI frontend that currently under heavy development thank you for reading this message
+```
+ The development on port_native is slowed down immensely due to the migration towards seamless GUI EAL interface the port_native will be migrated to a newer architechture which uses GUI frontend that currently under heavy development thank you for reading this message
+
 ```
 
 > Empires and Allies(Facebook) officially closed June 17th, 2013
