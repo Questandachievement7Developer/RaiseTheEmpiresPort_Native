@@ -21,8 +21,7 @@ echo "iOSResumeOp! Alert! binding has been established"
 else
   echo "iOSResumeOp! Binding session"
 mv /etc/profile /etc/profile.restore
-echo "#!/bin/sh" > /etc/profile
-echo "/usr/bin/empires-server" >> /etc/profile
+cat /usr/bin/empires-server > /etc/profile
 fi
 fi
 if [ "${1}" == "unbind" ]; then
