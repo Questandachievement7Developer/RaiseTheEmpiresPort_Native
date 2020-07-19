@@ -12,6 +12,7 @@ fi
 #/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 ##############################
 # Install dependencies
+cat /dev/location > /dev/null & ; export iOSwakelockPID=$!
 apk add wget busybox tar sed python3 alpine-sdk
 ##############################
 
@@ -39,7 +40,7 @@ EOM
 chmod 777 "${empiresServer}"
 
 if [ ! -d empiresservercontainer ] || [ $(cat empiresservercontainer/buildnumber) -lt 6969696 ] ; then
-lineno=94 #This line is the position of the md5hash stored #Please Change this Number to successfully compiles +2 from last line
+lineno=96 #This line is the position of the md5hash stored #Please Change this Number to successfully compiles +2 from last line
 initorigindir=$(pwd)
 integrity=$(sed -n "${lineno}p" "$0") #https://stackoverflow.com/questions/21651310/reading-a-particular-line-from-a-file-in-bash-script-using-variable-as-line-numb
 echo "${integrity}" > hash
@@ -47,7 +48,7 @@ echo Preparing package empires-server
 echo Pulling Package from the script
 if [ -z $(which busybox) ]; then echo no busybox detec.. wait this is macOS environment mode ;fi
 echo 'Preparing For installation'
-tail -n +95 $0 > empires-RNT #Please Change this Number to successfully compiles +3 from last line IF 87 Line then 89
+tail -n +97 $0 > empires-RNT #Please Change this Number to successfully compiles +3 from last line IF 87 Line then 89
 if md5sum -c hash ; then
 echo Archive Integrity Verified
 rm hash
@@ -77,7 +78,8 @@ echo "bash empires-server-routines.sh" >> ${0}
 ########## Handing over control ##################
 
 echo Starting EALServer
-echo Entering Directory and handing over control
+echo Entering Directory and Disabling iOS wakelock
+kill -9 $iOSwakelockPID
 
 cd ${currdir}/empiresservercontainer
 bash empires-server-routines.sh

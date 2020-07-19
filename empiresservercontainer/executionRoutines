@@ -4,12 +4,95 @@ export COMPUTERNAME="Player" #default Empires Username
 export WORKON_HOME=${origindir} # virtualenv redirection
 #STAY AT HOME PLAY WITH ME
 
-#################PACKAGEMANAGER PROXY#######################################
+
 
 which(){
   busybox which $1
 }
 
+############# iSH have tendencies to get killed while installing something therefore we need a solution which its automatically resumes where it left on
+# Well its not a 100% solution but it does the tricks
+function iOSResumeOp(){
+if [ ${distribution} == "appleiOS" ]; then
+echo "iOSResumeOp! Created by Questandachievement7Developer"
+if [ "${1}" == "bind" ]; then
+if [ -f /etc/profile.restore ]; then
+echo "iOSResumeOp! Alert! binding has been established"
+else
+  echo "iOSResumeOp! Binding session"
+mv /etc/profile /etc/profile.restore
+echo "#!/bin/sh" > /etc/profile
+echo "empires-server" >> /etc/profile
+fi
+fi
+if [ "${1}" == "unbind" ]; then
+echo "iOSResumeOp! unBinding session"
+rm /etc/profile
+mv /etc/profile.restore /etc/profile
+rm /etc/profile.restore
+fi
+
+fi
+
+}
+
+function iOSwakelock(){
+  if [ ${distribution} == "appleiOS" ]; then
+    cat /dev/location > /dev/null &
+    registerPID iOSwakelock
+  fi
+}
+####iOS mitigation
+iOSwakelock
+iOSResumeOp bind
+
+
+
+function procManager(){
+export procdir=${origindir}/proc
+if [ ! -d ${procdir} ]; then
+mkdir ${origindir}/proc
+fi
+}
+
+function registerPID(){
+procManager
+if [ -z $1 ]; then
+echo $! >> ${procdir}/proc_$!
+else
+echo $! >> ${procdir}/proc_$1
+fi
+}
+
+function reqStopProc(){
+procManager
+for z in $(ls ${procdir}/*${1}*); do
+PID=$(cat ${procdir}/${z})
+rm -f ${procdir}/${z}
+for i in ${PID}; do
+kill -9 ${i}
+kill -9 --${i}
+done
+done
+}
+
+function procTeardown(){
+procManager
+red
+echo "PROCESS TEARDOWN CALLED!"
+for z in $(ls ${procdir}); do
+PID=$(cat ${procdir}/${z})
+rm -f ${procdir}/${z}
+for i in ${PID}; do
+kill -9 ${i}
+kill -9 --${i}
+done
+done
+green
+echo "TEARDOWN FINISHED!"
+}
+
+#################PACKAGEMANAGER PROXY#######################################
 
 distroDetection(){
 # DISTRO MANAGER DETECTION IS ALSO USED TO DETERMINE WHERE DOES THE SCRIPT RUN
@@ -147,6 +230,7 @@ distrospecificFixes(){
   if [ ${distribution} == "macOS" ]; then
   export PATH=$PATH:/usr/local/bin:/usr/local/opt:/usr/bin
   fi
+
 }
 
 distrospecificFixes
@@ -227,51 +311,6 @@ function gamecontentUpdate(){
 echo "Automatic gamecontentUpdate has been deprecated since build 384+ due to the concern server breaks due to the untreated and unpatched python server files"
 }
 
-function procManager(){
-export procdir=${origindir}/proc
-if [ ! -d ${procdir} ]; then
-mkdir ${origindir}/proc
-fi
-}
-
-function registerPID(){
-procManager
-if [ -z $1 ]; then
-echo $! >> ${procdir}/proc_$!
-else
-echo $! >> ${procdir}/proc_$1
-fi
-}
-
-function reqStopProc(){
-procManager
-for z in $(ls ${procdir}/*${1}*); do
-PID=$(cat ${procdir}/${z})
-rm -f ${procdir}/${z}
-for i in ${PID}; do
-kill -9 ${i}
-kill -9 --${i}
-done
-done
-}
-
-function procTeardown(){
-procManager
-red
-echo "PROCESS TEARDOWN CALLED!"
-for z in $(ls ${procdir}); do
-PID=$(cat ${procdir}/${z})
-rm -f ${procdir}/${z}
-for i in ${PID}; do
-kill -9 ${i}
-kill -9 --${i}
-done
-done
-green
-echo "TEARDOWN FINISHED!"
-}
-
-
 function databandwidthwarning(){ #if distribution detected as termux then it will spit out this message
 if [ ${distribution} == "termux" ]; then
 dialog --msgbox "Please be aware if you are using your mobile data your data bandwidth might be eaten up using this mode" 40 40
@@ -283,7 +322,6 @@ function macOSsshWarning(){
   dialog --msgbox "starting online in macOS are not recomended and you might run into ssh bug" 40 40
   fi
 }
-
 
 
 networkSSHportforward(){
@@ -464,6 +502,7 @@ function exitserver(){
 echo "Cleaning up...."
 procTeardown >> ${origindir}/processmanagerTeardownShutdown.log 2>&1
 echo "Bye bye"
+iOSResumeOp unbind
 exit
 }
 
