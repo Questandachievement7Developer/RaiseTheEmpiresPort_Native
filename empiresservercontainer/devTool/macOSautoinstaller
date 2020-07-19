@@ -1,6 +1,6 @@
 #!/bin/sh
-ver=418
-pagever=416
+ver=469
+pagever=46x
 #tools required for macOS since the default installation of macOS doesnt come with coreutils
 installdep(){
 xcode-select --install
