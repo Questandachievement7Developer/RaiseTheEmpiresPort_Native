@@ -1,5 +1,78 @@
 Announcement
 
+Universal Build 46x
+---- Port_native Additions and bugfixes
++ Added sshkeyreg() for ssh id_rsa handler for StartOnline game session
++ registrarServerID() has been updated to meet the ssh localhost.run compliant "Adding ssh key"
++ openssl error on previous build caused by rootfs update in termux has been Fixed
++ iOSResumeOp() has been added in order to handle interrupted session unexpectedly and resume whenever its available again
++ Fixes in Starttemplate_iOS
++ Update menu has been disabled for installation breaking concerns
+--- Game content Update 0.06a release Nat 11/07/2020 01:29
++ Invade part 4: Neighbor repel, invade, longer sessions, titan Nat 11/07/2020 00:42
++ fixed A Spectrum of Ore quest Willy030125* 30/06/2020 08:46
++ Disable crash log option for servers Nat 20/06/2020 21:50
++ Additional recovered assets (of Willy) Nat 20/06/2020 20:07
++ Servers: Basic documentation AcidCaos 19/06/2020 11:57
++ Profile avatar images Willy030125* 19/06/2020 02:52
++ Servers: login template AcidCaos 18/06/2020 20:50
++ Servers: friends/neighbours page AcidCaos 18/06/2020 19:10
++ fixed self bar heal oshere1111 16/06/2020 11:56
++ fixed secondary abillty Oshere1111 14/06/2020 00:32
++ fix invalid edited saves from breaking the game Nat 13/06/2020 02:34
++ gas poison fix oshere1111 10/06/2020 19:24
++ Flag for current "stable" version questandachievementProjects* 07/06/2020 06:34
++ Chinese(Simplified) fixed index quotation marks AcidCaos 06/06/2020 20:11
++ added Chinese(Simplified) language (unknown revision) AcidCaos 05/06/2020 20:56
++ Invade part 3: invading & repelling Nat 02/06/2020 02:50
++ Element z part 2: fix collection Nat 25/05/2020 17:59
++ Element z part 1 (most fixed except 2 known bugs) Oshere1111 25/05/2020 08:37
++ Element z part 1 (most fixed except 2 known bugs) Oshere1111 25/05/2020 08:33
++ fixed unit buying Oshere1111 25/05/2020 08:27
++ Element z part 1 (most fixed except 2 known bugs) Oshere1111 25/05/2020 00:46
++ deleted dupped trees. releases page AcidCaos 18/05/2020 10:45
++ fixed research crash Oshere1111 08/05/2020 22:51
++ fixed defense shield Oshere1111 04/05/2020 01:42
++ all powerups are shown Oshere1111 01/05/2020 22:28
++ new powerups are usable Oshere1111 01/05/2020 22:12
++ resources gets reduced Oshere1111 29/04/2020 22:47
++ autopickup drops Nat 29/04/2020 22:33
++ fix depleted z-units power-ups out of sync Nat 26/04/2020 00:50
++ obelisk fixed Oshere1111 26/04/2020 00:05
++ xp on hover AcidCaos 24/04/2020 23:08
++ fixed resource needed buying Oshere1111 24/04/2020 15:52
++ resource amount fix Nat 24/04/2020 15:50
++ generic buying item, invade basic battle Nat 24/04/2020 15:40
++ fixed unit buying Oshere1111 24/04/2020 12:03
++ init custom name. favicon fix. AcidCaos 24/04/2020 10:46
++ fixed github repository link Willy030125* 24/04/2020 06:58
++ fixed silence gap in battle music Willy030125* 24/04/2020 06:32
++ fixed resources buying in build menu Oshere1111 23/04/2020 22:39
++ player menu AcidCaos 23/04/2020 12:17
++ adding crewInfo when migrate Oshere1111 22/04/2020 21:07
++ all govt adding crewInfo when migrate Oshere1111 22/04/2020 21:03
++ adding crewInfo when migrate Oshere1111 22/04/2020 15:43
++ crewing buildings Nat 21/04/2020 23:39
++ ability to cancel units, research, produce, ... Nat 21/04/2020 01:05
++ fix quest kill counter Oshere1111 20/04/2020 23:46
++ test2 Oshere1111 20/04/2020 18:05
++ test Oshere1111 20/04/2020 18:01
++ fix build upgrade quests Nat* 20/04/2020 19:35
++ progress fix oshere1111* 19/04/2020 18:50
++ use general consumable oshere1111* 19/04/2020 17:38
++ consumable quest progress oshere1111* 18/04/2020 21:05
++ buy consumables oshere1111* 17/04/2020 01:34
++ progress harvest consumable. powerup counting oshere1111* 16/04/2020 02:10
++ invade neighbors initial Nat 14/04/2020 01:59
++ unlock units (& free unit), LE discounts Nat 05/04/2020 00:47
++ Enabling bonus decorations Nat 23/02/2020 20:51
++ Update README.md questandachievementProjects* 21/02/2020 01:43
++ Public README (II) AcidCaos 20/02/2020 19:27
++ On digital heritage info. AcidCaos 17/02/2020 00:34
++ Added GPL v3 LICENSE (Readme info.) AcidCaos 16/02/2020 23:48
++ Public project. README AcidCaos 15/02/2020 18:44
+
+
 Universal Build 38x
 ---- Port_native Addition and bugfixes
 + added warning for android users when trying to start online about their bandwidth usage
