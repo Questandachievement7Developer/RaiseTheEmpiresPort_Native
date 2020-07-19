@@ -260,7 +260,6 @@ sshkeyreg
 else
 echo "${serverID}"
 export serverID=$(cat ${origindir}/serverID)
-else
 sshkeyreg
 fi
 }
