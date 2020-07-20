@@ -2,11 +2,6 @@
 ![Empires & Allies](empiresservercontainer/rte_staging_assets/templates/layouts/logo.png "Empires & Allies logo")
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native)
 
-## Some Notice
-```
- The development on port_native is slowed down immensely due to the migration towards seamless GUI EAL interface the port_native will be migrated to a newer architechture which uses GUI frontend that currently under heavy development thank you for reading this message
-
-```
 
 > Empires and Allies(Facebook) officially closed June 17th, 2013
 
@@ -19,17 +14,24 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 ## Current Status
 | Things | Parameter |
 | ------- | ------ |
-| Current Developed Build | ![version](https://img.shields.io/badge/build-000-blue) |
-| Current Stable Releases | ![version](https://img.shields.io/badge/build-450-blue) |
-| Current Built Server Size | [![size](https://img.shields.io/badge/size-302%20MB-brightgreen)](#) |
+| Current Developed Build | ![version](https://img.shields.io/badge/build-470-blue) |
+| Current Stable Releases | ![version](https://img.shields.io/badge/build-470-blue) |
+| Current Built Server Size | [![size](https://img.shields.io/badge/size-498%20MB-brightgreen)](#) |
 | Current Source Size | [![size](https://img.shields.io/badge/size-30%20MB-brightgreen)](#) |
+
+
+## Some Notice
+```
+ The development on port_native is slowed down immensely due to the migration towards seamless GUI EAL interface the port_native will be migrated to a newer architechture which uses GUI frontend that currently under heavy development thank you for reading this message
+
+```
 
 
 ## Releases
 
 | Build | Update | Release date  | Download |
 | ------- | ------ | ------------  | -------- |
-| 46x | Platform Trial, ssh keyfixes, content update | July, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_46x)
+| 467~470 | Platform Trial, ssh keyfixes, Content update merge with version 0.06a | July, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_46x)
 | 450 | Added support for new termux dependencies | June, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_450) |
 | 416~418 | ServerID implementation, Virtualenv dependencies, etc.. | May, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_416) |
 | 319~325 | Invading feature, Major bug fixes, Stability improvement, etc.. | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_319) |
@@ -57,9 +59,8 @@ curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTh
 bash
 ```
 3. If there's confirmation [Y/n]..?, just type Y
-4. If there's second confirmation (Y/I/N/O/D/Z)..?, just type N
-5. Wait until the installation is completed (and make sure your internet is stable)
-6. After the empires-server is running, copy the link into the Puffin Browser
+4. Wait until the installation is completed (and make sure your internet is stable)
+5. After the empires-server is running, copy the link into the Puffin Browser
 
 *Done!*
 
@@ -105,7 +106,7 @@ empires-server
 4. Copy paste this command in iSH
 ```
 /bin/bash -c "$(curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/iOSautoinstaller" | bash -)"
-./empires-server-macOS
+./empires-server-appleiOS
 ```
 If you want to run it next time, just type this:
 ```
