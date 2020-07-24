@@ -1,7 +1,6 @@
 #!/bin/sh
 termux-setup-storage
-pkg update
-pkg install clang openssl wget -y
+pkg install wget clang openssl -y
 ver=467
 pagever=46x
 if [ ! -f empires-server-termux-${ver} ]; then
