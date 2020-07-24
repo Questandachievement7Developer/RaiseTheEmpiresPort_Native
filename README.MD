@@ -60,7 +60,8 @@ bash
 ```
 3. If there's confirmation [Y/n]..?, just type Y
 4. Wait until the installation is completed (and make sure your internet is stable)
-5. After the empires-server is running, copy the link into the Puffin Browser
+5. Choose 'StartOnline' to start the server
+6. After the empires-server is running, copy the link into the Puffin Browser
 
 *Done!*
 
