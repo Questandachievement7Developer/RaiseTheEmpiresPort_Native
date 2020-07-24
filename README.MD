@@ -22,7 +22,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 
 ## Some Notice
 ```
- The development on port_native is slowed down immensely due to the migration towards seamless GUI EAL interface the port_native will be migrated to a newer architechture which uses GUI frontend that currently under heavy development thank you for reading this message
+ The development on port_native is slowed down immensely due to the migration towards seamless GUI EAL interface the port_native will be migrated to a newer architechture which uses GUI frontend that currently under heavy development, thank you for reading this message
 
 ```
 
@@ -126,19 +126,19 @@ Our community discord [Discord group](https://discord.gg/xrNE6Hg)
 :speech_balloon: Check our Community [Discord group](https://discord.gg/xrNE6Hg)  [![Discord Channel](https://img.shields.io/discord/536575691563466772?label=)](https://discord.gg/xrNE6Hg)
 
 
-:email: raisetheempires@gmail.com
-:email: questandachievement@gmail.com
 
 ## Tools
 
 :world_map: [Empires & Allies Empire Map Editor](https://github.com/AcidCaos/ea-empire-editor)
 
-
+:minidisc: [Empires & Allies Servers Support](https://github.com/AcidCaos/raisetheempires/blob/master/SERVERS.md)
 
 ## External Links
 :beginner: [Empires & Allies Wiki (FANDOM)](https://empiresandallies.fandom.com/wiki/Empires_%26_Allies_Wiki/Main_2)
 
 :clapper: [Empires & Allies Trailer](https://www.youtube.com/watch?v=pAdlyz9miqo)
+
+:smiley_cat: [Empires & Allies subreddit](https://reddit.com/r/EmpiresAndAllies)
 
 ## On archives and accessibility to digital heritage
 - [Exemption to PCCPSACT](https://www.federalregister.gov/documents/2018/10/26/2018-23241/exemption-to-prohibition-on-circumvention-of-copyright-protection-systems-for-access-control), exemptions to the provision of the Digital Millennium Copyright Act (“DMCA”).
