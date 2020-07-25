@@ -106,7 +106,7 @@ empires-server
 3. Install photonX for the flash browser
 4. Copy paste this command in iSH
 ```
-/bin/bash -c "$(curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/iOSautoinstaller" | bash -)"
+curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/iOSautoinstaller" | bash -
 ./empires-server-appleiOS
 ```
 If you want to run it next time, just type this:
