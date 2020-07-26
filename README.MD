@@ -100,12 +100,13 @@ empires-server
 empires-server
 ```
 
-### Installing on iOS/iPadOS
+### Installing on iOS/iPadOS ( experimental )
 1. Install testflight from the appstore
 2. Install iSH from this link https://testflight.apple.com/join/97i7KM8O
 3. Install photonX for the flash browser
 4. Copy paste this command in iSH
 ```
+apk add bash curl
 curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/iOSautoinstaller" | bash -
 ./empires-server-appleiOS
 ```
