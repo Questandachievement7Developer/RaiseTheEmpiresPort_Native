@@ -20,12 +20,6 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 | Current Source Size | [![size](https://img.shields.io/badge/size-30%20MB-brightgreen)](#) |
 
 
-## Some Notice
-```
- The development on port_native is slowed down immensely due to the migration towards seamless GUI EAL interface the port_native will be migrated to a newer architechture which uses GUI frontend that currently under heavy development, thank you for reading this message
-
-```
-
 
 ## Releases
 
@@ -47,7 +41,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 | 99  | Initial Host forwarding | January, 2020 | [Quality Control failed] |
 | 57~58 | First initial Release on android x86 and GNU systems natively | January, 2020 | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires2020_01_24) |
 | 20  | Released noArch version | January, 2020 | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires29TNoArch) |
-> Single Script Archive is a single installation file that automates the installation of the server ( Same as a setup wizard in windows but custom built ). Now you don't even need to download the file, just copy paste the command below
+> Single Script Archive is a single installation file that automates the installation of the server (Same as a setup wizard in windows but custom built). Now you don't even need to download the file, just copy paste the command below
 
 ## How to install ?
 ### Installing on Android using Termux
@@ -100,7 +94,7 @@ empires-server
 empires-server
 ```
 
-### Installing on iOS/iPadOS ( experimental )
+### Installing on iOS/iPadOS (highly experimental, expect problems)
 1. Install testflight from the appstore
 2. Install iSH from this link https://testflight.apple.com/join/97i7KM8O
 3. Install photonX for the flash browser
