@@ -68,7 +68,7 @@ empires-server
 > Tip: If the installation often failed / takes too long, try to use VPN
 
 
-*Notice: You can't choose 'StartOffline to play on Puffin Browser, since Puffin doesn't allow us to play on local IP. That feature only work if you set up your phone as Mobile Hotspot and connect it to your PC.*
+*Notice: You can't choose 'StartOffline' to play on Puffin Browser, since Puffin doesn't allow us to play on local IP. That feature only work if you set up your phone as Mobile Hotspot and connect it to your PC.*
 
 
 ### Installing on GNU/Linux/Ubuntu
