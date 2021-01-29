@@ -23,7 +23,7 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 
 ## Releases
 
-| Build | Update | Release date  | Download |
+| Build | Update | Release date  | Release details |
 | ------- | ------ | ------------  | -------- |
 | 467~470 | Platform Trial, ssh keyfixes, Content update merge with version 0.06a | July, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_46x)
 | 450 | Added support for new termux dependencies | June, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_450) |
@@ -106,7 +106,7 @@ apk add bash curl
 curl -s "https://raw.githubusercontent.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/master/empiresservercontainer/devTool/iOSautoinstaller" | bash -
 ./empires-server-appleiOS
 ```
-7. Allow location usage while using **Do not set it to always allow ( it will killed by the iOS/iPadOS)**
+7. Allow location usage while using **Do not set it to always allow (it will killed by the iOS/iPadOS)**
 6. If you want to run it next time, just type this:
 ```
 empires-server
