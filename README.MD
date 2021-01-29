@@ -30,15 +30,15 @@ This project is dedicated to preserving and renewing this Flash game so that it'
 | 416~418 | ServerID implementation, Virtualenv dependencies, etc.. | May, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_416) |
 | 319~325 | Invading feature, Major bug fixes, Stability improvement, etc.. | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_319) |
 | 260 | Invade neighbors initial for Build 319 | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_260) |
-| 239~257 | Base32 and base64 Encoder, Liveupdate | April, 2020 | [Quality Control failed] |
+| 239~257 | Base32 and base64 Encoder, Liveupdate | April, 2020 | [Release cancelled] |
 | 210 | Added Local mode feature & Stability improvements | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_210) |
 | 201 | New Welcome screen & Simpler installation with 'curl' | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_201) |
 | 193 | Custom ssh config & Merge with new main repo | April, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_193) |
 | 185 | UI Overhaul & Additional bonus decorations | March, 2020 | :tickets: [Single Script Archive](https://github.com/Questandachievement7Developer/RaiseTheEmpiresPort_Native/releases/tag/Build_185) |
-| 171 | Initial for UI Overhaul | March, 2020 | [Quality Control failed] |
+| 171 | Initial for UI Overhaul | March, 2020 | [Release cancelled] |
 | 129 | Multiplayer Update Merge with version 0.05a   | February, 2020    | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires_129) |
 | 119 | Automatic Host forwarding | January, 2020 | :tickets: [Single Script Archive](http://tiny.cc/EALSERVE119) |
-| 99  | Initial Host forwarding | January, 2020 | [Quality Control failed] |
+| 99  | Initial Host forwarding | January, 2020 | [Release cancelled] |
 | 57~58 | First initial Release on android x86 and GNU systems natively | January, 2020 | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires2020_01_24) |
 | 20  | Released noArch version | January, 2020 | :tickets: [Single Script Archive](http://tiny.cc/RaiseTheEmpires29TNoArch) |
 > Single Script Archive is a single installation file that automates the installation of the server (Same as a setup wizard in windows but custom built). Now you don't even need to download the file, just copy paste the command below
