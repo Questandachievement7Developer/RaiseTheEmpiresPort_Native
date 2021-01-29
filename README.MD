@@ -6,7 +6,7 @@
 > Empires and Allies(Facebook) officially closed June 17th, 2013
 
 
-:world_map: [Main Repo](https://github.com/AcidCaos/raisetheempires)
+:world_map: [Main Repo](https://github.com/AcidCaos/raisetheempires#readme)
 
 The Old Empires & Allies preservation project by the Raise the Empires team.
 This project is dedicated to preserving and renewing this Flash game so that it's not lost to time.
@@ -129,6 +129,8 @@ Our community discord [Discord group](https://discord.gg/xrNE6Hg)
 ## Tools
 
 :world_map: [Empires & Allies Empire Map Editor](https://github.com/AcidCaos/ea-empire-editor)
+
+:classical_building: [Emipres & Allies Revision History](https://github.com/AcidCaos/empires-revision-history#readme)
 
 :minidisc: [Empires & Allies Servers Support](https://github.com/AcidCaos/raisetheempires/blob/master/SERVERS.md)
 
